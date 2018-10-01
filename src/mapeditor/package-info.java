@@ -5,4 +5,4 @@
  * @author Dylan
  *
  */
-package mapEditor;
+package mapeditor;
