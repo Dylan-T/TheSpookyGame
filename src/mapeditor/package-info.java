@@ -1,8 +1,5 @@
 /**
- * 
- */
-/**
- * @author Dylan
+ * @author dunninnath
  *
  */
 package mapeditor;
