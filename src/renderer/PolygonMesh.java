@@ -16,7 +16,6 @@ public class PolygonMesh {
     
     this.faces = faces;
     mesh = new Polygon3D[faces];
-    System.out.println("hey");
   }
 
 }
