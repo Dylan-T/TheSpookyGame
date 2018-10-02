@@ -48,6 +48,12 @@ import javax.swing.JSplitPane;
 
 import java.awt.FlowLayout;
 
+/**
+ * @author Armaan
+ * this is the GUI class that creates the interface which will be used by multiple 
+ * other classes. 
+ *
+ */
 public class GUI {
   /*
    * public enum Move { NORTH, SOUTH, EAST, WEST, ZOOM_IN, ZOOM_OUT };
@@ -71,6 +77,7 @@ public class GUI {
 
   /**
    * Launch the application.
+   * @param args 
    */
   public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
@@ -94,6 +101,7 @@ public class GUI {
 
   /**
    * Initialize the contents of the frame.
+   * this is mainly used to draw everything.
    */
   private void initialize() {
     frame = new JFrame();
@@ -261,6 +269,9 @@ public class GUI {
     
   }
 
+  /**
+   * this is for exiting, it will ask whether you really want to exit.
+   */
   static public void windowExit() {
     frame.addWindowListener(new WindowAdapter() { // create a new window listener
       public void windowClosing(WindowEvent e) {
@@ -275,6 +286,10 @@ public class GUI {
     });
   }
 
+  /**
+   * Helper method that does the actions of the saveButton.
+   * @param save
+   */
   static public void pressSave(JButton save) {
     save.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -283,6 +298,10 @@ public class GUI {
     });
   }
 
+  /**
+   * Helper method that does the actions of the loadButton.
+   * @param load
+   */
   static public void pressLoad(JButton load) {
     load.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -291,6 +310,10 @@ public class GUI {
     });
   }
 
+  /**
+   * Helper method that does the actions of the newGameButton.
+   * @param newGame
+   */
   static public void pressNewGame(JButton newGame) {
     newGame.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
