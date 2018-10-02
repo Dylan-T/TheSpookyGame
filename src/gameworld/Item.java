@@ -26,6 +26,9 @@ public abstract class Item {
     return name + ": " + description;
   }
 
+
+  //~~~~~~~~~~~~ Strategy Interfaces ~~~~~~~~~~~~
+
   interface Strategy{
   }
 

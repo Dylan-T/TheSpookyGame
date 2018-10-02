@@ -16,7 +16,13 @@ public class Player {
    * Moves the player in the given direction.
    * @param dir direction the player should move.
    */
-  public void move(String dir){
+  public void move(String dir) {
+    switch (dir) {
+      case"NORTH":
+        //currentLoc = currentLoc.getNorth();
+      default:
+        break;
+    }
   }
 
   /**
