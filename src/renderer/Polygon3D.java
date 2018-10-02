@@ -16,7 +16,7 @@ public class Polygon3D {
   public Polygon3D() {
     
     triangle = new Point3D[3];
-    
+    System.out.println("hey");
   }
 
 }

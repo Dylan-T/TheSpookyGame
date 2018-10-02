@@ -22,7 +22,10 @@ public class Point3D {
     this.y = y;
     this.z = z;
     
-    
+  }
+  
+  public String toString() {
+    return "Co-ordinate X: " + this.x + " Co-ordinate Y: " + this.y + " Co-ordinate Z: " + this.z;
   }
 
 }
