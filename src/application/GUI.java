@@ -43,7 +43,6 @@ import javax.swing.JScrollPane;
 import java.awt.FlowLayout;
 
 public class GUI {
-
   private static JFrame frame;
   private JTextField textField;
   private JComponent drawing;
