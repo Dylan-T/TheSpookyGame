@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  */
 public class Player {
-  ArrayList<Moveable> inventory = new ArrayList<Moveable>();
+  ArrayList<Item> inventory = new ArrayList<Item>();
   int score = 0;//Maybe
   Location currentLoc;
 
@@ -16,7 +16,13 @@ public class Player {
    * Moves the player in the given direction.
    * @param dir direction the player should move.
    */
-  public void move(String dir){
+  public void move(String dir) {
+    switch (dir) {
+      case"NORTH":
+        //currentLoc = currentLoc.getNorth();
+      default:
+        break;
+    }
   }
 
   /**
