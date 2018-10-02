@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 
 public class XmlReader {
   /**
+   * reads an XML file from a given directory.
    * @param args
    * @throws ParserConfigurationException
    * @throws IOException
@@ -42,8 +43,8 @@ public class XmlReader {
       Document doc = builder.parse(xml);
       doc.getDocumentElement().normalize();
 
-    }finally {
-
+    } catch (IOException e) {
+      System.out.println("Error");
     }
 
 

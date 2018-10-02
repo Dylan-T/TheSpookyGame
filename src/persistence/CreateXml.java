@@ -22,7 +22,7 @@ import org.w3c.dom.Element;
  *
  */
 public class CreateXml {
-  private static final String filePath = "/home/hoongkevi/game.xml";
+  private static final String filePath = "/home/hoongkevi/Desktop/game";
 
 
   /**
