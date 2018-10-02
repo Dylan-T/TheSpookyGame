@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  */
 public class Player {
-  ArrayList<Moveable> inventory = new ArrayList<Moveable>();
+  ArrayList<Item> inventory = new ArrayList<Item>();
   int score = 0;//Maybe
   Location currentLoc;
 
