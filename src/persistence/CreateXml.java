@@ -98,6 +98,7 @@ public class CreateXml {
    for(Item i: gameworld.Player.items) {
        Attr temp = document.createAttribute(i.getName());
        inventory.setAttributeNode(temp);
+
    }
  }
 
