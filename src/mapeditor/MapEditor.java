@@ -17,7 +17,7 @@ import javax.swing.*;
 
 public class MapEditor {
   //Fields
-
+  //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
 
   /**
@@ -29,6 +29,7 @@ public class MapEditor {
     JFrame frame = new JFrame("Map");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(1000, 1000);
+    frame.setLocationRelativeTo(null);
 
     //Creating the panel
     JPanel panel = new JPanel();
@@ -36,8 +37,6 @@ public class MapEditor {
 
     //Creating the menu bar
     JMenuBar mb = new JMenuBar();
-
-    //Menu bar items
     JMenu mn = new JMenu("File");
 
     JMenuItem m1 = new JMenuItem("New");
@@ -99,6 +98,10 @@ public class MapEditor {
       }
     });
 
+    //Toolkit Menu Bar
+    JMenuBar toolkit = new JMenuBar();
+
+
 
     //Adding the components
     mb.add(mn); //Adding "File" to menu bar
@@ -118,7 +121,6 @@ public class MapEditor {
     mn11.add(m6); //Adding "Object" to Add
 
 
-
     frame.getContentPane().add(BorderLayout.NORTH, mb);
     frame.getContentPane().add(BorderLayout.CENTER, panel);
 
@@ -130,9 +132,10 @@ public class MapEditor {
    */
   public void createNewRoom() {
     //Main Frame
-    JFrame frame1 = new JFrame("New Room");
-    frame1.setLayout(new GridLayout(5,0));
-    frame1.setSize(250, 250);
+    JFrame frame = new JFrame("New Room");
+    frame.setLayout(new GridLayout(5,0));
+    frame.setSize(250, 250);
+    frame.setLocationRelativeTo(null);
 
     //Creating the label
     JLabel label = new JLabel("New Room", SwingConstants.CENTER);
@@ -163,7 +166,7 @@ public class MapEditor {
         int wd = Integer.parseInt(t2.getText());
         System.out.print(ht + "," + wd);
         //TODO: Create the actual room
-        frame1.setVisible(false);
+        frame.setVisible(false);
       }
     });
     create.setVerticalTextPosition(AbstractButton.CENTER);
@@ -173,21 +176,20 @@ public class MapEditor {
     cancel.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        frame1.setVisible(false);
+        frame.setVisible(false);
       }
     });
     cancel.setVerticalTextPosition(AbstractButton.CENTER);
     cancel.setHorizontalTextPosition(AbstractButton.CENTER);
 
 
-    frame1.add(label);
-    frame1.add(p1);
-    frame1.add(p2);
-    frame1.add(create);
-    frame1.add(cancel);
+    frame.add(label);
+    frame.add(p1);
+    frame.add(p2);
+    frame.add(create);
+    frame.add(cancel);
 
-    frame1.setVisible(true);
-
+    frame.setVisible(true);
   }
 
   /**
