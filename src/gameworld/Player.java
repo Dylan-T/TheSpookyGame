@@ -9,10 +9,21 @@ import java.util.ArrayList;
  *
  */
 public class Player {
-  ArrayList<Item> inventory = new ArrayList<Item>();
-  int score = 0;// Maybe
+  ArrayList<Item> inventory;
+  int score;// Maybe
   Location currentLoc;
-  Location.Direction facing;
+  GameWorld.Direction facing;
+  
+  /**
+   * Create a new player only specifying location
+   * @param startingLoc location the player starts from
+   */
+  public Player(Location startingLoc) {
+    ArrayList<Item> inventory = new ArrayList<Item>();
+    currentLoc = startingLoc;
+    facing = GameWorld.Direction.NORTH;
+    score = 0;
+  }
 
   /**
    * Moves the player in the given direction.
@@ -20,18 +31,9 @@ public class Player {
    * @param dir
    *          direction the player should move.
    */
-  public void move(String dir) {
-    switch (dir) {
-      case "FORWARD":
-        break;
-      case "LEFT":
-        break;
-      case "RIGHT":
-        break;
-      case "BACK":
-        break;
-      default:
-        break;
+  public void move(GameWorld.Direction dir) {
+    switch (dir.ordinal() + facing.ordinal()) {
+      
     }
   }
 

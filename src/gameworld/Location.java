@@ -7,12 +7,8 @@ package gameworld;
  *
  */
 public class Location {
-  Item[][] grid = new Item[2][2]; // 2D array of the positions the objects of the room are held
+  Item[][] grid; // 2D array of the positions the objects of the room are held
   Passage[] exits; // 0 - North; 1 - East; 2 - South; 3 - West
-
-  enum Direction {
-    NORTH, EAST, SOUTH, WEST;
-  }
 
   /**
    * Creates a new room specifying the contents of each tile and the passages.
@@ -50,6 +46,19 @@ public class Location {
       grid[x][y] = item;
       return true;
     }
+  }
+  
+  /**
+   * @param dir , the wall to add the passage to.
+   * @param p Passage to add to the location
+   * @return true if the passage was successfully added
+   */
+  public boolean addPassage(GameWorld.Direction dir, Passage p) {
+    if(exits[dir.ordinal()] != null) return false;
+    
+    exits[dir.ordinal()] = p;
+    return true;
+    
   }
 
   /**

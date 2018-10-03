@@ -39,6 +39,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
+
+import gameworld.GameWorld;
+
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JMenu;
@@ -65,6 +68,8 @@ public class GUI {
    * THIS WOULD MEAN THAT DYLANS PACKAGE WOULD HAVE TO EXTEND IT AND IMPLEMENT A
    * MOVE METHOD.
    */
+  
+  GameWorld game;
 
   private static JFrame frame;
   private JTextField textField;
@@ -218,6 +223,9 @@ public class GUI {
         // here you would call a method that does the move function
         // i think dylan wanted the method to take in a directions which are enums
         System.out.println("Hello this should be west");
+        if (game != null) {
+          game.movePlayer(GameWorld.Direction.WEST);
+        }
       }
     });
 
@@ -226,6 +234,9 @@ public class GUI {
     east.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be east");
+        if (game != null) {
+          game.movePlayer(GameWorld.Direction.EAST);
+        }
       }
     });
 
@@ -234,6 +245,10 @@ public class GUI {
     north.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be north");
+        if (game != null) {
+          game.movePlayer(GameWorld.Direction.NORTH);
+        }
+        
       }
     });
 
@@ -242,6 +257,9 @@ public class GUI {
     south.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be south");
+        if (game != null) {
+          game.movePlayer(GameWorld.Direction.SOUTH); //This is the code to move the player
+        }
       }
     });
 
