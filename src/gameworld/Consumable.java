@@ -1,16 +1,9 @@
 package gameworld;
 
 /**
- * Interface for items that can be consumed.
- * @author thomsodyla1
+ * @author Dylan
  *
  */
-public interface Consumable extends Item {
+public interface Consumable {
 
-  /**
-   * Consume this item.
-   * @param p player that is to consume item
-   *
-   */
-  public void consume(Player p);
 }
