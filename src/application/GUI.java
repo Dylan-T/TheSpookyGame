@@ -37,6 +37,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -68,7 +69,8 @@ public class GUI {
   private static JFrame frame;
   private JTextField textField;
   private JComponent drawing;
-  private JTextArea textOutputArea;
+  private TitledBorder title;
+  private JTextArea textWindow;
 
   private int height;
   private int width;
@@ -106,7 +108,7 @@ public class GUI {
   private void initialize() {
     frame = new JFrame();
     frame.setTitle("SwenProject");
-    frame.setBounds(400, 400, 500, 500); // original sizing of the window
+    frame.setBounds(100, 100, 900, 750); // original sizing of the window
     windowExit(); // CODE THAT DOUBLE CHECKS YOU REALLY WANT TO EXIT THE PROGRAM
 
     width = frame.getBounds().width;
@@ -123,30 +125,34 @@ public class GUI {
     });
 
     // --------------HERE IS THE DISPLAY BOX--------------
+    
+    //this is also formatting all the other boxes around it so that is able to resize when 
 
     JPanel displayPanel = new JPanel();
     JPanel canvas = new JPanel();
 
     GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-    groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-        .createSequentialGroup()
-        .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-            .addGroup(groupLayout.createSequentialGroup()
-                .addComponent(displayPanel, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE).addGap(10))
-            .addGroup(groupLayout.createSequentialGroup()
-                .addComponent(canvas, GroupLayout.PREFERRED_SIZE, 430, Short.MAX_VALUE)
-                .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(ComponentPlacement.RELATED)))
-        .addGap(0)));
-    groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+    groupLayout.setHorizontalGroup(
+      groupLayout.createParallelGroup(Alignment.TRAILING)
         .addGroup(groupLayout.createSequentialGroup()
-            .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
-            .addPreferredGap(ComponentPlacement.RELATED)
-            .addComponent(displayPanel, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)));
-    canvas.setBackground(Color.BLACK);
+          .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+              .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))
+            .addComponent(displayPanel, GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
+          .addContainerGap())
+    );
+    groupLayout.setVerticalGroup(
+      groupLayout.createParallelGroup(Alignment.LEADING)
+        .addGroup(groupLayout.createSequentialGroup()
+          .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+            .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+            .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
+          .addPreferredGap(ComponentPlacement.RELATED)
+          .addComponent(displayPanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+    );
+    //canvas.setBackground(Color.BLACK);
 
     drawing = new JComponent() {
       protected void paintComponent(Graphics g) {
@@ -166,7 +172,7 @@ public class GUI {
     // this is making the button east boarder
     buttonPanel.setLayout(new BorderLayout(0, 0));
     frame.getContentPane().setLayout(groupLayout);
-    buttonPanel.setBackground(Color.PINK);
+    //buttonPanel.setBackground(Color.PINK);
 
     // ---------this is making the display a boarder
     displayPanel.addMouseListener(new MouseAdapter() {
@@ -175,10 +181,11 @@ public class GUI {
         System.out.println("you are clicking the display pane");
       }
     });
-    displayPanel.setBackground(Color.ORANGE);
+    //displayPanel.setBackground(Color.ORANGE);
     displayPanel.setLayout(new BorderLayout(0, 0));
 
     // -------------HERE IS THE MENU BAR--------------
+    
     // these actions will need some mouse listeners
     JMenuBar menuBar = new JMenuBar();
     frame.setJMenuBar(menuBar);
@@ -204,6 +211,7 @@ public class GUI {
     // --------THIS IS WHERE I CREATE THE NAVIGATION BUTTTONS---------------
 
     JButton west = new JButton("\u2190");
+    west.setPreferredSize(new Dimension(75, 150));
     west.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         // here you would call a method that does the move function
@@ -213,6 +221,7 @@ public class GUI {
     });
 
     JButton east = new JButton("\u2192");
+    east.setPreferredSize(new Dimension(75, 150));
     east.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be east");
@@ -220,6 +229,7 @@ public class GUI {
     });
 
     JButton north = new JButton("\u2191");
+    north.setPreferredSize(new Dimension(75, 150));
     north.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be north");
@@ -227,6 +237,7 @@ public class GUI {
     });
 
     JButton south = new JButton("\u2193");
+    south.setPreferredSize(new Dimension(75, 150));
     south.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be south");
@@ -243,8 +254,8 @@ public class GUI {
 
     displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.LINE_AXIS));
 
-    Border edge = BorderFactory.createEmptyBorder(2, 2, 2, 2);
-    displayPanel.setBorder(edge);
+    //Border edge = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+    //displayPanel.setBorder(edge);
 
     west.setMargin(new Insets(0, 0, 0, 0));
     east.setMargin(new Insets(0, 0, 0, 0));
@@ -252,7 +263,7 @@ public class GUI {
     south.setMargin(new Insets(0, 0, 0, 0));
 
     JPanel navigation = new JPanel();
-    navigation.setMaximumSize(new Dimension(100, 200));
+    navigation.setMaximumSize(new Dimension(100, 150));
     navigation.setLayout(new GridLayout(2, 3));
     navigation.add(fillerL);
     navigation.add(north);
@@ -262,11 +273,52 @@ public class GUI {
     navigation.add(east);
 
     displayPanel.add(navigation);
+    
+   //-----THIS IS ADDING THE TEXT AREA--------
+    
+   //THE TEXT AREA IS USED FOR DISPLAYING OUTPUT BACK TO THE USER
+   //TO DO THIS IN THE OTHER CLASSES WOULD EXTEND THIS GUI GIVING THEM ACCESS.
+    
+    JPanel textArea = new JPanel();
+    displayPanel.add(textArea, BorderLayout.EAST);
+    
+    textWindow = new JTextArea(10, 0);
+    textWindow.setLineWrap(true);
+    textWindow.setWrapStyleWord(true); //making the line up nice
+    textWindow.setEditable(false); //cannot be edited
+    
+    JScrollPane scoll = new JScrollPane(textWindow);
+    DefaultCaret caret = (DefaultCaret) textWindow.getCaret();
+    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    
+    GroupLayout gl_textArea = new GroupLayout(textArea);
+    gl_textArea.setHorizontalGroup(
+      gl_textArea.createParallelGroup(Alignment.TRAILING)
+        .addGroup(gl_textArea.createSequentialGroup()
+          .addContainerGap(185, Short.MAX_VALUE)
+          .addComponent(scoll, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+    );
+    gl_textArea.setVerticalGroup(
+      gl_textArea.createParallelGroup(Alignment.LEADING)
+        .addGroup(gl_textArea.createSequentialGroup()
+          .addComponent(scoll, GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+          .addGap(0))
+    );
+    textArea.setLayout(gl_textArea);
+    
+    
+  //-----CREATING BORDERS FOR THE COMPONENTS-------  
+    //textArea.setBackground(Color.BLUE);
+    Border redline = BorderFactory.createLineBorder(Color.RED);
+    title = BorderFactory.createTitledBorder(redline, "Items");
+    title.setTitleJustification(TitledBorder.ABOVE_TOP);
+    buttonPanel.setBorder(title);
+    
+    Border lowerBevel = BorderFactory.createRaisedBevelBorder();
+    canvas.setBorder(lowerBevel);
+    
 
   //-------here is where we split a text field with the display field.
-    
-
-    
   }
 
   /**
