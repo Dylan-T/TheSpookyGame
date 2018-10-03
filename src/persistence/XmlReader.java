@@ -18,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import gameworld.*;
+
 
 /**
  * XML Reader which reads an XML save file.
@@ -47,6 +49,10 @@ public class XmlReader {
       System.out.println("Error");
     }
 
+
+  }
+
+  public void loadXml(Game game) {
 
   }
 }

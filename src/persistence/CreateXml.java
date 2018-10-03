@@ -16,6 +16,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import gameworld.*;
+
 /**
  * Creates an XML file which fits our games elements and description.
  * @author hoongkevi
@@ -78,7 +80,9 @@ public class CreateXml {
     }
   }
 
+ public void makeXml(Game game) {
 
+ }
 
   /**
    * gets the file path.
