@@ -81,26 +81,27 @@ public class CreateXml {
     }
   }
 
- public void makeXml(Game game) {
-   DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
-   DocumentBuilder db = df.newDocumentBuilder();
-   Document document = db.newDocument();
+// public void makeXml(Game game) {
+//   DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
+//   DocumentBuilder db = df.newDocumentBuilder();
+//   Document document = db.newDocument();
+//
+//   Element gamefile = document.createElement("Game");
+//   document.appendChild(gamefile);
+//
+//   Element player = document.createElement("Player");
+//   gamefile.appendChild(player);
+//
+//   Element inventory = document.createElement("Inventory");
+//   player.appendChild(inventory);
+//
+//   for(Item i: gameworld.Player.items) {
+//       Attr temp = document.createAttribute(i.getName());
+//       inventory.setAttributeNode(temp);
+//
+//   }
+// }
 
-   Element gamefile = document.createElement("Game");
-   document.appendChild(gamefile);
-
-   Element player = document.createElement("Player");
-   gamefile.appendChild(player);
-
-   Element inventory = document.createElement("Inventory");
-   player.appendChild(inventory);
-
-   for(Item i: gameworld.Player.items) {
-       Attr temp = document.createAttribute(i.getName());
-       inventory.setAttributeNode(temp);
-
-   }
- }
 
   /**
    * gets the file path.
