@@ -105,6 +105,7 @@ public class GUI {
    * Initialize the contents of the frame.
    * this is mainly used to draw everything.
    */
+  
   private void initialize() {
     frame = new JFrame();
     frame.setTitle("SwenProject");
