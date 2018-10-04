@@ -30,11 +30,13 @@ public class Player {
    * 
    * @param dir
    *          direction the player should move.
+   * @return true if the player successfulyl moved in that direction
    */
-  public void move(GameWorld.Direction dir) {
+  public boolean move(GameWorld.Direction dir) {
     switch (dir.ordinal() + facing.ordinal()) {
       
     }
+    return false;
   }
 
   /**
