@@ -64,7 +64,7 @@ public class GameWorld {
    * Creates an GameWorld with empty 4 rooms.
    * @return the new GameWorld
    */
-  static GameWorld testGameWorld1() {
+  public static GameWorld testGameWorld1() {
     //Make locations
     Location l1 = new Location(2, 2);
     Location l2 = new Location(2, 2);
@@ -105,16 +105,16 @@ public class GameWorld {
    * Creates an GameWorld with empty 4 rooms.
    * @return the new GameWorld
    */
-  static GameWorld testGameWorld2() {
+  public static GameWorld testGameWorld2() {
     //Make locations & add item's
     Location l1 = new Location(2, 2);
     l1.addItem(0, 0, new Decoration("Grave","An ominous looking grave"));
     Location l2 = new Location(2, 2);
     l2.addItem(0, 1, new Decoration("Crow","A raggedy crow"));
     Location l3 = new Location(2, 2);
-    l3.addItem(1, 1, new Treasure("Golden Skull","Ancient golden skull embellished with gems", 20));
+    l3.addItem(1, 0, new Treasure("Golden Skull","Ancient golden skull embellished with gems", 20));
     Location l4 = new Location(2, 2);
-    l4.addItem(1, 2, new Treasure("Kanye's Donda chain","A chain imbued with Chicago's energy", 20));
+    l4.addItem(1, 1, new Treasure("Kanye's Donda chain","A chain imbued with Chicago's energy", 20));
     
     //Make passages
     Passage p1 = new Passage(l1,l2);

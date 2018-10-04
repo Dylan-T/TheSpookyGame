@@ -29,6 +29,7 @@ public class Location {
    */
   public Location(int height, int width) {
     grid = new Item[height][width];
+    exits = new Passage[4];
   }
   
   /**
@@ -68,7 +69,7 @@ public class Location {
    * @return true if the passage was successfully added
    */
   public boolean addPassage(GameWorld.Direction dir, Passage p) {
-    if(exits[dir.ordinal()] != null) return false;
+    //if(exits[dir.ordinal()] != null) return false;
     
     exits[dir.ordinal()] = p;
     return true;

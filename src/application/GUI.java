@@ -105,6 +105,7 @@ public class GUI {
    * Create the application.
    */
   public GUI() {
+    game = GameWorld.testGameWorld2();
     initialize();
   }
 
