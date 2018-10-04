@@ -1,5 +1,6 @@
 package renderer;
 
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import gameworld.GameWorld;
@@ -13,13 +14,13 @@ import gameworld.Location;
  */
 public class Renderer {
   
-  Graphics2D graphics;
+  Graphics graphics;
   
   /**
    * @param graphics
    * sets up the graphics for the items and exits to be drawn from
    */
-  public Renderer(Graphics2D graphics) {
+  public Renderer(Graphics graphics) {
     this.graphics = graphics;
   }
   
@@ -28,7 +29,7 @@ public class Renderer {
    * @param dir
    * @param g 
    */
-  public void redraw(Location room, GameWorld.Direction dir, Graphics2D g) {
+  public void redraw(Location room, GameWorld.Direction dir) {
     
     Item[][] grid = room.getGrid();
     int x;

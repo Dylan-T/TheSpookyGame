@@ -144,6 +144,15 @@ public class GameWorld {
     return new GameWorld(locations, l1);
     
   }
+
+
+  /**
+   * Gets the players current location.
+   * @return the players current location
+   */
+  public Location getCurrentRoom() {
+    return player.currentLoc;
+  }
   
   
   
