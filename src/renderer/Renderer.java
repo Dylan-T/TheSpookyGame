@@ -14,6 +14,15 @@ import gameworld.Location;
  */
 public class Renderer {
   
+  /**
+   * width of the canvas
+   */
+  public static final int CANVASWIDTH = 900;
+  /**
+   * height of the canvas
+   */
+  public static final int CANVASHEIGHT = 750;
+  
   Graphics graphics;
   
   /**
@@ -29,7 +38,11 @@ public class Renderer {
    * @param dir
    * @param g 
    */
-  public void redraw(Location room, GameWorld.Direction dir) {
+  public void redraw(Location room, GameWorld.Direction dir, Graphics g) {
+    
+    //System.out.println(graphics);
+    
+    g.drawRect(50, 50, 50, 50);
     
     Item[][] grid = room.getGrid();
     int x;

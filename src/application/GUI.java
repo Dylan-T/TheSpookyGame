@@ -170,7 +170,7 @@ public class GUI {
       }
 
       private void redraw(Graphics g) {
-        rWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH);
+        rWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH, g);
       }
     };
     rWindow = new Renderer(drawing.getGraphics());
