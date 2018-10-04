@@ -31,6 +31,7 @@ public class Renderer {
   public void redraw(Location room, GameWorld.Direction dir, Graphics2D g) {
     
     Item[][] grid = room.getGrid();
+    int x;
     
     if(dir == Direction.NORTH) {
       for(int i = 0; i< grid.length; i++) {
