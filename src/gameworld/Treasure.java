@@ -1,5 +1,12 @@
 package gameworld;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 /**
  * A movable item needed to progress in the game.
  * It may provide a bonus to the players score, currency or allow certain actions.
@@ -27,6 +34,18 @@ public class Treasure implements Movable {
   @Override
   public String inspect() {
     return name + ": " + description;
+  }
+
+  @Override
+  public Image getImage() {
+    BufferedImage img = null;
+    try {
+      img = ImageIO.read(new File("testIMG.png"));
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return img;
   }
 
 }

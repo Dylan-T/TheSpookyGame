@@ -154,6 +154,19 @@ public class GameWorld {
     return player.currentLoc;
   }
   
+//  double scale = ??;
+//  int x = something;
+//  int y = something;
+//  
+//  for(int row = 0; row < grid.length; row++) {
+//    x = 50 * (1-scale);
+//    for(int col = 0; col <grid[0].length; col++) {
+//      g.drawImage(grid[row][col], x, y, width*scale, height*scale);
+//      x += 75*scale;
+//    }
+//    y += 75;
+//    scale += 0.1;
+//  }
   
   
 }

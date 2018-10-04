@@ -1,5 +1,6 @@
 package gameworld;
 
+import java.awt.Image;
 
 /**
  * Represents an item in this game.
@@ -19,12 +20,12 @@ public interface Item {
    * @return Description of the item.
    */
   public String inspect();
-  //  {
-  //    return toString();
-  //  }
 
   public String toString();
-  //  {
-  //    return name + ": " + description;
-  //  }
+  
+  /**
+   * Get's the items image representation.
+   * @return Item's sprites image.
+   */
+  public Image getImage();
 }
