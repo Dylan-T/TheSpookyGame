@@ -30,6 +30,20 @@ public class Location {
   public Location(int height, int width) {
     grid = new Item[height][width];
   }
+  
+  /**
+   * @return the 2D array containing the items
+   */
+  public Item[][] getGrid() {
+    return grid;
+  }
+  
+  /**
+   * @return the array containing the exits
+   */
+  public Passage[] getExits() {
+    return exits;
+  }
 
   /**
    * This method adds the given item to the specified x & y position.
