@@ -69,8 +69,8 @@ public class GUI {
    * MOVE METHOD.
    */
   
+  //GameWorld game = GameWorld.testGameWorld2();
   GameWorld game;
-
   private static JFrame frame;
   private JTextField textField;
   private JComponent drawing;
