@@ -137,4 +137,8 @@ public class Renderer {
     }
     
   } 
+  
+  public String toString() {
+    return null;
+  }
 }
