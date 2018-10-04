@@ -52,7 +52,7 @@ public class Renderer {
     
     
     Item[][] grid = room.getGrid();
-    System.out.println("length: " + grid.length);
+    System.out.println("length " + grid.length);
     
     if(dir == Direction.NORTH) {
       //x = 50* (1-scale);
