@@ -2,6 +2,7 @@ package renderer;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 
 import gameworld.GameWorld;
 import gameworld.GameWorld.Direction;
@@ -59,12 +60,17 @@ public class Renderer {
       for(int i = 0; i< 20; i++) {
         for(int j = 0; j< 20; j++) {
           
+          Image current = grid[i][j].getImage();
+          //g.drawImage(current, x, y, Math.round(current.getWidth(null)*scale), Math.round(current.getHeight(null)*scale), null); 
           g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
           x += 50*scale;
           scale += 0.1;
+          
         }
+        
         x = 10;
         y += 50;
+        
       }
     }
     
@@ -72,7 +78,16 @@ public class Renderer {
       for(int i = grid.length-1; i>= 0; i++) {
         for(int j = grid[0].length-1; j>=0; j++) {
           
+          Image current = grid[i][j].getImage();
+          //g.drawImage(current, x, y, Math.round(current.getWidth(null)*scale), Math.round(current.getHeight(null)*scale), null); 
+          g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
+          x += 50*scale;
+          scale += 0.1;
+          
         }
+        
+        x = 10;
+        y += 50;
       }
     }
     
