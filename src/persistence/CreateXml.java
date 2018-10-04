@@ -1,13 +1,11 @@
 package persistence;
 
 import java.io.File;
-import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -18,6 +16,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import gameworld.*;
+import mapeditor.*;
+import renderer.*;
+import application.*;
 
 /**
  * Creates an XML file which fits our games elements and description.
@@ -25,7 +26,7 @@ import gameworld.*;
  *
  */
 public class CreateXml {
-  private static final String filePath = "/home/hoongkevi/Desktop/game";
+  private static final String filePath = "C:\\Users\\krarv\\Desktop\\game.xml";
 
 
   /**
@@ -42,12 +43,25 @@ public class CreateXml {
 
       Element game = document.createElement("Game");
       document.appendChild(game);
+      
+      Element locations = document.createElement("Locations");
+      game.appendChild(locations);
 
       Element player = document.createElement("Player");
       game.appendChild(player);
+      
+      
 
       Element inventory = document.createElement("Inventory");
       player.appendChild(inventory);
+      
+      Attr direction = document.createAttribute("Direction");
+      direction.setValue("NORTH");
+      player.setAttributeNode(direction);
+      
+      Attr healthAttr = document.createAttribute("score");
+      healthAttr.setValue("0");
+      player.setAttributeNode(healthAttr);
 
       Attr attr = document.createAttribute("health");
       attr.setValue("100");
@@ -75,13 +89,17 @@ public class CreateXml {
       transformer.transform(ds,sr);
       System.out.println("XML File Created");
     } catch (ParserConfigurationException e) {
-      e.printStackTrace();
+      System.out.print("parser configuration exception");
     } catch (TransformerException e) {
-      e.printStackTrace();
+      System.out.println("Transformer exception");
     }
   }
 
-// public void makeXml(Game game) {
+ /**
+ * @param game
+ * @throws ParserConfigurationException
+ */
+//public void makeXml(GameWorld game) throws ParserConfigurationException {
 //   DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
 //   DocumentBuilder db = df.newDocumentBuilder();
 //   Document document = db.newDocument();
@@ -94,13 +112,15 @@ public class CreateXml {
 //
 //   Element inventory = document.createElement("Inventory");
 //   player.appendChild(inventory);
-//
-//   for(Item i: gameworld.Player.items) {
+
+//   for(Item i: gameworld.Player.inventory) {
 //       Attr temp = document.createAttribute(i.getName());
 //       inventory.setAttributeNode(temp);
 //
 //   }
 // }
+ 
+ 
 
 
   /**
