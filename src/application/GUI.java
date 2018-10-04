@@ -125,7 +125,7 @@ public class GUI {
   private void initialize() {
     frame = new JFrame();
     frame.setTitle("SwenProject");
-    frame.setBounds(100, 100, 500, 500); // original sizing of the window
+    frame.setBounds(100, 100, 900, 750); // original sizing of the window
     windowExit(); 
 
     width = frame.getBounds().width;
@@ -206,8 +206,10 @@ public class GUI {
     canvas.setLayout(new GridLayout(0, 1, 0, 0));
     canvas.add(drawing);
     
-    //CREATING THE POPUP MENU
-/*    JPopupMenu popup = new JPopupMenu();
+  //------CREATING A DROP DOWN MENU WHEN CLICKING-------
+    //in order to differenciate on whether something is a item or not
+    //i guess we can up x y values compare them to x y values of the item.
+    JPopupMenu popup = new JPopupMenu();
     JMenuItem pickup = new JMenuItem("Pick Up");
     pickup.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -216,7 +218,10 @@ public class GUI {
       }
     });
     popup.add(pickup);
-*/
+    MouseListener popupListener = new PopupListener(popup);
+    drawing.addMouseListener(popupListener);
+    
+    
     
     
 
@@ -346,9 +351,6 @@ public class GUI {
 
     Border lowerBevel = BorderFactory.createRaisedBevelBorder();
     canvas.setBorder(lowerBevel);
-    
-    JPopupMenu popupMenu = new JPopupMenu();
-    canvas.add(popupMenu);
   }
 
   /**
