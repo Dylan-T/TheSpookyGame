@@ -2,6 +2,8 @@ package persistence;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,6 +47,22 @@ public class XmlReader {
        db = dbFactory.newDocumentBuilder();
        Document doc = db.parse(xml);
        doc.getDocumentElement().normalize();
+       System.out.print("Root element: " + doc.getDocumentElement().getNodeName());
+       NodeList nodelist = doc.getElementsByTagName("Game");
+       List<GameWorld> elemList = new ArrayList<GameWorld>();
+       for(int i = 0; i< nodelist.getLength(); i++) {
+         elemList.add(getGameWorld(nodelist.item(i)));
+       }
+       NodeList playerNodeList = doc.getElementsByTagName("Player");
+       List<Player> playerList = new ArrayList<Player>();
+       for(int i =0; i< playerNodeList.getLength(); i++) {
+         playerList.add(getPlayer(playerNodeList.item(i)));
+       }
+       NodeList PassageNodeList = doc.getElementsByTagName("Passage");
+       List<Passage> PassageList = new ArrayList<Passage>();
+       for(int i = 0; i< PassageNodeList.getLength(); i++) {
+         PassageList.add(getPassage(PassageNodeList.item(i)));
+       }
     }catch(ParserConfigurationException e) {
       System.out.println("ParserConfigurationException error");
     }catch(SAXException e) {
@@ -54,6 +72,50 @@ public class XmlReader {
     }
 
 
+  }
+  
+  /**
+   * @param node
+   * @return GameWorld with the state of the game
+   */
+  public static GameWorld getGameWorld(Node node) {
+    GameWorld game = new GameWorld(null,null);
+    if(node.getNodeType() == Node.ELEMENT_NODE) {
+      Element elem = (Element) node;
+    }
+    
+    return null;
+  }
+  
+  /**
+   * @param node
+   * @return player elements
+   */
+  public static Player getPlayer(Node node) {
+    Player player = new Player(null);
+    if(node.getNodeType() == Node.ELEMENT_NODE) {
+      Element elem = (Element) node;
+    }
+    return null;
+  }
+  
+  /**
+   * @param node
+   * @return Passage elements
+   */
+  public static Passage getPassage(Node node) {
+    Passage passage = new Passage(null, null);
+    if(node.getNodeType() == node.ELEMENT_NODE) {
+      Element elem = (Element) node;
+    }
+    return null;
+  }
+  
+  private static String getTagValue(String tag, Element element){
+    NodeList nodelist = element.getElementsByTagName(tag).item(0).getChildNodes();
+    Node node = (Node) nodelist.item(0);
+    return tag;
+    
   }
 
   /**
