@@ -1,5 +1,6 @@
 package gameworld;
 
+import java.awt.Image;
 
 /**
  * Represents an item in this game.
@@ -11,6 +12,7 @@ public interface Item {
 
   //  String name;
   //  String description;
+  
 
 
   /**

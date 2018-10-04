@@ -42,16 +42,29 @@ public class Renderer {
     
     //System.out.println(graphics);
     
-    g.drawRect(50, 50, 50, 50);
+    //g.drawRect(50, 50, 50, 50);
+    
+    float scale = 1;
+    int x = 10;
+    int y = 10;
+    int width = 20;
+    int height = 20;
+    
     
     Item[][] grid = room.getGrid();
-    int x;
+    System.out.println("length: " + grid.length);
     
     if(dir == Direction.NORTH) {
-      for(int i = 0; i< grid.length; i++) {
-        for(int j = 0; j< grid[0].length; j++) {
+      //x = 50* (1-scale);
+      for(int i = 0; i< 20; i++) {
+        for(int j = 0; j< 20; j++) {
           
+          g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
+          x += 50*scale;
+          scale += 0.1;
         }
+        x = 10;
+        y += 50;
       }
     }
     
@@ -79,5 +92,5 @@ public class Renderer {
       }
     }
     
-  }
+  } 
 }
