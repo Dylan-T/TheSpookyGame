@@ -1,6 +1,7 @@
 package persistence;
 
 import java.io.File;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,13 +17,15 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import gameworld.*;
+
 /**
  * Creates an XML file which fits our games elements and description.
  * @author hoongkevi
  *
  */
 public class CreateXml {
-  private static final String filePath = "/home/hoongkevi/game.xml";
+  private static final String filePath = "/home/hoongkevi/Desktop/game";
 
 
   /**
@@ -78,6 +81,26 @@ public class CreateXml {
     }
   }
 
+// public void makeXml(Game game) {
+//   DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
+//   DocumentBuilder db = df.newDocumentBuilder();
+//   Document document = db.newDocument();
+//
+//   Element gamefile = document.createElement("Game");
+//   document.appendChild(gamefile);
+//
+//   Element player = document.createElement("Player");
+//   gamefile.appendChild(player);
+//
+//   Element inventory = document.createElement("Inventory");
+//   player.appendChild(inventory);
+//
+//   for(Item i: gameworld.Player.items) {
+//       Attr temp = document.createAttribute(i.getName());
+//       inventory.setAttributeNode(temp);
+//
+//   }
+// }
 
 
   /**

@@ -18,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import gameworld.*;
+
 
 /**
  * XML Reader which reads an XML save file.
@@ -27,6 +29,7 @@ import org.xml.sax.SAXException;
 
 public class XmlReader {
   /**
+   * reads an XML file from a given directory.
    * @param args
    * @throws ParserConfigurationException
    * @throws IOException
@@ -34,18 +37,46 @@ public class XmlReader {
    */
 
   public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-    String filePath = "/home/hoongkevi/game.xml";
+    String filePath = "/home/hoongkevi/Desktop/game";
     File xml = new File(filePath);
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder builder = dbFactory.newDocumentBuilder();
+    DocumentBuilder db;
     try {
-      Document doc = builder.parse(xml);
-      doc.getDocumentElement().normalize();
-
-    }finally {
-
+       db = dbFactory.newDocumentBuilder();
+       Document doc = db.parse(xml);
+       doc.getDocumentElement().normalize();
+    }catch(ParserConfigurationException e) {
+      System.out.println("ParserConfigurationException error");
+    }catch(SAXException e) {
+      System.out.println("SAX Exception error");
+    }catch(IOException e) {
+      System.out.println("File input/output error");
     }
 
 
+  }
+
+  /**
+   * @param game
+   * @throws ParserConfigurationException
+   * @throws IOException
+   * @throws SAXException
+   */
+  public void loadXml(GameWorld game) throws ParserConfigurationException, SAXException, IOException {
+    String filePath = "/home/hoongkevi/Desktop/game";
+    File xml = new File(filePath);
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db;
+    try {
+       db = dbFactory.newDocumentBuilder();
+       Document doc = db.parse(xml);
+       doc.getDocumentElement().normalize();
+    }catch(ParserConfigurationException e) {
+      System.out.println("ParserConfigurationException error");
+    }catch(SAXException e) {
+      System.out.println("SAX Exception error");
+    }catch(IOException e) {
+      System.out.println("File input/output error");
+    }
   }
 }
