@@ -55,5 +55,29 @@ public class Renderer {
       }
     }
     
+    if(dir == Direction.SOUTH) {
+      for(int i = grid.length-1; i>= 0; i++) {
+        for(int j = grid[0].length-1; j>=0; j++) {
+          
+        }
+      }
+    }
+    
+    if(dir == Direction.EAST) {
+      for(int i = 0; i< grid.length; i++) {
+        for(int j = 0; j< grid[0].length; j++) {
+          
+        }
+      }
+    }
+    
+    if(dir == Direction.WEST) {
+      for(int i = 0; i< grid.length; i++) {
+        for(int j = 0; j< grid[0].length; j++) {
+          
+        }
+      }
+    }
+    
   }
 }
