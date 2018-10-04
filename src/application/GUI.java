@@ -41,6 +41,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
 
 import gameworld.GameWorld;
+import renderer.Renderer;
 
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -76,7 +77,8 @@ public class GUI {
   private JComponent drawing;
   private TitledBorder title;
   private JTextArea textWindow;
-
+  private Renderer rWindow;
+  
   private int height;
   private int width;
   private int newheight;
@@ -103,6 +105,7 @@ public class GUI {
    * Create the application.
    */
   public GUI() {
+    game = GameWorld.testGameWorld2();
     initialize();
   }
 
@@ -163,8 +166,14 @@ public class GUI {
     drawing = new JComponent() {
       protected void paintComponent(Graphics g) {
         System.out.println("you are now in the drawing pane");
+        redraw(g);
+      }
+
+      private void redraw(Graphics g) {
+        rWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH, g);
       }
     };
+    rWindow = new Renderer(drawing.getGraphics());
     drawing.setPreferredSize(new Dimension(width, height));
     drawing.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {

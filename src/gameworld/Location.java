@@ -29,6 +29,21 @@ public class Location {
    */
   public Location(int height, int width) {
     grid = new Item[height][width];
+    exits = new Passage[4];
+  }
+  
+  /**
+   * @return the 2D array containing the items
+   */
+  public Item[][] getGrid() {
+    return grid;
+  }
+  
+  /**
+   * @return the array containing the exits
+   */
+  public Passage[] getExits() {
+    return exits;
   }
 
   /**
@@ -54,7 +69,7 @@ public class Location {
    * @return true if the passage was successfully added
    */
   public boolean addPassage(GameWorld.Direction dir, Passage p) {
-    if(exits[dir.ordinal()] != null) return false;
+    //if(exits[dir.ordinal()] != null) return false;
     
     exits[dir.ordinal()] = p;
     return true;
