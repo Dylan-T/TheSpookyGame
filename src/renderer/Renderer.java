@@ -4,8 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import gameworld.GameWorld;
 import gameworld.GameWorld.Direction;
@@ -71,7 +79,7 @@ public class Renderer {
     //g.drawRect(50, 50, 50, 50);
     
     
-    float scale = 1; // need to figure out a proper scale to keep images from going outside of canvas 
+    float scale = (float) 1; // need to figure out a proper scale to keep images from going outside of canvas 
     int x = 10;
     int y = 10;
     int width = 20;
@@ -80,6 +88,15 @@ public class Renderer {
     
     Item[][] grid = room.getGrid();
     System.out.println("length " + grid.length);
+    
+
+    BufferedImage cube = null;
+    try {
+        cube = ImageIO.read(new File("black cubde.jpg"));
+    } catch (IOException e) {
+    }
+    //System.out.println(cube);
+    
     
     if(dir == Direction.NORTH) {
       //x = 50* (1-scale);
@@ -90,8 +107,12 @@ public class Renderer {
      
         for(int j = 0; j< 20; j++) {
           //Image current = grid[i][j].getImage();
-          //g.drawImage(current, x, y, Math.round(current.getWidth(null)*scale), Math.round(current.getHeight(null)*scale), null); 
+          //cube.getScaledInstance(Math.round(cube.getWidth(null)*scale), Math.round(cube.getHeight(null)*scale), Image.SCALE_DEFAULT);
+          //g.drawImage(cube, x, y, null); 
+          
+          //g.setColor(Color.BLUE);
           g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
+          //g.fill3DRect(x, y, Math.round(width*scale), Math.round(height*scale), true);
           x += 50*scale;
           
           
@@ -102,6 +123,7 @@ public class Renderer {
         
       }
     }
+    //g.setColor(Color.BLUE);
     
     if(dir == Direction.SOUTH) {
       for(int i = grid.length-1; i>= 0; i++) {
@@ -110,6 +132,8 @@ public class Renderer {
           //Image current = grid[i][j].getImage();
           //g.drawImage(current, x, y, Math.round(current.getWidth(null)*scale), Math.round(current.getHeight(null)*scale), null); 
           g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
+          //g.fill3DRect(x, y, Math.round(width*scale), Math.round(height*scale), true);
+          
           x += 50*scale;
           scale += 0.1;
           
