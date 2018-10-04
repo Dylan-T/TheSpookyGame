@@ -44,7 +44,7 @@ public class Renderer {
    */
   public void redraw(Location room, GameWorld.Direction dir, Graphics g) {
     
-    List<Color> colors = new ArrayList<Color>();
+    /*List<Color> colors = new ArrayList<Color>();
     colors.add(Color.RED);
     colors.add(Color.BLUE);
     colors.add(Color.GREEN);
@@ -64,13 +64,14 @@ public class Renderer {
     colors.add(Color.BLUE);
     colors.add(Color.GREEN);
     colors.add(Color.CYAN);
-    colors.add(Color.YELLOW);
+    colors.add(Color.YELLOW);*/
     
     //System.out.println(graphics);
     
     //g.drawRect(50, 50, 50, 50);
     
-    float scale = 1;
+    
+    float scale = 1; // need to figure out a proper scale to keep images from going outside of canvas 
     int x = 10;
     int y = 10;
     int width = 20;
@@ -84,8 +85,8 @@ public class Renderer {
       //x = 50* (1-scale);
       for(int i = 0; i< 20; i++) {
 
-        g.setColor(colors.get(colorNumber));
-        colorNumber++;
+       /* g.setColor(colors.get(colorNumber));
+        colorNumber++;*/
      
         for(int j = 0; j< 20; j++) {
           //Image current = grid[i][j].getImage();
