@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -89,6 +90,11 @@ public class Renderer {
     Item[][] grid = room.getGrid();
     System.out.println("length " + grid.length);
     
+    
+    /*
+     * This is a draft version of using actual JPEG files 
+     * Using small cubes to test the scaling of the rendering
+     */
 
     BufferedImage cube = null;
     try {
@@ -109,9 +115,9 @@ public class Renderer {
           //Image current = grid[i][j].getImage();
           //cube.getScaledInstance(Math.round(cube.getWidth(null)*scale), Math.round(cube.getHeight(null)*scale), Image.SCALE_DEFAULT);
           //g.drawImage(cube, x, y, null); 
-          
+          fillCube(new Cube(x, y, Math.round(width*scale), Math.round(height*scale)),g);
           //g.setColor(Color.BLUE);
-          g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
+          //g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
           //g.fill3DRect(x, y, Math.round(width*scale), Math.round(height*scale), true);
           x += 50*scale;
           
@@ -161,6 +167,71 @@ public class Renderer {
     }
     
   } 
+  
+  /**
+   * draws the cube onto the canvas byy connecting vertices
+   * @param c 
+   * @param g 
+   */
+  public void drawCube(Cube c, Graphics g){
+    
+    ArrayList<Point> square1 = c.square1Points;
+    ArrayList<Point> square2 = c.square2Points;
+    
+    // draws the first square
+    
+    g.drawLine(square1.get(0).getX(), square1.get(0).getY(), square1.get(1).getX(), square1.get(1).getY());
+    g.drawLine(square1.get(0).getX(), square1.get(0).getY(), square1.get(3).getX(), square1.get(3).getY());   
+    g.drawLine(square1.get(2).getX(), square1.get(2).getY(), square1.get(1).getX(), square1.get(1).getY());
+    g.drawLine(square1.get(2).getX(), square1.get(2).getY(), square1.get(3).getX(), square1.get(3).getY());
+    
+    // draws the second square
+    
+    g.drawLine(square2.get(0).getX(), square2.get(0).getY(), square2.get(1).getX(), square2.get(1).getY());
+    g.drawLine(square2.get(0).getX(), square2.get(0).getY(), square2.get(3).getX(), square2.get(3).getY());    
+    g.drawLine(square2.get(2).getX(), square2.get(2).getY(), square2.get(1).getX(), square2.get(1).getY());
+    g.drawLine(square2.get(2).getX(), square2.get(2).getY(), square2.get(3).getX(), square2.get(3).getY());
+    
+    // connect the two squares to form a cube
+    
+    g.drawLine(square1.get(0).getX(), square1.get(0).getY(), square2.get(0).getX(), square2.get(0).getY());
+    g.drawLine(square1.get(1).getX(), square1.get(1).getY(), square2.get(1).getX(), square2.get(1).getY());   
+    g.drawLine(square1.get(2).getX(), square1.get(2).getY(), square2.get(2).getX(), square2.get(2).getY());
+    g.drawLine(square1.get(3).getX(), square1.get(3).getY(), square2.get(3).getX(), square2.get(3).getY());
+    
+    
+  }
+  
+  /**
+   * @param c
+   * @param g
+   * @param size 
+   */
+  public void fillCube(Cube c, Graphics g){
+    
+    ArrayList<Point> square1 = c.square1Points;
+    ArrayList<Point> square2 = c.square2Points;
+    
+    g.fillRect(square1.get(0).getX(), square1.get(0).getY(), c.size, c.size);
+    
+    g.fillRect(square2.get(0).getX(), square2.get(0).getY(), c.size, c.size);
+    
+    Polygon rect1 = new Polygon();
+    
+    rect1.addPoint(square1.get(0).getX(), square1.get(0).getY());
+    rect1.addPoint(square1.get(1).getX(), square1.get(1).getY());
+    rect1.addPoint(square2.get(1).getX(), square2.get(1).getY());
+    
+    Polygon rect2 = new Polygon();
+    
+    rect2.addPoint(square1.get(0).getX(), square1.get(0).getY());
+    rect2.addPoint(square2.get(0).getX(), square2.get(0).getY());
+    rect2.addPoint(square2.get(3).getX(), square2.get(3).getY());
+    
+    g.fillPolygon(rect1);
+    g.fillPolygon(rect2);
+    
+  }
   
   public String toString() {
     return null;
