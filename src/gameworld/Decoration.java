@@ -1,5 +1,12 @@
 package gameworld;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 /**
  * Decorative item that has no use except cosmetically
  * @author Dylan
@@ -27,6 +34,18 @@ public class Decoration implements Item {
   
   public String toString() {
     return name;
+  }
+
+  @Override
+  public Image getImage() {
+    BufferedImage img = null;
+    try {
+      img = ImageIO.read(new File("testIMG.png"));
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return img;
   }
 
 }

@@ -41,20 +41,31 @@ public class CreateXml {
       DocumentBuilder db = df.newDocumentBuilder();
       Document document = db.newDocument();
 
+      //creates a game Element
       Element game = document.createElement("Game");
       document.appendChild(game);
       
+      //creates a locations Element which is appended to game
       Element locations = document.createElement("Locations");
       game.appendChild(locations);
-
+      
+      //creates player element which is appended to game
       Element player = document.createElement("Player");
       game.appendChild(player);
       
       
-
+      //creates an inventory element which is appended to player
       Element inventory = document.createElement("Inventory");
       player.appendChild(inventory);
       
+      Element rooms = document.createElement("Rooms");
+      game.appendChild(rooms);
+      
+      rooms.appendChild(makeRoom(0, 0, 0, 0, "Siglo_Balcony", document));
+      
+      
+      
+      //creates player attributes and assigns them to player
       Attr direction = document.createAttribute("Direction");
       direction.setValue("NORTH");
       player.setAttributeNode(direction);
@@ -75,13 +86,12 @@ public class CreateXml {
       attr2.setValue("0");
       player.setAttributeNode(attr2);
 
-      Attr attr3 = document.createAttribute("room");
-      attr3.setValue("street");
-      player.setAttributeNode(attr3);
+
 
       Element durries = document.createElement("durries");
       inventory.appendChild(durries);
-
+      
+      //Uses a transformer to stream the file into an XML file using DOMSource.
       TransformerFactory tf = TransformerFactory.newInstance();
       Transformer transformer = tf.newTransformer();
       DOMSource ds = new DOMSource(document);
@@ -93,6 +103,34 @@ public class CreateXml {
     } catch (TransformerException e) {
       System.out.println("Transformer exception");
     }
+  }
+  
+  /**
+   * This method takes in room data and creates elements and respective attributes and then adds them to the document.
+   * @param width width of the room
+   * @param height
+   * @param x position of room
+   * @param y position of room
+   * @param name of room
+   * @param doc the document where we are adding the room element
+   * @return the new room.
+   */
+  public static Element makeRoom(int width, int height, int x, int y, String name, Document doc) {
+    Element room1 = doc.createElement(name);
+    Attr width1 = doc.createAttribute("width");
+    Attr height1 = doc.createAttribute("height");
+    Attr x1 = doc.createAttribute("x");
+    Attr y1 = doc.createAttribute("y");
+    width1.setValue("0");
+    height1.setValue("0");
+    x1.setValue("0");
+    y1.setValue("0");
+    room1.setAttributeNode(width1);
+    room1.setAttributeNode(height1);
+    room1.setAttributeNode(x1);
+    room1.setAttributeNode(y1);
+    
+    return room1;
   }
 
  /**
