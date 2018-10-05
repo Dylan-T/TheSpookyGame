@@ -387,6 +387,7 @@ public class GUI {
     
     displayPanel.add(textBox);
     
+    
     JTextArea textWindow = new JTextArea();
     //textWindow.setBounds(0, 0, 828, 138);
     
