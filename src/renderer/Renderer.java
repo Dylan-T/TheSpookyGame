@@ -206,7 +206,8 @@ public class Renderer {
   /**
    * @param c
    * @param g
-   * @param size 
+   * @param size
+   * fills the cube 
    */
   public void fillCube(Cube c, Graphics g){
     
