@@ -12,7 +12,8 @@ public class Cube {
   int x;
   int y;
   int size;
-  int gap;
+  int Xgap;
+  int Ygap;
   
   ArrayList<Point> square1Points;
   ArrayList<Point> square2Points;
@@ -21,14 +22,17 @@ public class Cube {
    * @param x
    * @param y
    * @param size
+   * @param Xgap 
+   * @param Ygap 
    * @param gap
    */
-  public Cube(int x, int y, int size, int gap) {
+  public Cube(int x, int y, int size, int Xgap, int Ygap) {
 
     this.x = x;
     this.y = y;
     this.size = size;
-    this.gap = gap;
+    this.Xgap = Xgap;
+    this.Ygap = Ygap;
     square1Points = getSquare1Points();
     square2Points = getCube2Points();
 
@@ -51,8 +55,8 @@ public class Cube {
    * @return the list of points that make up the second square that is shifted
    */
   public ArrayList<Point> getCube2Points() {
-    int newX = x + gap;
-    int newY = y + gap;
+    int newX = x + Xgap;
+    int newY = y + Ygap;
     ArrayList<Point> points = new ArrayList<Point>();
     points.add(new Point(newX, newY));
     points.add(new Point(newX + size, newY));

@@ -115,7 +115,8 @@ public class Renderer {
           //Image current = grid[i][j].getImage();
           //cube.getScaledInstance(Math.round(cube.getWidth(null)*scale), Math.round(cube.getHeight(null)*scale), Image.SCALE_DEFAULT);
           //g.drawImage(cube, x, y, null); 
-          fillCube(new Cube(x, y, Math.round(width*scale), Math.round(height*scale)),g);
+          fillCube(new Cube(x, y, Math.round(width*scale), Math.round(height*scale), Math.round(height*scale)),g);
+          
           //g.setColor(Color.BLUE);
           //g.fillRect(x, y, Math.round(width*scale), Math.round(height*scale));
           //g.fill3DRect(x, y, Math.round(width*scale), Math.round(height*scale), true);
@@ -209,27 +210,60 @@ public class Renderer {
    */
   public void fillCube(Cube c, Graphics g){
     
+    g.setColor(Color.GRAY);
+    
     ArrayList<Point> square1 = c.square1Points;
     ArrayList<Point> square2 = c.square2Points;
     
     g.fillRect(square1.get(0).getX(), square1.get(0).getY(), c.size, c.size);
     
-    g.fillRect(square2.get(0).getX(), square2.get(0).getY(), c.size, c.size);
+    
     
     Polygon rect1 = new Polygon();
     
     rect1.addPoint(square1.get(0).getX(), square1.get(0).getY());
     rect1.addPoint(square1.get(1).getX(), square1.get(1).getY());
     rect1.addPoint(square2.get(1).getX(), square2.get(1).getY());
+    rect1.addPoint(square2.get(0).getX(), square2.get(0).getY());
+    
     
     Polygon rect2 = new Polygon();
     
     rect2.addPoint(square1.get(0).getX(), square1.get(0).getY());
     rect2.addPoint(square2.get(0).getX(), square2.get(0).getY());
     rect2.addPoint(square2.get(3).getX(), square2.get(3).getY());
+    rect2.addPoint(square1.get(3).getX(), square1.get(3).getY());
+    
+    Polygon rect3 = new Polygon();
+    
+    rect3.addPoint(square1.get(1).getX(), square1.get(1).getY());
+    rect3.addPoint(square2.get(1).getX(), square2.get(1).getY());
+    rect3.addPoint(square2.get(2).getX(), square2.get(2).getY());
+    rect3.addPoint(square1.get(2).getX(), square1.get(2).getY());
+    
+    Polygon rect4 = new Polygon();
+    
+    rect4.addPoint(square1.get(3).getX(), square1.get(3).getY());
+    rect4.addPoint(square2.get(3).getX(), square2.get(3).getY());
+    rect4.addPoint(square2.get(2).getX(), square2.get(2).getY());
+    rect4.addPoint(square1.get(2).getX(), square1.get(2).getY());
+    
+       
+    g.setColor(Color.DARK_GRAY);
     
     g.fillPolygon(rect1);
+    
     g.fillPolygon(rect2);
+    
+    g.fillPolygon(rect3);
+    
+    g.fillPolygon(rect4);
+    
+    g.setColor(Color.GRAY);
+    
+    g.fillRect(square2.get(0).getX(), square2.get(0).getY(), c.size, c.size);
+    
+    
     
   }
   
