@@ -102,8 +102,11 @@ public class GUI {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          GUI window = new GUI();
-          window.frame.setVisible(true);
+          //GUI window = new GUI();
+          TitleScreen title = new TitleScreen();
+          title.getTitleFrame().setVisible(true);
+          //window.frame.setVisible(true);
+          
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -416,9 +419,7 @@ public class GUI {
     TitledBorder t = BorderFactory.createTitledBorder(blackline, "Control Panel");
     t.setTitleJustification(TitledBorder.CENTER);
     extraButtons.setBorder(t); 
-    
-    
-    
+     
   }
 
 
@@ -478,6 +479,13 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       }
     });
+  }
+  
+  /**
+   * @return the frame.
+   */
+  public JFrame getFrame() {
+    return this.frame;
   }
 }
 
