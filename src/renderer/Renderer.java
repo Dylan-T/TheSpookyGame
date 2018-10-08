@@ -318,7 +318,7 @@ public class Renderer {
     rect4.addPoint(square1.get(2).getX(), square1.get(2).getY());
     
        
-    g.setColor(Color.BLACK);
+    g.setColor(Color.DARK_GRAY.darker());
     
     g.fillPolygon(rect1);
     
