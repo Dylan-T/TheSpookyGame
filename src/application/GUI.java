@@ -131,6 +131,7 @@ public class GUI {
     frame = new JFrame();
     frame.setTitle("SwenProject");
     //frame.setBounds(100, 100, 900, 750); // original sizing of the window
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     frame.setUndecorated(true);
     frame.setVisible(true);
