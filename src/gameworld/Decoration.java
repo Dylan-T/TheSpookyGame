@@ -42,8 +42,7 @@ public class Decoration implements Item {
     try {
       img = ImageIO.read(new File("testIMG.png"));
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.out.println("Image is broken");
     }
     return img;
   }
