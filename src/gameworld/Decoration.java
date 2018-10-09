@@ -40,7 +40,7 @@ public class Decoration implements Item {
   public Image getImage() {
     BufferedImage img = null;
     try {
-      img = ImageIO.read(new File("testIMG.png"));
+      img = ImageIO.read(new File("man2.jpg"));
     } catch (IOException e) {
       System.out.println("Image is broken");
     }

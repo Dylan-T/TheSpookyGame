@@ -109,6 +109,9 @@ public class GameWorld {
     //Make locations & add item's
     Location l1 = new Location(2, 2);
     l1.addItem(0, 0, new Decoration("Grave","An ominous looking grave"));
+    l1.addItem(0, 1, new Treasure("Grave","An ominous looking grave", 0));
+    l1.addItem(1, 0, new Decoration("Grave","An ominous looking grave"));
+    l1.addItem(1, 1, new Treasure("Grave","An ominous looking grave", 0));
     Location l2 = new Location(2, 2);
     l2.addItem(0, 1, new Decoration("Crow","A raggedy crow"));
     Location l3 = new Location(2, 2);

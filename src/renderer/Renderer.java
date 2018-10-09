@@ -99,7 +99,7 @@ public class Renderer {
 
     BufferedImage cube = null;
     try {
-        cube = ImageIO.read(new File("door.png"));
+        cube = ImageIO.read(new File("Portal.png"));
     } catch (IOException e) {
     }
     //System.out.println(cube);
@@ -107,6 +107,9 @@ public class Renderer {
     
     if(dir == Direction.NORTH) {
       //x = 50* (1-scale);
+      GameWorld game = GameWorld.testGameWorld2();
+      Item[][] grids = game.getCurrentRoom().getGrid();
+      
       int xgap = 2;
       int ygap = 2;
       
@@ -116,12 +119,23 @@ public class Renderer {
       
       
       g.drawRect(xMiddle - 100, yMiddle - 50, 200, 100);
+      
+      //the background picture
+      g.drawImage(grids[0][1].getImage().getScaledInstance(Math.round(200), Math.round(100), Image.SCALE_DEFAULT), xMiddle-100, yMiddle-50, null);
       g.drawRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
       
       g.drawLine(xMiddle - 100, yMiddle - 50, 0, 0);
       g.drawLine(xMiddle + 100, yMiddle - 50, CANVASWIDTH, 0);
       g.drawLine(xMiddle - 100, yMiddle + 50, 0, CANVASHEIGHT);
       g.drawLine(xMiddle + 100, yMiddle + 50, CANVASWIDTH, CANVASHEIGHT);
+      g.setColor(Color.GRAY);
+      Polygon p = new Polygon();
+      p.addPoint(xMiddle-100, yMiddle+50);
+      p.addPoint(xMiddle+100, yMiddle+50);
+      p.addPoint(CANVASWIDTH, CANVASHEIGHT);
+      p.addPoint(0, CANVASHEIGHT);
+      g.fillPolygon(p);
+      g.setColor(Color.BLACK);
       
       int widthScale = CANVASWIDTH/200;
       int heightScale = CANVASHEIGHT/100;
@@ -159,7 +173,28 @@ public class Renderer {
       this.fillCube(new Cube(xMiddle - 100, yMiddle + 40, 10, 0 + 10*widthScale, CANVASHEIGHT - 10*heightScale, 10*widthScale), g);
       
       
-      g.drawImage(cube.getScaledInstance(30, 40, Image.SCALE_DEFAULT), xMiddle-10, yMiddle+10, null);
+      g.drawImage(cube.getScaledInstance(40, 45, Image.SCALE_DEFAULT), xMiddle-19, yMiddle-10, null); // the portal
+      
+      
+      
+      for(int i = 0; i < grids.length; i++) {
+        for(int j = 0; j < grids[0].length; j++) {
+          if(grids[i][j] != null) {
+            
+          
+          Image current = grids[i][j].getImage();
+          //g.drawImage(current.getScaledInstance(Math.round(20*scale), Math.round(20*scale), Image.SCALE_DEFAULT), x, y, null);
+          x += 50*scale;
+          scale += 0.1;
+          }
+        }
+        x = 10;
+        y += 50;
+      }
+      
+      // the meme
+      g.drawImage(grids[0][0].getImage().getScaledInstance(Math.round(133*scale), Math.round(75*scale), Image.SCALE_DEFAULT), xMiddle+804, yMiddle, null);
+      
       
       //g.drawRect(xMiddle-10, yMiddle+10, 20, 40);
       /*for(int i = 0; i< 20; i++) {
@@ -199,7 +234,7 @@ public class Renderer {
     
     //g.setColor(Color.BLUE);
     
-    /*if(dir == Direction.SOUTH) {
+    if(dir == Direction.SOUTH) {
       for(int i = grid.length-1; i>= 0; i++) {
         for(int j = grid[0].length-1; j>=0; j++) {
           
@@ -234,7 +269,7 @@ public class Renderer {
       }
     }
     
-  } */
+  
   }
   
   /**
@@ -318,7 +353,7 @@ public class Renderer {
     rect4.addPoint(square1.get(2).getX(), square1.get(2).getY());
     
        
-    g.setColor(Color.DARK_GRAY.darker());
+    g.setColor(Color.BLACK);
     
     g.fillPolygon(rect1);
     
