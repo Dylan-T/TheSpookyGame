@@ -35,6 +35,7 @@ import java.awt.Insets;
 import javax.swing.JTextArea;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -80,16 +81,17 @@ public class GUI {
   private JTextField textField;
   private JComponent drawing;
   private TitledBorder title;
-  private JTextArea textWindow;
   private Renderer rWindow;
-  private JPanel canvas;
+  private static JPanel canvas;
+  private static JPanel displayPanel;
+  private static JPanel textBox;
 
   private int height;
   private int width;
   private int newheight;
   private int newwidth;
   
-  //DRAWING WIDTH = 804, HEIGHT = 608
+  //DRAWING WIDTH = 1604, HEIGHT = 951
 
   /**
    * Launch the application.
@@ -100,8 +102,11 @@ public class GUI {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          GUI window = new GUI();
-          window.frame.setVisible(true);
+          //GUI window = new GUI();
+          TitleScreen title = new TitleScreen();
+          title.getTitleFrame().setVisible(true);
+          //window.frame.setVisible(true);
+          
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -125,8 +130,12 @@ public class GUI {
   private void initialize() {
     frame = new JFrame();
     frame.setTitle("SwenProject");
-    frame.setBounds(100, 100, 900, 750); // original sizing of the window
-    windowExit(); 
+    //frame.setBounds(100, 100, 900, 750); // original sizing of the window
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    frame.setUndecorated(true);
+    frame.setVisible(true);
+    //windowExit(); 
 
     width = frame.getBounds().width;
     height = frame.getBounds().height;
@@ -143,28 +152,32 @@ public class GUI {
 
     // --------------CREATING THE DISPLAY PANEL AND CANVAS--------------
     // --------------FORMATTING THE 3 MAIN PANEL COMPONENTS--------------
-    JPanel displayPanel = new JPanel();
+    displayPanel = new JPanel();
     canvas = new JPanel();
 
     GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-    groupLayout
-        .setHorizontalGroup(
-            groupLayout.createParallelGroup(Alignment.TRAILING)
-                .addGroup(groupLayout.createSequentialGroup()
-                    .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-                            .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-                            .addPreferredGap(ComponentPlacement.RELATED).addComponent(buttonPanel,
-                                GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))
-                        .addComponent(displayPanel, GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
-                    .addContainerGap()));
-    groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+    groupLayout.setHorizontalGroup(
+      groupLayout.createParallelGroup(Alignment.TRAILING)
         .addGroup(groupLayout.createSequentialGroup()
-            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
-            .addPreferredGap(ComponentPlacement.RELATED).addComponent(displayPanel,
-                GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)));
+          .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+            .addGroup(groupLayout.createSequentialGroup()
+              .addGap(10)
+              .addComponent(displayPanel, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+            .addGroup(groupLayout.createSequentialGroup()
+              .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+              .addPreferredGap(ComponentPlacement.RELATED)
+              .addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)))
+          .addContainerGap())
+    );
+    groupLayout.setVerticalGroup(
+      groupLayout.createParallelGroup(Alignment.LEADING)
+        .addGroup(groupLayout.createSequentialGroup()
+          .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+            .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+            .addComponent(canvas, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+          .addPreferredGap(ComponentPlacement.RELATED)
+          .addComponent(displayPanel, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
+    );
 
     displayPanel.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
@@ -217,7 +230,18 @@ public class GUI {
         //pickup();
       }
     });
+    
+    JMenuItem inspect = new JMenuItem("Inspect");
+    pickup.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        System.out.println("this should call a getDescription(); method");
+        //
+      }
+    });
     popup.add(pickup);
+    popup.add(inspect);
+    
+    
     MouseListener popupListener = new PopupListener(popup);
     drawing.addMouseListener(popupListener);
     
@@ -247,10 +271,17 @@ public class GUI {
     JButton newGameButton = new JButton("New Game");
     mnGame.add(newGameButton);
     pressNewGame(newGameButton);
+    
+    JMenu mnExit = new JMenu("EXIT");
+    menuBar.add(mnExit);
+    
+    JButton exit = new JButton("Close");
+    mnExit.add(exit);
+    exitGame(exit);
 
     // --------CREATING THE NAVIGATION BUTTTONS---------------
     JButton west = new JButton("\u2190");
-    west.setPreferredSize(new Dimension(75, 150));
+    west.setPreferredSize(new Dimension(60, 147));
     west.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be west");
@@ -261,7 +292,7 @@ public class GUI {
     });
 
     JButton east = new JButton("\u2192");
-    east.setPreferredSize(new Dimension(75, 150));
+    east.setPreferredSize(new Dimension(60, 147));
     east.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be east");
@@ -272,7 +303,7 @@ public class GUI {
     });
 
     JButton north = new JButton("\u2191");
-    north.setPreferredSize(new Dimension(75, 150));
+    north.setPreferredSize(new Dimension(60, 147));
     north.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be north");
@@ -284,7 +315,7 @@ public class GUI {
     });
 
     JButton south = new JButton("\u2193");
-    south.setPreferredSize(new Dimension(75, 150));
+    south.setPreferredSize(new Dimension(60, 147));
     south.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be south");
@@ -298,6 +329,8 @@ public class GUI {
     fillerL.setVisible(false);
     JButton fillerR = new JButton(" ");
     fillerR.setVisible(false);
+    JButton fillerC = new JButton(" ");
+    fillerC.setVisible(false);
 
     displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.LINE_AXIS));
 
@@ -310,8 +343,9 @@ public class GUI {
     south.setMargin(new Insets(0, 0, 0, 0));
 
     JPanel navigation = new JPanel();
-    navigation.setMaximumSize(new Dimension(100, 150));
+    navigation.setMaximumSize(new Dimension(226, 148));
     navigation.setLayout(new GridLayout(2, 3));
+    
     navigation.add(fillerL);
     navigation.add(north);
     navigation.add(fillerR);
@@ -320,56 +354,76 @@ public class GUI {
     navigation.add(east);
 
     displayPanel.add(navigation);
-
-    // -----CREATING THE TEXT AREA AND FORMATTING--------
-    JPanel textArea = new JPanel();
-    displayPanel.add(textArea, BorderLayout.EAST); //placing the text area inside the display area
-
-    textWindow = new JTextArea(10, 0);
+    displayPanel.add(Box.createRigidArea(new Dimension(7, 0)));
+    
+    //creating a button panel
+    JPanel extraButtons = new JPanel();
+    extraButtons.setMaximumSize(new Dimension(820, 148));
+    extraButtons.setLayout(null);
+    //add any extra buttons here
+    //extraButtons.setBackground(Color.BLUE);
+    
+    JButton drop = new JButton("Drop");
+    drop.setPreferredSize(new Dimension(50, 50));
+    drop.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        System.out.println("Hello this should be droping item");
+       
+      }
+    });
+    
+    drop.setBounds(3, 9, 100, 60);
+    
+    extraButtons.add(drop);
+    displayPanel.add(extraButtons);
+    
+    //creating the text area that the text area will go in
+    
+    displayPanel.add(Box.createRigidArea(new Dimension(2, 0)));
+    
+    textBox = new JPanel();
+    textBox.setMaximumSize(new Dimension(830, 150));
+    textBox.setLayout(null); //position the text area using setBounds
+    //textBox.setBackground(Color.GREEN);
+    
+    //adding a text area to text box
+    
+    
+    displayPanel.add(textBox);
+    
+    
+    JTextArea textWindow = new JTextArea();
+    //textWindow.setBounds(0, 0, 828, 138);
+    
     textWindow.setLineWrap(true);
     textWindow.setWrapStyleWord(true); // making the line up nice
     textWindow.setEditable(false); // cannot be edited
 
-    JScrollPane scoll = new JScrollPane(textWindow);
-    DefaultCaret caret = (DefaultCaret) textWindow.getCaret();
-    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    JScrollPane scroll = new JScrollPane(textWindow);
+    scroll.setBounds(0, 0, 828, 138);
 
-    GroupLayout gl_textArea = new GroupLayout(textArea);
-    gl_textArea.setHorizontalGroup(gl_textArea.createParallelGroup(Alignment.TRAILING)
-        .addGroup(gl_textArea.createSequentialGroup().addContainerGap(185, Short.MAX_VALUE)
-            .addComponent(scoll, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)));
-    gl_textArea.setVerticalGroup(gl_textArea.createParallelGroup(Alignment.LEADING)
-        .addGroup(gl_textArea.createSequentialGroup()
-            .addComponent(scoll, GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE).addGap(0)));
-    textArea.setLayout(gl_textArea);
+    textBox.add(scroll);
+    
+    
+    
 
     // -----CREATING BORDERS FOR THE COMPONENTS-------
     Border redline = BorderFactory.createLineBorder(Color.RED);
-    title = BorderFactory.createTitledBorder(redline, "Items");
-    title.setTitleJustification(TitledBorder.ABOVE_TOP);
+    title = BorderFactory.createTitledBorder(redline, "Inventory");
+    title.setTitleJustification(TitledBorder.CENTER);
     buttonPanel.setBorder(title);
 
     Border lowerBevel = BorderFactory.createRaisedBevelBorder();
     canvas.setBorder(lowerBevel);
+    
+    Border blackline = BorderFactory.createLineBorder(Color.BLACK);
+    TitledBorder t = BorderFactory.createTitledBorder(blackline, "Control Panel");
+    t.setTitleJustification(TitledBorder.CENTER);
+    extraButtons.setBorder(t); 
+     
   }
 
-  /**
-   * this is for exiting, it will ask whether you really want to exit.
-   */
-  static public void windowExit() {
-    frame.addWindowListener(new WindowAdapter() { // create a new window listener
-      public void windowClosing(WindowEvent e) {
-        int confirmed = JOptionPane.showConfirmDialog(null,
-            "Are you sure you want to exit the program?", "Exit Program Message Box",
-            JOptionPane.YES_NO_OPTION);
 
-        if (confirmed == JOptionPane.YES_OPTION) {
-          frame.dispose();
-        }
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-      }
-    });
-  }
 
   /**
    * Helper method that does the actions of the saveButton.
@@ -410,5 +464,29 @@ public class GUI {
     });
   }
   
+  /**
+   * @param exit
+   */
+  static public void exitGame(JButton exit) {
+    exit.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        int confirmed = JOptionPane.showConfirmDialog(null,
+            "Are you sure you want to exit the program?", "Exit Program Message Box",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+          frame.dispose();
+        }
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+      }
+    });
+  }
+  
+  /**
+   * @return the frame.
+   */
+  public JFrame getFrame() {
+    return this.frame;
+  }
 }
 
