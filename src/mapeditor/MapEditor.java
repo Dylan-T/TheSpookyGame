@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
@@ -15,27 +17,35 @@ import javax.swing.*;
  *
  */
 
-public class MapEditor {
-  //Fields
-  //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
+public class MapEditor implements MouseListener {
+  // Fields
+  private Graphics2D graphics;
+  private double xPressed;
+  private double yPressed;
+  private boolean onScreen = false;
 
   /**
    * Construct the new map editor GUI
    */
 
-  MapEditor(){
-    //Creating the main frame
+  public MapEditor() {
+    // Creating the main frame
     JFrame frame = new JFrame("Map");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(1000, 1000);
     frame.setLocationRelativeTo(null);
 
-    //Creating the panel
-    JPanel panel = new JPanel();
-    panel.setBackground(new Color(220,220,220));
+    // Creating the panel
+    JPanel panel = new JPanel() {
+      public void paint(Graphics g) {
+        draw(g);
+      }
+    };
+    panel.setBackground(new Color(220, 220, 220));
+    panel.addMouseListener(this);
 
-    //Creating the menu bar
+
+    // Creating the menu bar
     JMenuBar mb = new JMenuBar();
     JMenu mn = new JMenu("File");
 
@@ -86,7 +96,7 @@ public class MapEditor {
     m5.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO: Create new door
+        // TODO: Create new door
       }
     });
 
@@ -94,54 +104,63 @@ public class MapEditor {
     m6.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO: Create new Object
+        // TODO: Create new Object
       }
     });
 
-    //Toolkit Menu Bar
+    // Toolkit Menu Bar
     JMenuBar toolkit = new JMenuBar();
+    // TODO: Check whether this is required
 
-
-
-    //Adding the components
-    mb.add(mn); //Adding "File" to menu bar
-    mn.add(m1); //Adding "New" to File
+    // Adding the components
+    mb.add(mn); // Adding "File" to menu bar
+    mn.add(m1); // Adding "New" to File
     mn.addSeparator();
-    mn.add(m2); //Adding "Save" to File
+    mn.add(m2); // Adding "Save" to File
     mn.addSeparator();
-    mn.add(m3); //Adding "Load" to File
-    mb.add(mn1);  //Adding "Edit" to menu bar
-    mn1.add(mn11);  //Adding "Add" to Edit
+    mn.add(m3); // Adding "Load" to File
+    mb.add(mn1); // Adding "Edit" to menu bar
+    mn1.add(mn11); // Adding "Add" to Edit
     mn1.addSeparator();
-    mn1.add(undo);  //Adding "Undo" to Edit
-    mn11.add(m4); //Adding "Room" to Add
+    mn1.add(undo); // Adding "Undo" to Edit
+    mn11.add(m4); // Adding "Room" to Add
     mn11.addSeparator();
-    mn11.add(m5); //Adding "Door" to Add
+    mn11.add(m5); // Adding "Door" to Add
     mn11.addSeparator();
-    mn11.add(m6); //Adding "Object" to Add
-
+    mn11.add(m6); // Adding "Object" to Add
 
     frame.getContentPane().add(BorderLayout.NORTH, mb);
     frame.getContentPane().add(BorderLayout.CENTER, panel);
-
     frame.setVisible(true);
+
+    // Creating the drawable canvas
+    graphics = (Graphics2D) panel.getGraphics();
+    graphics.setColor(Color.BLACK);
+    graphics.fillRect(panel.getWidth()/2, panel.getHeight()/2, 100, 100);
+    panel.repaint();
+  }
+
+  void draw(Graphics g) {
+    g.setColor(Color.BLACK);
+    g.fillRect(230, 230, 100, 100);
+
   }
 
   /**
    * Creates a new room in the map editor
    */
   public void createNewRoom() {
-    //Main Frame
+    // Main Frame
     JFrame frame = new JFrame("New Room");
-    frame.setLayout(new GridLayout(5,0));
+    frame.setLayout(new GridLayout(5, 0));
     frame.setSize(250, 250);
     frame.setLocationRelativeTo(null);
 
-    //Creating the label
+    // Creating the label
     JLabel label = new JLabel("New Room", SwingConstants.CENTER);
     label.setText("Select Room Size");
 
-    //Panel containing height and fields
+    // Panel containing height and fields
     JPanel p1 = new JPanel();
     JLabel height = new JLabel();
     height.setText("Height:");
@@ -149,7 +168,7 @@ public class MapEditor {
     p1.add(height);
     p1.add(t1);
 
-    //Panel containing width and fields
+    // Panel containing width and fields
     JPanel p2 = new JPanel();
     JLabel width = new JLabel();
     width.setText("Width:");
@@ -161,11 +180,12 @@ public class MapEditor {
     create.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //TODO: Create a check to ensure that it does not print on null, create a popup?
+        // TODO: Create a check to ensure that it does not print on null, create a
+        // popup?
         int ht = Integer.parseInt(t1.getText());
         int wd = Integer.parseInt(t2.getText());
         System.out.print(ht + "," + wd);
-        //TODO: Create the actual room
+        // TODO: Create the actual room
         frame.setVisible(false);
       }
     });
@@ -182,7 +202,6 @@ public class MapEditor {
     cancel.setVerticalTextPosition(AbstractButton.CENTER);
     cancel.setHorizontalTextPosition(AbstractButton.CENTER);
 
-
     frame.add(label);
     frame.add(p1);
     frame.add(p2);
@@ -192,8 +211,37 @@ public class MapEditor {
     frame.setVisible(true);
   }
 
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    // TODO Auto-generated method stub
+    System.out.println("Mouse Clicked");
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+    this.xPressed = e.getX();
+    this.yPressed = e.getY();
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+    //TODO: What to draw or do
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+ // TODO Auto-generated method stub
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+    // TODO Auto-generated method stub
+
+  }
+
   /**
    * Main class - run for testing purposes
+   *
    * @param args
    */
   public static void main(String args[]) {
