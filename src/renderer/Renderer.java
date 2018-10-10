@@ -212,14 +212,21 @@ public class Renderer {
       double shapeW = 10;
       double shapeH = 40;
       
+      int countI = 0;
+      int countJ = 0;
+      
       while (yStart < CANVASHEIGHT) {
 
         while (i < (xStart + tempWidth)) {
           g.setColor(Color.ORANGE);
           g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
-          i = (int) (i + shapeW);
-          //System.out.println(tempWidth/oldWidth);
           
+          // set up for images to be drawn on floor
+          //g.drawImage(grids[countI][countJ].getImage().getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i, yStart, null);
+          i = (int) (i + shapeW);
+         
+          //System.out.println(tempWidth/oldWidth);
+          countI++;
         }
         
         double c = Yscaler*gapy;
@@ -238,6 +245,7 @@ public class Renderer {
         i = xStart;
         yStart += gapy;
         yIncrement += 30;
+        countJ++;
       }
       
       //g.drawRect(xMiddle-10, yMiddle+10, 20, 40);
