@@ -1,6 +1,7 @@
 package persistence;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,32 +45,32 @@ public class CreateXml {
       //creates a game Element
       Element game = document.createElement("Game");
       document.appendChild(game);
-      
+
       //creates a locations Element which is appended to game
       Element locations = document.createElement("Locations");
       game.appendChild(locations);
-      
+
       //creates player element which is appended to game
       Element player = document.createElement("Player");
       game.appendChild(player);
-      
-      
+
+
       //creates an inventory element which is appended to player
       Element inventory = document.createElement("Inventory");
       player.appendChild(inventory);
-      
+
       Element rooms = document.createElement("Rooms");
       game.appendChild(rooms);
-      
+
       rooms.appendChild(makeRoom(0, 0, 0, 0, "Siglo_Balcony", document));
-      
-      
-      
+
+
+
       //creates player attributes and assigns them to player
       Attr direction = document.createAttribute("Direction");
       direction.setValue("NORTH");
       player.setAttributeNode(direction);
-      
+
       Attr healthAttr = document.createAttribute("score");
       healthAttr.setValue("0");
       player.setAttributeNode(healthAttr);
@@ -90,7 +91,7 @@ public class CreateXml {
 
       Element durries = document.createElement("durries");
       inventory.appendChild(durries);
-      
+
       //Uses a transformer to stream the file into an XML file using DOMSource.
       TransformerFactory tf = TransformerFactory.newInstance();
       Transformer transformer = tf.newTransformer();
@@ -104,7 +105,7 @@ public class CreateXml {
       System.out.println("Transformer exception");
     }
   }
-  
+
   /**
    * This method takes in room data and creates elements and respective attributes and then adds them to the document.
    * @param width width of the room
@@ -113,7 +114,7 @@ public class CreateXml {
    * @param y position of room
    * @param name of room
    * @param doc the document where we are adding the room element
-   * @return the new room.
+   * @return the new Element for room.
    */
   public static Element makeRoom(int width, int height, int x, int y, String name, Document doc) {
     Element room1 = doc.createElement(name);
@@ -129,9 +130,65 @@ public class CreateXml {
     room1.setAttributeNode(height1);
     room1.setAttributeNode(x1);
     room1.setAttributeNode(y1);
-    
+
     return room1;
   }
+
+  /**
+   * @param player
+   * @param inven
+   * @param doc
+   * @return player inventory
+   */
+//  public static Element makeInventory(ArrayList<Item> inven, Document doc) {
+//    Element Inventory = doc.createElement("Inventory");
+//    for(Item i : inven) {
+//      Attr item = doc.createAttribute(i.name);
+//      Inventory.setAttributeNode(item);
+//    }
+//
+//    return Inventory;
+//  }
+
+  /**
+   * @param player
+   * @param doc
+   * @return new player ELement.
+   */
+//  public static Element makePlayer(gameworld.Player player, Document doc) {
+//    Element Player = doc.createElement("Player");
+//    Attr Score = doc.createAttribute("score");
+//    Attr Location = doc.createAttribute("x");
+//    Attr facing = doc.createAttribute("y");
+//    Score.setValue(player.score);
+//    Location.setValue(player.currentLoc);
+//    facing.setValue(player.facing);
+//    Player.setAttributeNode(Score);
+//    Player.setAttributeNode(Location);
+//    Player.setAttributeNode(facing);
+//
+//    return Player;
+//  }
+
+  /**
+   * @param passage
+   * @param doc
+   * @return a new passage element
+   */
+//  public static Element makePassage(gameworld.Passage passage, Document doc) {
+//    Element Passage = doc.createElement("passage");
+//    Attr loc1 = doc.createAttribute("loc1");
+//    Attr loc2 = doc.createAttribute("loc2");
+//    Attr blocked = doc.createAttribute("blocked");
+//    loc1.setValue(passage.loc1);
+//    loc2.setValue(passage.loc2);
+//    blocked.setValue(passage.blocked);
+//    Passage.setAttributeNode(loc1);
+//    Passage.setAttributeNode(loc2);
+//    Passage.setAttributeNode(blocked);
+//    return null;
+//
+//  }
 
  /**
  * @param game
@@ -157,8 +214,8 @@ public class CreateXml {
 //
 //   }
 // }
- 
- 
+
+
 
 
   /**
