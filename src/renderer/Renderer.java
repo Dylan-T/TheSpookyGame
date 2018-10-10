@@ -21,6 +21,7 @@ import gameworld.GameWorld;
 import gameworld.GameWorld.Direction;
 import gameworld.Item;
 import gameworld.Location;
+import javafx.scene.shape.Line;
 
 /**
  * @author Niran
@@ -31,7 +32,7 @@ public class Renderer {
   /**
    * width of the canvas
    */
-  public static final int CANVASWIDTH = 1604;
+  public static final int CANVASWIDTH = 1800;
   /**
    * height of the canvas
    */
@@ -195,6 +196,49 @@ public class Renderer {
       // the meme
       g.drawImage(grids[0][0].getImage().getScaledInstance(Math.round(133*scale), Math.round(75*scale), Image.SCALE_DEFAULT), xMiddle+804, yMiddle, null);
       
+      double a = 0;
+      int oldWidth = 200;
+      int tempWidth = 200;
+      int gapy = 30;
+      int yIncrement = 30;
+      int xStart = xMiddle - 100;
+      int yStart = yMiddle + 50;
+      int width2 = 10;
+      int height2 = 40;
+      int Xscaler = CANVASWIDTH/200;
+      double Yscaler = Math.sqrt((xStart*xStart) + Math.abs(((yStart - CANVASHEIGHT)^2)))/(CANVASHEIGHT-(yStart));
+
+      int i = xStart;
+      double shapeW = 10;
+      double shapeH = 40;
+      
+      while (yStart < CANVASHEIGHT) {
+
+        while (i < (xStart + tempWidth)) {
+          g.setColor(Color.ORANGE);
+          g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
+          i = (int) (i + shapeW);
+          //System.out.println(tempWidth/oldWidth);
+          
+        }
+        
+        double c = Yscaler*gapy;
+        
+        int b = gapy;
+            
+        a = Math.sqrt(c*c - b*b);
+        oldWidth = tempWidth;
+        //System.out.println(oldWidth);
+        tempWidth = (int) (tempWidth + (2*a));
+        shapeW += width2*(tempWidth/oldWidth);
+        shapeH += height2*(yIncrement/gapy);
+        //System.out.println(tempWidth);
+        xStart = (int) (xStart - a);
+        //System.out.println(xStart);
+        i = xStart;
+        yStart += gapy;
+        yIncrement += 30;
+      }
       
       //g.drawRect(xMiddle-10, yMiddle+10, 20, 40);
       /*for(int i = 0; i< 20; i++) {
