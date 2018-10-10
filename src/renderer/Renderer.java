@@ -31,7 +31,7 @@ public class Renderer {
   /**
    * width of the canvas
    */
-  public static final int CANVASWIDTH = 1604;
+  public static final int CANVASWIDTH = 1800;
   /**
    * height of the canvas
    */
@@ -195,6 +195,15 @@ public class Renderer {
       // the meme
       g.drawImage(grids[0][0].getImage().getScaledInstance(Math.round(133*scale), Math.round(75*scale), Image.SCALE_DEFAULT), xMiddle+804, yMiddle, null);
       
+      int gapy = 30;
+      int Xscaler = CANVASWIDTH/(CANVASHEIGHT - (yMiddle+50));
+      
+      for(int i = xMiddle-100; i<xMiddle+50; i+= 200/4) {
+        for(int j = yMiddle+50; y< CANVASHEIGHT; y+=gapy) {
+          g.draw3DRect(i, j, widthScale, heightScale, true);
+        }
+        
+      }
       
       //g.drawRect(xMiddle-10, yMiddle+10, 20, 40);
       /*for(int i = 0; i< 20; i++) {
