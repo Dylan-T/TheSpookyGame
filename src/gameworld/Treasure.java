@@ -42,10 +42,18 @@ public class Treasure implements Movable {
     try {
       img = ImageIO.read(new File("entrance2.jpg"));
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return img;
   }
+  
+//  public boolean equals(Object o) {
+//    if(!(o instanceof Treasure)) {
+//      Treasure t = (Treasure) o;
+//      return t.name.equals(this.name) && t.description.equals(this.description) && t.value == this.value;
+//    }
+//    return false;
+//    
+//  }
 
 }

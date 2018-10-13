@@ -29,4 +29,6 @@ public interface Item {
    * @return Item's sprites image.
    */
   public Image getImage();
+  
+  public boolean equals(Object o);
 }

@@ -55,7 +55,7 @@ public class Location {
    * @return whether the item was successfully added
    */
   public boolean addItem(int x, int y, Item item) {
-    if (x > grid[0].length || y > grid.length) {
+    if (x > grid[0].length || y > grid.length || x < 0 || y < 0) {
       return false;
     } else {
       grid[x][y] = item;
@@ -69,7 +69,9 @@ public class Location {
    * @return true if the passage was successfully added
    */
   public boolean addPassage(GameWorld.Direction dir, Passage p) {
-    //if(exits[dir.ordinal()] != null) return false;
+    if(exits[dir.ordinal()] != null || p == null) {
+      return false;
+    }
     
     exits[dir.ordinal()] = p;
     return true;
@@ -85,10 +87,12 @@ public class Location {
   public boolean removeItem(Item i) {
     for (int row = 0; row < grid.length; row++) {
       for (int col = 0; col < grid[0].length; col++) {
-        if (grid[row][col].equals(i)) {
-          grid[row][col] = null;
-          return true;
-        }
+        if(grid[row][col] != null) {
+          if (grid[row][col].equals(i)) {
+            grid[row][col] = null;
+            return true;
+          }
+        } 
       }
     }
     return false;
@@ -102,8 +106,10 @@ public class Location {
   public boolean containsItem(Item item) {
     for (int row = 0; row < grid.length; row++) {
       for (int col = 0; col < grid[0].length; col++) {
-        if (grid[row][col].equals(item)) {
-          return true;
+        if(grid[row][col] != null) {
+          if (grid[row][col].equals(item)) {
+            return true;
+          }
         }
       }
     }
