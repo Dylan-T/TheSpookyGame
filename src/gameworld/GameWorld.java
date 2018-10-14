@@ -12,6 +12,7 @@ import java.util.Set;
 public class GameWorld {
   Set<Location> locations = new HashSet<Location>();
   Player player;
+  Set<Quest> quests;
   
   /**
    * Enum for directions.
@@ -58,6 +59,27 @@ public class GameWorld {
    */
   public boolean movePlayer(Direction dir) {
     return player.move(dir);
+  }
+  
+  /**
+   * Check if the game has been completed
+   * @return if the game has been complete
+   */
+  public boolean isGameComplete() {
+    for(Quest q: quests) {
+      if (!q.isComplete()) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  /**
+   * Gets the players current location.
+   * @return the players current location
+   */
+  public Location getCurrentRoom() {
+    return player.currentLoc;
   }
   
   /**
@@ -109,15 +131,15 @@ public class GameWorld {
     //Make locations & add item's
     Location l1 = new Location(2, 2);
     l1.addItem(0, 0, new Decoration("Grave","An ominous looking grave"));
-    l1.addItem(0, 1, new Treasure("Grave","An ominous looking grave", 0));
+    l1.addItem(0, 1, new Treasure("Grave","An ominous looking grave", ""));
     l1.addItem(1, 0, new Decoration("Grave","An ominous looking grave"));
-    l1.addItem(1, 1, new Treasure("Grave","An ominous looking grave", 0));
+    l1.addItem(1, 1, new Treasure("Grave","An ominous looking grave", ""));
     Location l2 = new Location(2, 2);
     l2.addItem(0, 1, new Decoration("Crow","A raggedy crow"));
     Location l3 = new Location(2, 2);
-    l3.addItem(1, 0, new Treasure("Golden Skull","Ancient golden skull embellished with gems", 20));
+    l3.addItem(1, 0, new Treasure("Golden Skull","Ancient golden skull embellished with gems", ""));
     Location l4 = new Location(2, 2);
-    l4.addItem(1, 1, new Treasure("Kanye's Donda chain","A chain imbued with Chicago's energy", 20));
+    l4.addItem(1, 1, new Treasure("Kanye's Donda chain","A chain imbued with Chicago's energy", ""));
     
     //Make passages
     Passage p1 = new Passage(l1,l2);
@@ -147,29 +169,4 @@ public class GameWorld {
     return new GameWorld(locations, l1);
     
   }
-
-
-  /**
-   * Gets the players current location.
-   * @return the players current location
-   */
-  public Location getCurrentRoom() {
-    return player.currentLoc;
-  }
-  
-//  double scale = ??;
-//  int x = something;
-//  int y = something;
-//  
-//  for(int row = 0; row < grid.length; row++) {
-//    x = 50 * (1-scale);
-//    for(int col = 0; col <grid[0].length; col++) {
-//      g.drawImage(grid[row][col], x, y, width*scale, height*scale);
-//      x += 75*scale;
-//    }
-//    y += 75;
-//    scale += 0.1;
-//  }
-  
-  
 }

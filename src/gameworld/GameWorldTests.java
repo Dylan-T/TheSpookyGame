@@ -35,7 +35,7 @@ public class GameWorldTests {
   @Test
   public void testLocationAddItemValid() {
     Location l = new Location(2,2);
-    Treasure t = new Treasure("Test", "A test treasure item", 5);
+    Treasure t = new Treasure("Test", "A test treasure item", "");
     assertTrue(l.addItem(0, 0, t));
   }
   
@@ -45,7 +45,7 @@ public class GameWorldTests {
   @Test
   public void testLocationAddItemInvalid_01() {
     Location l = new Location(2,2);
-    Treasure t = new Treasure("Test", "A test treasure item", 5);
+    Treasure t = new Treasure("Test", "A test treasure item", "");
     assertFalse(l.addItem(-1, -1, t));
   }
   
@@ -55,7 +55,7 @@ public class GameWorldTests {
   @Test
   public void testLocationAddItemInvalid_02() {
     Location l = new Location(2,2);
-    Treasure t = new Treasure("Test", "A test treasure item", 5);
+    Treasure t = new Treasure("Test", "A test treasure item", "");
     assertFalse(l.addItem(3, 3, t));
   }
   
@@ -68,7 +68,7 @@ public class GameWorldTests {
   @Test
   public void testLocationContainsTrue() {
     Location l = new Location(2,2);
-    Treasure t = new Treasure("Test", "A test treasure item", 5);
+    Treasure t = new Treasure("Test", "A test treasure item", "");
     l.addItem(0, 0, t);
     assertTrue(l.containsItem(t));
   }
@@ -79,7 +79,7 @@ public class GameWorldTests {
   @Test
   public void testLocationContainsFalse_01() {
     Location l = new Location(2,2);
-    Treasure t = new Treasure("Test", "A test treasure item", 5);
+    Treasure t = new Treasure("Test", "A test treasure item", "");
     assertFalse(l.containsItem(t));
   }
   
@@ -89,8 +89,8 @@ public class GameWorldTests {
   @Test
   public void testLocationContainsFalse_02() {
     Location l = new Location(2,2);
-    Treasure t1 = new Treasure("Test1", "A test treasure item", 5);
-    Treasure t2 = new Treasure("Test2", "A different test item", 5);
+    Treasure t1 = new Treasure("Test1", "A test treasure item", "");
+    Treasure t2 = new Treasure("Test2", "A different test item", "");
     l.addItem(0, 0, t2);
     assertFalse(l.containsItem(t1));
   }
@@ -103,7 +103,7 @@ public class GameWorldTests {
   @Test
   public void testLocationRemoveItemValid() {
     Location l = new Location(2,2);
-    Treasure t = new Treasure("Test", "A test treasure item", 5);
+    Treasure t = new Treasure("Test", "A test treasure item", "");
     l.addItem(0, 0, t);
     assertTrue(l.removeItem(t));
     assertFalse(l.containsItem(t));
@@ -115,7 +115,7 @@ public class GameWorldTests {
   @Test
   public void testLocationRemoveItemInvalid_01() {
     Location l = new Location(2,2);
-    Treasure t = new Treasure("Test", "A test treasure item", 5);
+    Treasure t = new Treasure("Test", "A test treasure item", "");
     assertFalse(l.removeItem(t));
     assertFalse(l.containsItem(t));
   }
@@ -127,14 +127,36 @@ public class GameWorldTests {
   @Test
   public void testLocationRemoveItemInvalid_02() {
     Location l = new Location(2,2);
-    Treasure t1 = new Treasure("Test1", "A test treasure item", 5);
-    Treasure t2 = new Treasure("Test2", "A different test item", 5);
+    Treasure t1 = new Treasure("Test1", "A test treasure item", "");
+    Treasure t2 = new Treasure("Test2", "A different test item", "");
     l.addItem(0, 0, t2);
     assertFalse(l.removeItem(t1));
+  }
+  
+  /**
+   * Test location.addPassage for valid case.
+   */
+  @Test
+  public void testLocationAddPassageValid() {
+    Location l1 = new Location(2,2);
+    Location l2 = new Location(2,2);
+    Passage p = new Passage(l1,l2);
+    assertTrue(l1.addPassage(GameWorld.Direction.NORTH, p));
+    assertTrue(l1.getExits()[GameWorld.Direction.NORTH.ordinal()].equals(p));
   }
   
   
 
 
 //Item Tests
+  /**
+   * Test Treasure.getImage for valid case.
+   */
+  @Test
+  public void testItemImage() {
+    Treasure t = new Treasure("Test", "Test item", "assets/chest.png");
+    assertTrue(t.getImage() != null);
+  }
+  
+  
 }

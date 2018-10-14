@@ -15,20 +15,23 @@ import javax.imageio.ImageIO;
  */
 public class Treasure implements Movable {
 
-
-  String name;
-  String description;
-  int value;
+  private Image image;
+  private String name;
+  private String description;
 
   /**
    * @param name of the item
    * @param description of the item
-   * @param value of the item to be added to players score
+   * @param imagePath where the image to represent this item is
    */
-  public Treasure(String name, String  description, int value) {
-    this.value = value;
+  public Treasure(String name, String  description, String imagePath) {
     this.name = name;
     this.description = description;
+    try {
+      image = ImageIO.read(new File(imagePath));
+    } catch (IOException e) {
+      System.out.println("Image read fail");
+    }
   }
 
   @Override
@@ -38,22 +41,7 @@ public class Treasure implements Movable {
 
   @Override
   public Image getImage() {
-    BufferedImage img = null;
-    try {
-      img = ImageIO.read(new File("entrance2.jpg"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return img;
+    return image;
   }
-  
-//  public boolean equals(Object o) {
-//    if(!(o instanceof Treasure)) {
-//      Treasure t = (Treasure) o;
-//      return t.name.equals(this.name) && t.description.equals(this.description) && t.value == this.value;
-//    }
-//    return false;
-//    
-//  }
 
 }

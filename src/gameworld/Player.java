@@ -30,7 +30,7 @@ public class Player {
    * 
    * @param dir
    *          direction the player should move.
-   * @return true if the player successfulyl moved in that direction
+   * @return true if the player successfully moved in that direction
    */
   public boolean move(GameWorld.Direction dir) {
     switch (dir.ordinal() + facing.ordinal()) {
@@ -51,19 +51,56 @@ public class Player {
     }
     return false;
   }
+  
+  /**
+   * Player drops an item from their inventory into the current room
+   * @param i The item that is to be dropped.
+   * @return if the item was successfully dropped
+   */
+  public boolean dropItem(Item i) {
+    if (inventory.contains(i) && !currentLoc.isFull()) {
+      inventory.remove(i);
+      currentLoc.addItem(i);
+    }
+    return false;
+  }
 
   /**
-   * Use the given item from your inventory.
+   * Use the given item.
    * 
    * @param i
    *          Item that is to be used
+   *          
    * @return whether the item was successfully used
    */
   public boolean useItem(Item i) {
-    if (!inventory.contains(i)) {
-      return false;
+    if(i instanceof Usable) {
+      Usable u = (Usable) i;
+      
     }
-    return true;
+    return false;
+  }
+  
+  /**
+   * Unlock a passage in the given direction, using a key from your inventory.
+   * @param dir direction of the passage to unlock
+   * @return whether a passage was successfully unlocked
+   */
+  public boolean unlockPassage(GameWorld.Direction dir) {
+    Passage p = currentLoc.exits[dir.ordinal()];
+    if (p != null) { //check the passage exists
+      //Check you have a key for the passage
+      for(Item i: inventory) {
+        if(i instanceof Key) {
+          Key k = (Key) i;
+          if (k.unlocks.equals(p)) {
+            p.unlock();
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
 }

@@ -64,6 +64,23 @@ public class Location {
   }
   
   /**
+   * Adds the item to the first available tile in the room.
+   * @param i the item to be added to the room
+   * @return true if the item was successfully added
+   */
+  public boolean addItem(Item i) {
+    for(int j = 0; j < grid.length; j++) {
+      for(int k = 0; k < grid[0].length; k++) {
+        if (grid[j][k] == null) {
+          grid[j][k] = i;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
+  /**
    * @param dir , the wall to add the passage to.
    * @param p Passage to add to the location
    * @return true if the passage was successfully added
@@ -116,4 +133,19 @@ public class Location {
     return false;
   }
 
+
+  /**
+   * Check if there is an empty tile in this location.
+   * @return if the locations grid is full
+   */
+  public boolean isFull() {
+    for(int i = 0; i < grid.length; i++) {
+      for(int j = 0; j < grid[0].length; j++) {
+        if (grid[i][j] == null) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 }
