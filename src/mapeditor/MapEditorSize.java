@@ -8,47 +8,47 @@ import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- * Class that modifies and creates items on the map itself.
- * 
+ * TODO
  * @author Nathan
  *
  */
-public class MapUtilGUI {
-
+public class MapEditorSize {
+  private TilePiece[][] map;
+  
   /**
-   * Creates a new room in the map editor GUI
+   * TODO
    */
-  public static void createNewRoom() {
+  public MapEditorSize() {
+    
     // Main Frame
-    JFrame frame = new JFrame("New Room");
+    JFrame frame = new JFrame("New Map Editor");
     frame.setLayout(new GridLayout(5, 0));
     frame.setSize(250, 250);
     frame.setLocationRelativeTo(null);
 
     // Creating the label
-    JLabel label = new JLabel("New Room", SwingConstants.CENTER);
+    JLabel label = new JLabel("New Map Editor", SwingConstants.CENTER);
     label.setText("Select Room Size");
 
     // Panel containing height and fields
     JPanel p1 = new JPanel();
-    JLabel height = new JLabel();
-    height.setText("Height:");
+    JLabel width = new JLabel();
+    width.setText("Width:");
     JTextField t1 = new JTextField(2);
-    p1.add(height);
+    p1.add(width);
     p1.add(t1);
 
     // Panel containing width and fields
     JPanel p2 = new JPanel();
-    JLabel width = new JLabel();
-    width.setText("Width:");
+    JLabel height = new JLabel();
+    height.setText("Height:");
     JTextField t2 = new JTextField(2);
-    p2.add(width);
+    p2.add(height);
     p2.add(t2);
 
     JButton create = new JButton("Done");
@@ -59,9 +59,8 @@ public class MapUtilGUI {
         // popup?
         int ht = Integer.parseInt(t1.getText());
         int wd = Integer.parseInt(t2.getText());
-        System.out.print(ht + "," + wd);
-        // TODO: Create the actual room
-        frame.setVisible(false);
+        map = new TilePiece[wd][ht];
+        
       }
     });
     create.setVerticalTextPosition(AbstractButton.CENTER);
@@ -85,35 +84,4 @@ public class MapUtilGUI {
 
     frame.setVisible(true);
   }
-
-  /**
-   * Error for performing actions when there are no new instances.
-   */
-  public static void noInstanceError() {
-    // Main Frame
-    JFrame frame = new JFrame("Error");
-    frame.setSize(250, 250);
-    frame.setLocationRelativeTo(null);
-
-    JOptionPane.showMessageDialog(frame, "Please create a new instance and retry", "Error",
-        JOptionPane.WARNING_MESSAGE);
-
-  }
-  
-  /**
-   * Error for unsaved changes.
-   */
-  public static void unsavedChangesError() {
-    // Main Frame
-    JFrame frame = new JFrame("Unsaved Changes");
-    frame.setSize(250, 250);
-    frame.setLocationRelativeTo(null);
-    
-    final JOptionPane optionPane = new JOptionPane("You have unsaved changes.\n" +"Would you like to continue?",
-        JOptionPane.QUESTION_MESSAGE,
-        JOptionPane.YES_NO_OPTION);
-    
-    
-  }
-  
 }
