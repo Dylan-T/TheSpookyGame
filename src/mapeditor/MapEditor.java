@@ -19,17 +19,23 @@ import javax.swing.*;
 
 public class MapEditor implements MouseListener {
   // Fields
-  //Pointer to this object
+  // Pointer to this object
   MapEditor mapEditor;
-  
+  Graphics drawingPane;
   // Storing mouse locations
   private double xPressed;
   private double yPressed;
   private boolean onScreen = false;
+  private int clickedIndexX;
+  private int clickedIndexY;
+  private Buildable currentObject;
+  private TilePiece selectedObject;
 
   // Map Piece
   private int mapX;
   private int mapY;
+  private int screenWidth;
+  private int screenHeight;
   private TilePiece[][] map;
 
   /**
@@ -40,7 +46,7 @@ public class MapEditor implements MouseListener {
     mapEditor = this;
     mapEditor.mapEditorSizeGUI();
   }
-  
+
   /**
    * Map Constructor Size GUI
    */
@@ -53,7 +59,7 @@ public class MapEditor implements MouseListener {
 
     // Creating the label
     JLabel label = new JLabel("New Map Editor", SwingConstants.CENTER);
-    label.setText("Select Room Size");
+    label.setText("Select Map Size");
 
     // Panel containing height and fields
     JPanel p1 = new JPanel();
@@ -75,11 +81,22 @@ public class MapEditor implements MouseListener {
     create.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // TODO: Create a check to ensure that it does not print on null, create a
-        // popup?
+        // Error Checks
+        if (t1.getText().equals(null) || t1.getText().equals("") || t2.getText().equals(null)
+            || t2.getText().equals("")) {
+          MapUtilGUI.invalidArgumentError();
+          return;
+        }
+
         mapY = Integer.parseInt(t1.getText());
         mapX = Integer.parseInt(t2.getText());
-        mapEditor.mapEditorGUI();        
+
+        if (mapX < 0 || mapY < 0) {
+          MapUtilGUI.invalidArgumentError();
+        } else {
+          mapEditor.mapEditorGUI();
+          frame.setVisible(false);
+        }
       }
     });
     create.setVerticalTextPosition(AbstractButton.CENTER);
@@ -103,13 +120,13 @@ public class MapEditor implements MouseListener {
 
     frame.setVisible(true);
   }
-  
+
   /**
-   * Map editor GUI 
+   * Map editor GUI
    */
   public void mapEditorGUI() {
     map = new TilePiece[mapX][mapY];
- // Fill in the array for our floor/level
+    // Fill in the array for our floor/level
     for (int i = 0; i < mapX; i++) {
       for (int j = 0; j < mapY; j++) {
         map[i][j] = new WallPiece();
@@ -124,14 +141,17 @@ public class MapEditor implements MouseListener {
     // Creating the panel
     @SuppressWarnings("serial")
     JPanel panel = new JPanel() {
-
       public void paint(Graphics g) {
-        Dimension screenSize = frame.getSize();
+        drawingPane = g;
+        Dimension screenSize = this.getSize();
+        if(selectedObject != null) {
+          selectedObject.setHightlight();
+        }
         for (int i = 0; i < mapX; i++) {
           for (int j = 0; j < mapY; j++) {
-            int width = (int) screenSize.getWidth();
-            int height = (int) screenSize.getHeight();
-            map[i][j].draw(g, i * (width / mapX), j * (height / mapY), width / mapX, height / mapY);
+            screenWidth = (int) screenSize.getWidth();
+            screenHeight = (int) screenSize.getHeight();
+            map[i][j].draw(drawingPane, i * (screenWidth / mapX), j * (screenHeight / mapY), screenWidth / mapX, screenHeight / mapY);
           }
         }
       }
@@ -149,7 +169,7 @@ public class MapEditor implements MouseListener {
       @Override
       public void actionPerformed(ActionEvent e) {
         MapUtilGUI.unsavedChangesError();
-        MapUtilGUI.createNewRoom();
+        createNewRoom();
 
       }
     });
@@ -184,7 +204,7 @@ public class MapEditor implements MouseListener {
     m4.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        MapUtilGUI.createNewRoom();
+        createNewRoom();
       }
     });
 
@@ -203,10 +223,6 @@ public class MapEditor implements MouseListener {
         // TODO: Create new Object
       }
     });
-
-    // Toolkit Menu Bar
-    JMenuBar toolkit = new JMenuBar();
-    // TODO: Check whether this is required
 
     // Adding the components
     mb.add(mn); // Adding "File" to menu bar
@@ -230,12 +246,90 @@ public class MapEditor implements MouseListener {
     frame.setVisible(true);
   }
 
+  /**
+   * Creates a new room in the map editor GUI
+   */
+  public void createNewRoom() {
+    // Main Frame
+    JFrame frame = new JFrame("New Room");
+    frame.setLayout(new GridLayout(5, 0));
+    frame.setSize(250, 250);
+    frame.setLocationRelativeTo(null);
+
+    // Creating the label
+    JLabel label = new JLabel("New Room", SwingConstants.CENTER);
+    label.setText("Select Room Size");
+
+    // Panel containing height and fields
+    JPanel p1 = new JPanel();
+    JLabel height = new JLabel();
+    height.setText("Height:");
+    JTextField t1 = new JTextField(2);
+    p1.add(height);
+    p1.add(t1);
+
+    // Panel containing width and fields
+    JPanel p2 = new JPanel();
+    JLabel width = new JLabel();
+    width.setText("Width:");
+    JTextField t2 = new JTextField(2);
+    p2.add(width);
+    p2.add(t2);
+
+    JButton create = new JButton("Done");
+    create.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        // TODO: Create a check to ensure that it does not print on null, create a
+        // popup?
+        int ht = Integer.parseInt(t1.getText());
+        int wd = Integer.parseInt(t2.getText());
+        System.out.print(ht + "," + wd);
+        if (wd < 0 || ht < 0) {
+          MapUtilGUI.invalidArgumentError();
+        } else {
+          currentObject = new Room(wd, ht);
+          frame.setVisible(false);
+        }
+      }
+    });
+    create.setVerticalTextPosition(AbstractButton.CENTER);
+    create.setHorizontalTextPosition(AbstractButton.CENTER);
+
+    JButton cancel = new JButton("Cancel");
+    cancel.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        frame.setVisible(false);
+      }
+    });
+    cancel.setVerticalTextPosition(AbstractButton.CENTER);
+    cancel.setHorizontalTextPosition(AbstractButton.CENTER);
+
+    frame.add(label);
+    frame.add(p1);
+    frame.add(p2);
+    frame.add(create);
+    frame.add(cancel);
+
+    frame.setVisible(true);
+  }
+
   @Override
   public void mouseClicked(MouseEvent e) {
-    // TODO Auto-generated method stub
     System.out.println("Mouse Clicked at x: " + e.getX() + ", y: " + e.getY());
-    for (int i = 0; i < 20; i++) {
-      // TODO
+    for (int i = 0; i < mapX-1; i++) {
+      for (int j = 0; j < mapY-1; j++) {
+        if((e.getX() > (i * (screenWidth/mapX))) && (e.getX() < ((i+1) * (screenWidth/mapX))) 
+            && (e.getY() > (j * (screenHeight/mapY))) && (e.getY() < (j+1) * (screenHeight/mapY))) {
+          clickedIndexX = i;
+          clickedIndexY = j;
+          selectedObject = map[i][j];
+          System.out.println(clickedIndexX);
+          System.out.println(clickedIndexY);
+          //TODO: Not working on the last index of each x and y
+        } 
+      }
     }
 
   }
@@ -253,7 +347,10 @@ public class MapEditor implements MouseListener {
 
   @Override
   public void mouseEntered(MouseEvent e) {
-    // TODO Auto-generated method stub
+    if(currentObject != null) {
+      //TODO: FIX Drawing, maybe change so click for coordinates first
+      currentObject.draw(drawingPane, e.getX(), e.getY());
+    }
   }
 
   @Override
@@ -263,7 +360,7 @@ public class MapEditor implements MouseListener {
   }
 
   /**
-   * Main class - run for testing purposes
+   * Main 
    *
    * @param args
    */
