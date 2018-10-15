@@ -15,16 +15,24 @@ import javax.imageio.ImageIO;
 public class Decoration implements Item {
   String name;
   String description;
-  
+  Image image;
   
   /**
    * Creates a new decoration item.
    * @param name of the item
    * @param description of the item
+   * @param imagePath path to the image that represents this item.
    */
-  public Decoration(String name, String description) {
+  public Decoration(String name, String description, String imagePath) {
     this.name = name;
     this.description = description;
+    
+    BufferedImage image = null;
+    try {
+      image = ImageIO.read(new File(imagePath));
+    } catch (IOException e) {
+      System.out.println("Image read failed");
+    }
   }
   
   @Override
@@ -38,13 +46,7 @@ public class Decoration implements Item {
 
   @Override
   public Image getImage() {
-    BufferedImage img = null;
-    try {
-      img = ImageIO.read(new File("man2.jpg"));
-    } catch (IOException e) {
-      System.out.println("Image is broken");
-    }
-    return img;
+    return image;
   }
 
 }
