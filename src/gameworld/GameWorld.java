@@ -75,15 +75,15 @@ public class GameWorld {
     return true;
   }
   
+  //Getters
+  
   /**
    * Gets the players current location.
    * @return the players current location
    */
   public Location getCurrentRoom() {
-    return player.currentLoc;
+    return player.getCurrentLocation();
   }
-  
-  //Getters
   
   /**
    * @return a collection of the games locations

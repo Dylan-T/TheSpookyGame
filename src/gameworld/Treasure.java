@@ -1,12 +1,5 @@
 package gameworld;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 /**
  * A movable item needed to progress in the game.
  * It may provide a bonus to the players score, currency or allow certain actions.

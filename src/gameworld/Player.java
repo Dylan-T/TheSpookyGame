@@ -1,6 +1,8 @@
 package gameworld;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * This is the player and has methods for actions the player may make.
@@ -9,9 +11,9 @@ import java.util.ArrayList;
  *
  */
 public class Player {
-  ArrayList<Item> inventory;
-  Location currentLoc;
-  GameWorld.Direction facing;
+  private List<Item> inventory;
+  private Location currentLoc;
+  private GameWorld.Direction facing;
   
   /**
    * Create a new player only specifying location
@@ -98,6 +100,29 @@ public class Player {
       }
     }
     return false;
+  }
+
+  //Getters
+  
+  /**
+   * @return the players inventory
+   */
+  public Collection<Item> getInventory() {
+    return inventory;
+  }
+
+  /**
+   * @return the players current location.
+   */
+  public Location getCurrentLocation() {
+    return currentLoc;
+  }
+  
+  /**
+   * @return the direction the player is facing
+   */
+  public GameWorld.Direction getFacing() {
+    return facing;
   }
 
 }

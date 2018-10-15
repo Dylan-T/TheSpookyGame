@@ -32,13 +32,24 @@ public class Quest extends Item {
    */
   public boolean use(Player p) {
     for(Treasure t: requirements) {
-      if(!p.inventory.contains(t)) {
+      if(!p.getInventory().contains(t)) {
         return false;
       }
     }
     complete = true;
     return true;
   }
+
+  @Override
+  public String inspect() {
+    return "";
+  }
+
+  @Override
+  public boolean canPickup() {
+    return false;
+  }
+  
   
   /**
    * Check if the quest is complete
@@ -47,14 +58,11 @@ public class Quest extends Item {
   public boolean isComplete() {
     return complete;
   }
-
-  @Override
-  public String inspect() {
-    return null;
-  }
-
-  @Override
-  public boolean canPickup() {
-    return false;
+  
+  /**
+   * @return the Treasures required to complete this quest.
+   */
+  public Collection<Treasure> getRequirements(){
+    return requirements;
   }
 }

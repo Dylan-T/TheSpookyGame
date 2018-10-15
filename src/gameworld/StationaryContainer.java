@@ -2,6 +2,7 @@ package gameworld;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,17 +12,16 @@ import java.util.List;
 public class StationaryContainer extends Item{
   private List<Item> contents;
   
+  
   /**
    * @param name
    * @param description
    * @param imagePath
-   * @param contents 
    */
   public StationaryContainer(String name, String description, String imagePath) {
     super(name, description, imagePath);
     contents = new ArrayList<Item>();
   }
-  
   
   /**
    * @param i item to be added to the container
@@ -48,6 +48,13 @@ public class StationaryContainer extends Item{
   @Override
   public boolean use(Player p) {
     return false;
+  }
+  
+  /**
+   * @return the contents of this container
+   */
+  public Collection<Item> getContents(){
+    return contents;
   }
 
 }
