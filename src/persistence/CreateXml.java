@@ -4,6 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import gameworld.*;
+import mapeditor.*;
+import renderer.*;
+import application.*;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,12 +22,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import gameworld.*;
-import mapeditor.*;
-import renderer.*;
-import application.*;
+
 
 /**
+ *
  * Creates an XML file which fits our games elements and description.
  * @author hoongkevi
  *
@@ -145,11 +148,10 @@ public class CreateXml {
     Attr name = doc.createAttribute("name");
     Attr description = doc.createAttribute("description");
     name.setValue(item.getName());
-    description.setValue(item.getDescription);
+    description.setValue(item.getDescription());
     treasure.setAttributeNode(name);
     treasure.setAttributeNode(description);
     return treasure;
-
   }
 
   /**
@@ -161,11 +163,14 @@ public class CreateXml {
     Element StationaryContainer = doc.createElement("StationaryContainer");
     Attr name = doc.createAttribute("name");
     Attr description = doc.createAttribute("description");
-    Element contents = doc.createElement("contents");
-    //create items and add them to contents here
+    Element contents = makeInventory(container.getContents(), doc);
+    name.setValue(container.getName());
+    description.setValue(container.getDescription());
+    StationaryContainer.setAttributeNode(name);
+    StationaryContainer.setAttributeNode(description);
+    StationaryContainer.appendChild(contents);
 
-
-    return null;
+    return StationaryContainer;
   }
 
   /**
@@ -176,8 +181,10 @@ public class CreateXml {
   public static Element makeQuest(gameworld.Quest quest, Document doc) {
     Element questelem = doc.createElement("quest");
     Attr complete = doc.createAttribute("complete");
-    Element requirements = doc.createElement("requirements");
-    //create items and assign them to quest requirements;
+    Element requirements = makeQuestRequirements(quest.getRequirements(),doc);
+    complete.setValue(quest.isComplete() + "");
+    questelem.setAttributeNode(complete);
+    questelem.appendChild(requirements);
     return questelem;
   }
 
@@ -236,14 +243,16 @@ public class CreateXml {
    */
   public static Element makeKey(gameworld.Key key, Document doc) {
     Element keyElem = doc.createElement("key");
-    Element unlocks = doc.createElement("unlocks");
-    Element passage = doc.createElement("passage");
-    Attr loc1 = doc.createAttribute("loc1");
-    Attr loc2 = doc.createAttribute("loc2");
-    Attr locked = doc.createAttribute("locked");
-    loc1.setValue(key.getUnlocks().getOtherLocation();
-    locked.setValue(key.getUnlocks().toString());
-    unlocks.appendChild(passage);
+    Element unlocks = makePassage(key.getUnlocks(), doc);
+    Attr name = doc.createAttribute("name");
+    Attr description = doc.createAttribute("description");
+    Attr image = doc.createAttribute("imagePath");
+    name.setValue(key.getName());
+    description.setValue(key.getDescription());
+    image.setValue(key.getImage().toString());
+    keyElem.setAttributeNode(name);
+    keyElem.setAttributeNode(description);
+    keyElem.setAttributeNode(image);
     keyElem.appendChild(unlocks);
     return keyElem;
   }
@@ -287,6 +296,30 @@ public class CreateXml {
   }
 
   /**
+   * @param collection
+   * @param doc
+   * @return quest requirements
+   */
+  public static Element makeQuestRequirements(Collection<Treasure> collection, Document doc) {
+    Element requirements = doc.createElement("Requirements");
+    for(Item i : collection) {
+      Element item = doc.createElement("Item");
+      Attr name = doc.createAttribute("name");
+      Attr description = doc.createAttribute("description");
+      Attr image = doc.createAttribute("imagePath");
+      name.setValue(i.getName());
+      description.setValue(i.getDescription());
+      image.setValue(i.getImage().toString());
+      item.setAttributeNode(name);
+      item.setAttributeNode(description);
+      item.setAttributeNode(image);
+      requirements.appendChild(item);
+    }
+
+    return requirements;
+  }
+
+  /**
    * @param player
    * @param doc
    * @return new player ELement.
@@ -310,14 +343,12 @@ public class CreateXml {
    */
   public static Element makePassage(gameworld.Passage passage, Document doc) {
     Element Passage = doc.createElement("passage");
-    Element loc1 = doc.createAttribute("loc1");
-    Attr loc2 = doc.createAttribute("loc2");
+    Element loc1 = makeLocation(passage.getLoc1(), doc);
+    Element loc2 = makeLocation(passage.getLoc2(), doc);
     Attr blocked = doc.createAttribute("blocked");
-    loc1.setValue(passage.loc1);
-    loc2.setValue(passage.loc2);
-    blocked.setValue(passage.blocked);
-    Passage.setAttributeNode(loc1);
-    Passage.setAttributeNode(loc2);
+    blocked.setValue(passage.isLocked() + "");
+    Passage.appendChild(loc1);
+    Passage.appendChild(loc2);
     Passage.setAttributeNode(blocked);
     return Passage;
 
@@ -335,17 +366,12 @@ public void makeXml(GameWorld game) throws ParserConfigurationException {
    Element gamefile = document.createElement("Game");
    document.appendChild(gamefile);
 
-   Element player = document.createElement("Player");
+   Element player = makePlayer(game.getPlayer(),document);
    gamefile.appendChild(player);
 
-   Element inventory = document.createElement("Inventory");
-   player.appendChild(inventory);
 
-   for(Item i: gameworld.Player.get) {
-       Attr temp = document.createAttribute(i.getName());
-       inventory.setAttributeNode(temp);
 
-   }
+
  }
 
 
