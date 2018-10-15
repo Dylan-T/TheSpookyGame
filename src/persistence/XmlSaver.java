@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
  *
  */
 public class XmlSaver {
-  private static final String filePath = "C:\\Users\\krarv\\Desktop\\game.xml";
+  private static final String filePath = "/home/hoongkevi/test.xml";
 
 
   /**
@@ -181,9 +181,18 @@ public class XmlSaver {
    */
   public static Element makeQuest(gameworld.Quest quest, Document doc) {
     Element questelem = doc.createElement("quest");
+    Attr name = doc.createAttribute("name");
+    Attr description = doc.createAttribute("description");
+    Attr imagepath = doc.createAttribute("imagepath");
     Attr complete = doc.createAttribute("complete");
     Element requirements = makeQuestRequirements(quest.getRequirements(),doc);
     complete.setValue(quest.isComplete() + "");
+    name.setValue(quest.getName());
+    description.setValue(quest.getDescription());
+    imagepath.setValue(quest.getImage().toString());
+    questelem.setAttributeNode(name);
+    questelem.setAttributeNode(description);
+    questelem.setAttributeNode(imagepath);
     questelem.setAttributeNode(complete);
     questelem.appendChild(requirements);
     return questelem;
@@ -198,9 +207,9 @@ public class XmlSaver {
     Element locationElem = doc.createElement("Location");
     Element grid = doc.createElement("grid");
     for(int i =0; i<location.getGrid().length; i++) {
-      for(int j =0; i<location.getGrid()[0].length; j++) {
+      for(int j =0; j<location.getGrid()[0].length; j++) {
         if(location.getGrid()[i][j] instanceof Item) {
-          Element GridItem = doc.createElement("item");
+          Element GridItem = doc.createElement("GridItem");
           Attr name = doc.createAttribute("name");
           Attr description = doc.createAttribute("description");
           Attr x = doc.createAttribute("x");
@@ -221,8 +230,58 @@ public class XmlSaver {
     for(int i=0; i<location.getExits().length; i++) {
       if(location.getExits()[i] != null) {
         Element exit = doc.createElement("exit");
-        Attr exitLoc = doc.createAttribute("exit direction");
+        Attr exitLoc = doc.createAttribute("exitdirection");
         exitLoc.setValue(""+ i);
+        exit.setAttributeNode(exitLoc);
+        exits.appendChild(exit);
+      }
+    }
+    Attr width = doc.createAttribute("width");
+    Attr height = doc.createAttribute("height");
+    width.setValue(location.getGrid().length + "");
+    height.setValue(location.getGrid()[0].length + "");
+    locationElem.setAttributeNode(width);
+    locationElem.setAttributeNode(height);
+    locationElem.appendChild(grid);
+    locationElem.appendChild(exits);
+    return locationElem;
+  }
+
+  /**
+   * @param location
+   * @param doc
+   * @return location of player
+   */
+  public static Element makePlayerLocation(gameworld.Location location, Document doc) {
+    Element locationElem = doc.createElement("PlayerLocation");
+    Element grid = doc.createElement("grid");
+    for(int i =0; i<location.getGrid().length; i++) {
+      for(int j =0; j<location.getGrid()[0].length; j++) {
+        if(location.getGrid()[i][j] instanceof Item) {
+          Element GridItem = doc.createElement("GridItem");
+          Attr name = doc.createAttribute("name");
+          Attr description = doc.createAttribute("description");
+          Attr x = doc.createAttribute("x");
+          Attr y = doc.createAttribute("y");
+          x.setValue(i + "");
+          y.setValue(j + "");
+          name.setValue(location.getGrid()[i][j].getName());
+          description.setValue(location.getGrid()[i][j].getDescription());
+          GridItem.setAttributeNode(name);
+          GridItem.setAttributeNode(description);
+          GridItem.setAttributeNode(x);
+          GridItem.setAttributeNode(y);
+          grid.appendChild(GridItem);
+        }
+      }
+    }
+    Element exits = doc.createElement("exits");
+    for(int i=0; i<location.getExits().length; i++) {
+      if(location.getExits()[i] != null) {
+        Element exit = doc.createElement("exit");
+        Attr exitLoc = doc.createAttribute("exitdirection");
+        exitLoc.setValue(""+ i);
+        exit.setAttributeNode(exitLoc);
         exits.appendChild(exit);
       }
     }
@@ -285,11 +344,13 @@ public class XmlSaver {
    */
   public static Element makeInventory(Collection<Item> collection, Document doc) {
     Element Inventory = doc.createElement("Inventory");
+    if(collection != null) {
     for(Item i : collection) {
       Element item = doc.createElement("Item");
       Attr name = doc.createAttribute("name");
       Attr description = doc.createAttribute("description");
       Attr image = doc.createAttribute("imagePath");
+      Attr type = doc.createAttribute("type");
       name.setValue(i.getName());
       description.setValue(i.getDescription());
       image.setValue(i.getImage().toString());
@@ -297,6 +358,7 @@ public class XmlSaver {
       item.setAttributeNode(description);
       item.setAttributeNode(image);
       Inventory.appendChild(item);
+    }
     }
 
     return Inventory;
@@ -310,7 +372,7 @@ public class XmlSaver {
   public static Element makeQuestRequirements(Collection<Treasure> collection, Document doc) {
     Element requirements = doc.createElement("Requirements");
     for(Item i : collection) {
-      Element item = doc.createElement("Item");
+      Element item = doc.createElement("QuestItem");
       Attr name = doc.createAttribute("name");
       Attr description = doc.createAttribute("description");
       Attr image = doc.createAttribute("imagePath");
@@ -335,8 +397,8 @@ public class XmlSaver {
     Element Player = doc.createElement("Player");
     Element Inventory = makeInventory(player.getInventory(), doc);
     Player.appendChild(Inventory);
-    Element Location = makeLocation(player.getCurrentLocation(), doc);
-    Attr facing = doc.createAttribute("y");
+    Element Location = makePlayerLocation(player.getCurrentLocation(), doc);
+    Attr facing = doc.createAttribute("facing");
     facing.setValue(player.getFacing().toString());
     Player.appendChild(Location);
     Player.setAttributeNode(facing);
@@ -366,7 +428,7 @@ public class XmlSaver {
  * @throws ParserConfigurationException
  * @throws TransformerException
  */
-public void makeXml(GameWorld game) throws ParserConfigurationException, TransformerException {
+public static void makeXml(GameWorld game) throws ParserConfigurationException, TransformerException {
    try {
    DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
    DocumentBuilder db = df.newDocumentBuilder();
@@ -378,9 +440,12 @@ public void makeXml(GameWorld game) throws ParserConfigurationException, Transfo
    Element player = makePlayer(game.getPlayer(),document);
    gamefile.appendChild(player);
 
+
    Element Quests = document.createElement("Quests");
+   if(game.getQuests() != null) {
    for(Quest q: game.getQuests()) {
      Quests.appendChild(makeQuest(q,document));
+   }
    }
 
    Element Locations = document.createElement("Locations");
