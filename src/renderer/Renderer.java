@@ -179,7 +179,7 @@ public class Renderer {
       int yStart = yMiddle + 50;
       int width2 = 10;
       int height2 = 40;
-      int Xscaler = CANVASWIDTH/200;
+      //int Xscaler = CANVASWIDTH/200;
       double Yscaler = Math.sqrt((xStart*xStart) + Math.abs(((yStart - CANVASHEIGHT)^2)))/(CANVASHEIGHT-(yStart));
 
       int i = xStart;
