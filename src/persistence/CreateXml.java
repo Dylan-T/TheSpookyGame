@@ -135,85 +135,163 @@ public class CreateXml {
   }
 
   /**
+   * @param item
+   * @param doc
+   * @return new treasure element
+   */
+  public static Element makeTreasure(gameworld.Treasure item, Document doc) {
+    Element treasure = doc.createElement("Treasure");
+    Attr name = doc.createAttribute("name");
+    Attr description = doc.createAttribute("description");
+    name.setValue(item.getName());
+    description.setValue(item.getDescription);
+    treasure.setAttributeNode(name);
+    treasure.setAttributeNode(description);
+    return treasure;
+
+  }
+
+  /**
+   * @param container
+   * @param doc
+   * @return new container element
+   */
+  public static Element makeStationaryContainer(gameworld.StationaryContainer container, Document doc) {
+    Element StationaryContainer = doc.createElement("StationaryContainer");
+    Attr name = doc.createAttribute("name");
+    Attr description = doc.createAttribute("description");
+    Element contents = doc.createElement("contents");
+    //create items and add them to contents here
+
+
+    return null;
+  }
+
+  /**
+   * @param quest
+   * @param doc
+   * @return new quest element
+   */
+  public static Element makeQuest(gameworld.Quest quest, Document doc) {
+    Element questelem = doc.createElement("quest");
+    Attr complete = doc.createAttribute("complete");
+    Element requirements = doc.createElement("requirements");
+    //create items and assign them to quest requirements;
+    return questelem;
+  }
+
+  public static Element makeLocation(gameworld.Location location, Document doc) {
+    Element locationElem = doc.createElement("Location");
+    Element grid = doc.createElement("grid");
+    Element exits = doc.createElement("exits");
+    return locationElem;
+  }
+
+  /**
+   * @param key
+   * @param doc
+   * @return new key element
+   */
+  public static Element makeKey(gameworld.Key key, Document doc) {
+    Element keyElem = doc.createElement("key");
+    Attr unlocks = doc.createAttribute("unlocks");
+    Attr description = doc.createAttribute("description");
+    return keyElem;
+  }
+
+  /**
+   * @param decoration
+   * @param doc
+   * @return new decoration element
+   */
+  public static Element makeDecoration(gameworld.Decoration decoration, Document doc) {
+    Element decoElem = doc.createElement("decoration");
+    Attr name = doc.createAttribute("name");
+    Attr description = doc.createAttribute("description");
+    Attr filepath = doc.createAttribute("filepath");
+    return decoElem;
+  }
+
+  /**
    * @param player
    * @param inven
    * @param doc
    * @return player inventory
    */
-//  public static Element makeInventory(ArrayList<Item> inven, Document doc) {
-//    Element Inventory = doc.createElement("Inventory");
-//    for(Item i : inven) {
-//      Attr item = doc.createAttribute(i.name);
-//      Inventory.setAttributeNode(item);
-//    }
-//
-//    return Inventory;
-//  }
+  public static Element makeInventory(ArrayList<Item> inven, Document doc) {
+    Element Inventory = doc.createElement("Inventory");
+    for(Item i : inven) {
+      Attr item = doc.createAttribute(i.name);
+      Inventory.setAttributeNode(item);
+    }
+
+    return Inventory;
+  }
 
   /**
    * @param player
    * @param doc
    * @return new player ELement.
    */
-//  public static Element makePlayer(gameworld.Player player, Document doc) {
-//    Element Player = doc.createElement("Player");
-//    Attr Score = doc.createAttribute("score");
-//    Attr Location = doc.createAttribute("x");
-//    Attr facing = doc.createAttribute("y");
-//    Score.setValue(player.score);
-//    Location.setValue(player.currentLoc);
-//    facing.setValue(player.facing);
-//    Player.setAttributeNode(Score);
-//    Player.setAttributeNode(Location);
-//    Player.setAttributeNode(facing);
-//
-//    return Player;
-//  }
+  public static Element makePlayer(gameworld.Player player, Document doc) {
+    Element Player = doc.createElement("Player");
+    Attr Score = doc.createAttribute("score");
+    Attr Location = doc.createAttribute("x");
+    Attr facing = doc.createAttribute("y");
+    Score.setValue(player.score);
+    Location.setValue(player.currentLoc);
+    facing.setValue(player.facing);
+    Player.setAttributeNode(Score);
+    Player.setAttributeNode(Location);
+    Player.setAttributeNode(facing);
+
+    return Player;
+  }
 
   /**
    * @param passage
    * @param doc
    * @return a new passage element
    */
-//  public static Element makePassage(gameworld.Passage passage, Document doc) {
-//    Element Passage = doc.createElement("passage");
-//    Attr loc1 = doc.createAttribute("loc1");
-//    Attr loc2 = doc.createAttribute("loc2");
-//    Attr blocked = doc.createAttribute("blocked");
-//    loc1.setValue(passage.loc1);
-//    loc2.setValue(passage.loc2);
-//    blocked.setValue(passage.blocked);
-//    Passage.setAttributeNode(loc1);
-//    Passage.setAttributeNode(loc2);
-//    Passage.setAttributeNode(blocked);
-//    return null;
-//
-//  }
+  public static Element makePassage(gameworld.Passage passage, Document doc) {
+    Element Passage = doc.createElement("passage");
+    Attr loc1 = doc.createAttribute("loc1");
+    Attr loc2 = doc.createAttribute("loc2");
+    Attr blocked = doc.createAttribute("blocked");
+    loc1.setValue(passage.loc1);
+    loc2.setValue(passage.loc2);
+    blocked.setValue(passage.blocked);
+    Passage.setAttributeNode(loc1);
+    Passage.setAttributeNode(loc2);
+    Passage.setAttributeNode(blocked);
+    return Passage;
+
+  }
 
  /**
  * @param game
  * @throws ParserConfigurationException
  */
-//public void makeXml(GameWorld game) throws ParserConfigurationException {
-//   DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
-//   DocumentBuilder db = df.newDocumentBuilder();
-//   Document document = db.newDocument();
-//
-//   Element gamefile = document.createElement("Game");
-//   document.appendChild(gamefile);
-//
-//   Element player = document.createElement("Player");
-//   gamefile.appendChild(player);
-//
-//   Element inventory = document.createElement("Inventory");
-//   player.appendChild(inventory);
+public void makeXml(GameWorld game) throws ParserConfigurationException {
+   DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
+   DocumentBuilder db = df.newDocumentBuilder();
+   Document document = db.newDocument();
 
-//   for(Item i: gameworld.Player.inventory) {
-//       Attr temp = document.createAttribute(i.getName());
-//       inventory.setAttributeNode(temp);
-//
-//   }
-// }
+   Element gamefile = document.createElement("Game");
+   document.appendChild(gamefile);
+
+   Element player = document.createElement("Player");
+   gamefile.appendChild(player);
+
+   Element inventory = document.createElement("Inventory");
+   player.appendChild(inventory);
+
+   for(Item i: gameworld.Player.get) {
+       Attr temp = document.createAttribute(i.getName());
+       inventory.setAttributeNode(temp);
+
+   }
+ }
 
 
 
