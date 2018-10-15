@@ -34,7 +34,7 @@ public class Player {
    */
   public boolean move(GameWorld.Direction dir) {
     int direction = dir.ordinal() + facing.ordinal();
-    if (direction > 4) {
+    if (direction >= 4) {
       direction = direction % 4;
     }
     Passage p = currentLoc.getExits()[direction];
@@ -42,6 +42,8 @@ public class Player {
       Location newLoc = p.getOtherLocation(currentLoc);
       if (newLoc != null) {
         currentLoc = newLoc;
+        facing = GameWorld.Direction.values()[direction];
+        System.out.println("We just moved :)");
         return true;
       }
     }
