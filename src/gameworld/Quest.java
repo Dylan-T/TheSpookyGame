@@ -1,5 +1,6 @@
 package gameworld;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -7,13 +8,27 @@ import java.util.List;
  * @author Dylan
  *
  */
-public class Quest implements Usable {
-  
+public class Quest extends Item {
   private boolean complete;
-  private List<Treasure> requirements;
+  private Collection<Treasure> requirements;
+  
+
+  /**
+   * @param name
+   * @param description
+   * @param imagePath
+   * @param requirements
+   */
+  public Quest(String name, String description, String imagePath, Collection<Treasure> requirements) {
+    super(name, description, imagePath);
+    this.requirements = requirements;
+    complete = false;
+  }
   
   /**
    * Attempts to complete the quest item, checking you have all the required treasures.
+   * @param p 
+   * @return skdf
    */
   public boolean use(Player p) {
     for(Treasure t: requirements) {
@@ -31,5 +46,15 @@ public class Quest implements Usable {
    */
   public boolean isComplete() {
     return complete;
+  }
+
+  @Override
+  public String inspect() {
+    return null;
+  }
+
+  @Override
+  public boolean canPickup() {
+    return false;
   }
 }

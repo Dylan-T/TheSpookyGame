@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class Player {
   ArrayList<Item> inventory;
-  int score;// Maybe
   Location currentLoc;
   GameWorld.Direction facing;
   
@@ -22,7 +21,6 @@ public class Player {
     ArrayList<Item> inventory = new ArrayList<Item>();
     currentLoc = startingLoc;
     facing = GameWorld.Direction.NORTH;
-    score = 0;
   }
 
   /**
@@ -45,6 +43,9 @@ public class Player {
    * @return whether the item was successfully picked up.
    */
   public boolean pickupItem(Item i) {
+    if(!i.canPickup()) {
+      return false;
+    }
     if (currentLoc.removeItem(i)) {
       inventory.add(i);
       return true;
@@ -74,11 +75,7 @@ public class Player {
    * @return whether the item was successfully used
    */
   public boolean useItem(Item i) {
-    if(i instanceof Usable) {
-      Usable u = (Usable) i;
-      
-    }
-    return false;
+    return i.use(this);
   }
   
   /**
@@ -93,7 +90,7 @@ public class Player {
       for(Item i: inventory) {
         if(i instanceof Key) {
           Key k = (Key) i;
-          if (k.unlocks.equals(p)) {
+          if (k.getUnlocks().equals(p)) {
             p.unlock();
             return true;
           }

@@ -12,57 +12,30 @@ import javax.imageio.ImageIO;
  * @author Dylan
  *
  */
-public class Decoration implements Item {
-  private String name;
-  private String description;
-  private Image image;
+public class Decoration extends Item {
+  
   
   /**
-   * Creates a new decoration item.
-   * @param name of the item
-   * @param description of the item
-   * @param imagePath path to the image that represents this item.
+   * @param name
+   * @param description
+   * @param imagePath
    */
   public Decoration(String name, String description, String imagePath) {
-    this.name = name;
-    this.description = description;
-    
-    BufferedImage image = null;
-    try {
-      image = ImageIO.read(new File(imagePath));
-    } catch (IOException e) {
-      System.out.println("Image read failed");
-    }
+    super(name, description, imagePath);
   }
-  
-  @Override
+
   public String inspect() {
     return name + ": " + description;
   }
-  
-  public String toString() {
-    return name;
+
+  @Override
+  public boolean canPickup() {
+    return false;
   }
 
-  //Getters
-  
   @Override
-  public Image getImage() {
-    return image;
-  }
-  
-  /**
-   * @return the name of this decoration
-   */
-  public String getName() {
-    return name;
-  }
-  
-  /**
-   * @return the description of this decoration
-   */
-  public String getDescription() {
-    return description;
+  public boolean use(Player p) {
+    return false;
   }
 
 }

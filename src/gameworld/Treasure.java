@@ -13,11 +13,7 @@ import javax.imageio.ImageIO;
  * @author thomsodyla1
  *
  */
-public class Treasure implements Movable {
-
-  private Image image;
-  private String name;
-  private String description;
+public class Treasure extends Item {
 
   /**
    * @param name of the item
@@ -25,13 +21,7 @@ public class Treasure implements Movable {
    * @param imagePath where the image to represent this item is
    */
   public Treasure(String name, String  description, String imagePath) {
-    this.name = name;
-    this.description = description;
-    try {
-      image = ImageIO.read(new File(imagePath));
-    } catch (IOException e) {
-      System.out.println("Image read fail");
-    }
+    super(name, description, imagePath);
   }
 
   @Override
@@ -40,8 +30,13 @@ public class Treasure implements Movable {
   }
 
   @Override
-  public Image getImage() {
-    return image;
+  public boolean canPickup() {
+    return true;
+  }
+
+  @Override
+  public boolean use(Player p) {
+    return false;
   }
 
 }

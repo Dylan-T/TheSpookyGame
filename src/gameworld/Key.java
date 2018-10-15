@@ -7,17 +7,17 @@ import java.awt.Image;
  * @author Dylan
  *
  */
-public class Key implements Movable {
-  Passage unlocks;
-  String description;
+public class Key extends Item {
+  private Passage unlocks;
   
   /**
    * Creates a key that will unlock passage p.
+   * @param name 
    * @param p --- The Passage that this key unlocks
    */
   public Key(Passage p) {
+    super("Key", "A key to unlock a passage.", "assets/key.png");
     unlocks = p;
-    description = "A key that unlocks a passage";
   }
   
   @Override
@@ -26,8 +26,21 @@ public class Key implements Movable {
   }
 
   @Override
-  public Image getImage() {
-    return null;
+  public boolean canPickup() {
+    return true;
+  }
+
+  @Override
+  public boolean use(Player p) {
+    //Subject to change
+    return false;
+  }
+  
+  /**
+   * @return the passage this key unlocks
+   */
+  public Passage getUnlocks() {
+    return unlocks;
   }
 
 }
