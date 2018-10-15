@@ -169,7 +169,7 @@ public class XmlReader {
    * @return quest requirements
    */
   public static Treasure getQuestReqs(Node node, Document doc){
-
+    NodeList QuestItems = doc.getDocumentElement().getElementsByTagName("QuestItems");
     return null;
   }
 

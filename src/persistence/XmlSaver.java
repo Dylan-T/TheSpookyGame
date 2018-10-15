@@ -350,6 +350,7 @@ public class XmlSaver {
       Attr name = doc.createAttribute("name");
       Attr description = doc.createAttribute("description");
       Attr image = doc.createAttribute("imagePath");
+      Attr type = doc.createAttribute("type");
       name.setValue(i.getName());
       description.setValue(i.getDescription());
       image.setValue(i.getImage().toString());
