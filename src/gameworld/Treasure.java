@@ -17,10 +17,6 @@ public class Treasure extends Item {
     super(name, description, imagePath);
   }
 
-  @Override
-  public String inspect() {
-    return name + ": " + description;
-  }
 
   @Override
   public boolean canPickup() {
