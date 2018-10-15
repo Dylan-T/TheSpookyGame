@@ -47,7 +47,7 @@ public class XmlReader {
        db = dbFactory.newDocumentBuilder();
        Document doc = db.parse(xml);
        doc.getDocumentElement().normalize();
-       System.out.print("Root element: " + doc.getDocumentElement().getNodeName());
+
        NodeList nodelist = doc.getElementsByTagName("Game");
        List<GameWorld> elemList = new ArrayList<GameWorld>();
        for(int i = 0; i< nodelist.getLength(); i++) {
@@ -73,7 +73,7 @@ public class XmlReader {
 
 
   }
-  
+
   /**
    * @param node
    * @return GameWorld with the state of the game
@@ -83,10 +83,54 @@ public class XmlReader {
     if(node.getNodeType() == Node.ELEMENT_NODE) {
       Element elem = (Element) node;
     }
-    
+
     return null;
   }
-  
+
+  /**
+   * @param node
+   * @return new container
+   */
+  public static StationaryContainer getContainer(Node node) {
+    if(node.getNodeType() == node.ELEMENT_NODE) {
+      Element elem = (Element) node;
+    }
+    return null;
+  }
+
+  /**
+   * @param node
+   * @return new quest
+   */
+  public static Quest getQuest(Node node) {
+    if(node.getNodeType() == node.ELEMENT_NODE) {
+      Element elem = (Element) node;
+    }
+    return null;
+  }
+
+  /**
+   * @param node
+   * @return new Location
+   */
+  public static Location getLocation(Node node) {
+    if(node.getNodeType() == node.ELEMENT_NODE) {
+      Element elem = (Element) node;
+    }
+    return null;
+  }
+
+  /**
+   * @param node
+   * @return new treasure
+   */
+  public static Treasure getTreasure(Node node) {
+    if(node.getNodeType() == node.ELEMENT_NODE) {
+      Element elem = (Element) node;
+    }
+    return null;
+  }
+
   /**
    * @param node
    * @return player elements
@@ -98,7 +142,7 @@ public class XmlReader {
     }
     return null;
   }
-  
+
   /**
    * @param node
    * @return Passage elements
@@ -110,12 +154,12 @@ public class XmlReader {
     }
     return null;
   }
-  
+
   private static String getTagValue(String tag, Element element){
     NodeList nodelist = element.getElementsByTagName(tag).item(0).getChildNodes();
     Node node = (Node) nodelist.item(0);
     return tag;
-    
+
   }
 
   /**
