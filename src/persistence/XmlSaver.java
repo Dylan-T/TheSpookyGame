@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -30,7 +31,7 @@ import org.w3c.dom.Element;
  * @author hoongkevi
  *
  */
-public class CreateXml {
+public class XmlSaver {
   private static final String filePath = "C:\\Users\\krarv\\Desktop\\game.xml";
 
 
@@ -40,75 +41,75 @@ public class CreateXml {
    * @throws ParserConfigurationException parser exception.
    * @throws TransformerException transformer exception.
    */
-  public static void main(String[] args) throws ParserConfigurationException, TransformerException {
-    try {
-      DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
-      DocumentBuilder db = df.newDocumentBuilder();
-      Document document = db.newDocument();
-
-      //creates a game Element
-      Element game = document.createElement("Game");
-      document.appendChild(game);
-
-      //creates a locations Element which is appended to game
-      Element locations = document.createElement("Locations");
-      game.appendChild(locations);
-
-      //creates player element which is appended to game
-      Element player = document.createElement("Player");
-      game.appendChild(player);
-
-
-      //creates an inventory element which is appended to player
-      Element inventory = document.createElement("Inventory");
-      player.appendChild(inventory);
-
-      Element rooms = document.createElement("Rooms");
-      game.appendChild(rooms);
-
-      rooms.appendChild(makeRoom(0, 0, 0, 0, "Siglo_Balcony", document));
-
-
-
-      //creates player attributes and assigns them to player
-      Attr direction = document.createAttribute("Direction");
-      direction.setValue("NORTH");
-      player.setAttributeNode(direction);
-
-      Attr healthAttr = document.createAttribute("score");
-      healthAttr.setValue("0");
-      player.setAttributeNode(healthAttr);
-
-      Attr attr = document.createAttribute("health");
-      attr.setValue("100");
-      player.setAttributeNode(attr);
-
-      Attr attr1 = document.createAttribute("x");
-      attr1.setValue("0");
-      player.setAttributeNode(attr1);
-
-      Attr attr2 = document.createAttribute("y");
-      attr2.setValue("0");
-      player.setAttributeNode(attr2);
-
-
-
-      Element durries = document.createElement("durries");
-      inventory.appendChild(durries);
-
-      //Uses a transformer to stream the file into an XML file using DOMSource.
-      TransformerFactory tf = TransformerFactory.newInstance();
-      Transformer transformer = tf.newTransformer();
-      DOMSource ds = new DOMSource(document);
-      StreamResult sr = new StreamResult(new File(filePath));
-      transformer.transform(ds,sr);
-      System.out.println("XML File Created");
-    } catch (ParserConfigurationException e) {
-      System.out.print("parser configuration exception");
-    } catch (TransformerException e) {
-      System.out.println("Transformer exception");
-    }
-  }
+//  public static void main(String[] args) throws ParserConfigurationException, TransformerException {
+//    try {
+//      DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
+//      DocumentBuilder db = df.newDocumentBuilder();
+//      Document document = db.newDocument();
+//
+//      //creates a game Element
+//      Element game = document.createElement("Game");
+//      document.appendChild(game);
+//
+//      //creates a locations Element which is appended to game
+//      Element locations = document.createElement("Locations");
+//      game.appendChild(locations);
+//
+//      //creates player element which is appended to game
+//      Element player = document.createElement("Player");
+//      game.appendChild(player);
+//
+//
+//      //creates an inventory element which is appended to player
+//      Element inventory = document.createElement("Inventory");
+//      player.appendChild(inventory);
+//
+//      Element rooms = document.createElement("Rooms");
+//      game.appendChild(rooms);
+//
+//      rooms.appendChild(makeRoom(0, 0, 0, 0, "Siglo_Balcony", document));
+//
+//
+//
+//      //creates player attributes and assigns them to player
+//      Attr direction = document.createAttribute("Direction");
+//      direction.setValue("NORTH");
+//      player.setAttributeNode(direction);
+//
+//      Attr healthAttr = document.createAttribute("score");
+//      healthAttr.setValue("0");
+//      player.setAttributeNode(healthAttr);
+//
+//      Attr attr = document.createAttribute("health");
+//      attr.setValue("100");
+//      player.setAttributeNode(attr);
+//
+//      Attr attr1 = document.createAttribute("x");
+//      attr1.setValue("0");
+//      player.setAttributeNode(attr1);
+//
+//      Attr attr2 = document.createAttribute("y");
+//      attr2.setValue("0");
+//      player.setAttributeNode(attr2);
+//
+//
+//
+//      Element durries = document.createElement("durries");
+//      inventory.appendChild(durries);
+//
+//      //Uses a transformer to stream the file into an XML file using DOMSource.
+//      TransformerFactory tf = TransformerFactory.newInstance();
+//      Transformer transformer = tf.newTransformer();
+//      DOMSource ds = new DOMSource(document);
+//      StreamResult sr = new StreamResult(new File(filePath));
+//      transformer.transform(ds,sr);
+//      System.out.println("XML File Created");
+//    } catch (ParserConfigurationException e) {
+//      System.out.print("parser configuration exception");
+//    } catch (TransformerException e) {
+//      System.out.println("Transformer exception");
+//    }
+//  }
 
   /**
    * This method takes in room data and creates elements and respective attributes and then adds them to the document.
@@ -266,7 +267,13 @@ public class CreateXml {
     Element decoElem = doc.createElement("decoration");
     Attr name = doc.createAttribute("name");
     Attr description = doc.createAttribute("description");
-    Attr filepath = doc.createAttribute("filepath");
+    Attr image = doc.createAttribute("imagePath");
+    name.setValue(decoration.getName());
+    description.setValue(decoration.getDescription());
+    image.setValue(decoration.getImage().toString());
+    decoElem.setAttributeNode(name);
+    decoElem.setAttributeNode(description);
+    decoElem.setAttributeNode(image);
     return decoElem;
   }
 
@@ -357,8 +364,10 @@ public class CreateXml {
  /**
  * @param game
  * @throws ParserConfigurationException
+ * @throws TransformerException
  */
-public void makeXml(GameWorld game) throws ParserConfigurationException {
+public void makeXml(GameWorld game) throws ParserConfigurationException, TransformerException {
+   try {
    DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
    DocumentBuilder db = df.newDocumentBuilder();
    Document document = db.newDocument();
@@ -369,6 +378,31 @@ public void makeXml(GameWorld game) throws ParserConfigurationException {
    Element player = makePlayer(game.getPlayer(),document);
    gamefile.appendChild(player);
 
+   Element Quests = document.createElement("Quests");
+   for(Quest q: game.getQuests()) {
+     Quests.appendChild(makeQuest(q,document));
+   }
+
+   Element Locations = document.createElement("Locations");
+   for(Location l:game.getLocations()) {
+     Locations.appendChild(makeLocation(l,document));
+   }
+
+   gamefile.appendChild(player);
+   gamefile.appendChild(Quests);
+   gamefile.appendChild(Locations);
+
+   TransformerFactory tf = TransformerFactory.newInstance();
+   Transformer transformer = tf.newTransformer();
+   DOMSource ds = new DOMSource(document);
+   StreamResult sr = new StreamResult(new File(filePath));
+   transformer.transform(ds,sr);
+   System.out.println("XML File Created");
+   }catch (ParserConfigurationException e) {
+     System.out.print("parser configuration exception");
+   }catch (TransformerException e) {
+     System.out.println("Transformer exception");
+   }
 
 
 
