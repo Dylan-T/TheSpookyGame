@@ -94,6 +94,10 @@ public class XmlReader {
   public static StationaryContainer getContainer(Node node) {
     if(node.getNodeType() == node.ELEMENT_NODE) {
       Element elem = (Element) node;
+      String name = elem.getAttribute("name");
+      String description = elem.getAttribute("description");
+      StationaryContainer loadContainer = new StationaryContainer(name,description, null);
+      return loadContainer;
     }
     return null;
   }
@@ -105,6 +109,8 @@ public class XmlReader {
   public static Quest getQuest(Node node) {
     if(node.getNodeType() == node.ELEMENT_NODE) {
       Element elem = (Element) node;
+      boolean complete = Boolean.parseBoolean(elem.getAttribute("complete"));
+
     }
     return null;
   }

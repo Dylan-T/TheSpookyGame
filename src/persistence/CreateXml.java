@@ -2,6 +2,7 @@ package persistence;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -180,10 +181,51 @@ public class CreateXml {
     return questelem;
   }
 
+  /**
+   * @param location
+   * @param doc
+   * @return location element
+   */
   public static Element makeLocation(gameworld.Location location, Document doc) {
     Element locationElem = doc.createElement("Location");
     Element grid = doc.createElement("grid");
+    for(int i =0; i<location.getGrid().length; i++) {
+      for(int j =0; i<location.getGrid()[0].length; j++) {
+        if(location.getGrid()[i][j] instanceof Item) {
+          Element GridItem = doc.createElement("item");
+          Attr name = doc.createAttribute("name");
+          Attr description = doc.createAttribute("description");
+          Attr x = doc.createAttribute("x");
+          Attr y = doc.createAttribute("y");
+          x.setValue(i + "");
+          y.setValue(j + "");
+          name.setValue(location.getGrid()[i][j].getName());
+          description.setValue(location.getGrid()[i][j].getDescription());
+          GridItem.setAttributeNode(name);
+          GridItem.setAttributeNode(description);
+          GridItem.setAttributeNode(x);
+          GridItem.setAttributeNode(y);
+          grid.appendChild(GridItem);
+        }
+      }
+    }
     Element exits = doc.createElement("exits");
+    for(int i=0; i<location.getExits().length; i++) {
+      if(location.getExits()[i] != null) {
+        Element exit = doc.createElement("exit");
+        Attr exitLoc = doc.createAttribute("exit direction");
+        exitLoc.setValue(""+ i);
+        exits.appendChild(exit);
+      }
+    }
+    Attr width = doc.createAttribute("width");
+    Attr height = doc.createAttribute("height");
+    width.setValue(location.getGrid().length + "");
+    height.setValue(location.getGrid()[0].length + "");
+    locationElem.setAttributeNode(width);
+    locationElem.setAttributeNode(height);
+    locationElem.appendChild(grid);
+    locationElem.appendChild(exits);
     return locationElem;
   }
 
@@ -194,15 +236,22 @@ public class CreateXml {
    */
   public static Element makeKey(gameworld.Key key, Document doc) {
     Element keyElem = doc.createElement("key");
-    Attr unlocks = doc.createAttribute("unlocks");
-    Attr description = doc.createAttribute("description");
+    Element unlocks = doc.createElement("unlocks");
+    Element passage = doc.createElement("passage");
+    Attr loc1 = doc.createAttribute("loc1");
+    Attr loc2 = doc.createAttribute("loc2");
+    Attr locked = doc.createAttribute("locked");
+    loc1.setValue(key.getUnlocks().getOtherLocation();
+    locked.setValue(key.getUnlocks().toString());
+    unlocks.appendChild(passage);
+    keyElem.appendChild(unlocks);
     return keyElem;
   }
 
   /**
    * @param decoration
    * @param doc
-   * @return new decoration element
+   * @return new decor
    */
   public static Element makeDecoration(gameworld.Decoration decoration, Document doc) {
     Element decoElem = doc.createElement("decoration");
@@ -214,15 +263,24 @@ public class CreateXml {
 
   /**
    * @param player
-   * @param inven
+   * @param collection
    * @param doc
    * @return player inventory
    */
-  public static Element makeInventory(ArrayList<Item> inven, Document doc) {
+  public static Element makeInventory(Collection<Item> collection, Document doc) {
     Element Inventory = doc.createElement("Inventory");
-    for(Item i : inven) {
-      Attr item = doc.createAttribute(i.name);
-      Inventory.setAttributeNode(item);
+    for(Item i : collection) {
+      Element item = doc.createElement("Item");
+      Attr name = doc.createAttribute("name");
+      Attr description = doc.createAttribute("description");
+      Attr image = doc.createAttribute("imagePath");
+      name.setValue(i.getName());
+      description.setValue(i.getDescription());
+      image.setValue(i.getImage().toString());
+      item.setAttributeNode(name);
+      item.setAttributeNode(description);
+      item.setAttributeNode(image);
+      Inventory.appendChild(item);
     }
 
     return Inventory;
@@ -235,16 +293,13 @@ public class CreateXml {
    */
   public static Element makePlayer(gameworld.Player player, Document doc) {
     Element Player = doc.createElement("Player");
-    Attr Score = doc.createAttribute("score");
-    Attr Location = doc.createAttribute("x");
+    Element Inventory = makeInventory(player.getInventory(), doc);
+    Player.appendChild(Inventory);
+    Element Location = makeLocation(player.getCurrentLocation(), doc);
     Attr facing = doc.createAttribute("y");
-    Score.setValue(player.score);
-    Location.setValue(player.currentLoc);
-    facing.setValue(player.facing);
-    Player.setAttributeNode(Score);
-    Player.setAttributeNode(Location);
+    facing.setValue(player.getFacing().toString());
+    Player.appendChild(Location);
     Player.setAttributeNode(facing);
-
     return Player;
   }
 
@@ -255,7 +310,7 @@ public class CreateXml {
    */
   public static Element makePassage(gameworld.Passage passage, Document doc) {
     Element Passage = doc.createElement("passage");
-    Attr loc1 = doc.createAttribute("loc1");
+    Element loc1 = doc.createAttribute("loc1");
     Attr loc2 = doc.createAttribute("loc2");
     Attr blocked = doc.createAttribute("blocked");
     loc1.setValue(passage.loc1);
