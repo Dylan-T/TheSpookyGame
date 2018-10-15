@@ -33,9 +33,19 @@ public class Player {
    * @return true if the player successfully moved in that direction
    */
   public boolean move(GameWorld.Direction dir) {
-    switch (dir.ordinal() + facing.ordinal()) {
-      
+    int direction = dir.ordinal() + facing.ordinal();
+    if (direction > 4) {
+      direction = direction % 4;
     }
+    Passage p = currentLoc.getExits()[direction];
+    if (p != null) {
+      Location newLoc = p.getOtherLocation(currentLoc);
+      if (newLoc != null) {
+        currentLoc = newLoc;
+        return true;
+      }
+    }
+    
     return false;
   }
 
