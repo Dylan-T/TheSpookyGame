@@ -4,18 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * Floor Piece in the room
+ * Door piece on the tile.
  * @author Nathan
  *
  */
-public class Floor implements TilePiece {
+public class Door implements TilePiece {
   //Field for its color - white
-  Color color = new Color(255,255,255);
+  Color color = new Color(20,20,20);
+  boolean isHighlighted = false;
   
   @Override
   public String toString() {
-    return "floor";
+    return "door";
   }
+
 
   @Override
   public void draw(Graphics g, int x, int y, int height, int width) {
@@ -24,6 +26,4 @@ public class Floor implements TilePiece {
     g.setColor(Color.BLACK);
     g.drawRect(x, y, width, height);
   }
-
-
 }

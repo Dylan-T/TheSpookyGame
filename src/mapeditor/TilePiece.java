@@ -27,8 +27,4 @@ public interface TilePiece {
    */
   public void draw(Graphics g, int x, int y, int height, int width);
   
-  /**
-   * Sets the highlight of this tile when clicked
-   */
-  public void setHightlight();
 }
