@@ -1,23 +1,12 @@
 package gameworld;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 /**
  * A movable item needed to progress in the game.
  * It may provide a bonus to the players score, currency or allow certain actions.
  * @author thomsodyla1
  *
  */
-public class Treasure implements Movable {
-
-  private Image image;
-  private String name;
-  private String description;
+public class Treasure extends Item {
 
   /**
    * @param name of the item
@@ -25,23 +14,18 @@ public class Treasure implements Movable {
    * @param imagePath where the image to represent this item is
    */
   public Treasure(String name, String  description, String imagePath) {
-    this.name = name;
-    this.description = description;
-    try {
-      image = ImageIO.read(new File(imagePath));
-    } catch (IOException e) {
-      System.out.println("Image read fail");
-    }
+    super(name, description, imagePath);
+  }
+
+
+  @Override
+  public boolean canPickup() {
+    return true;
   }
 
   @Override
-  public String inspect() {
-    return name + ": " + description;
-  }
-
-  @Override
-  public Image getImage() {
-    return image;
+  public boolean use(Player p) {
+    return false;
   }
 
 }

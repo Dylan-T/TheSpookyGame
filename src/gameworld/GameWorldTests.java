@@ -2,6 +2,7 @@ package gameworld;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  *
  */
 public class GameWorldTests {
-  
+
 //  /**
 //   * Creates a test location containing items.
 //   * @return a location containing items.
@@ -21,14 +22,14 @@ public class GameWorldTests {
 //    loc.addItem(0, 0, new Treasure("Test", "A test treasure item", 5));
 //    return loc;
 //  }
-//  
+//
 //  public static Item createTestItem() {
-//    
+//
 //  }
-  
-  
+
+
   //Location Tests
-  
+
   /**
    * Test location.addItem for a valid case.
    */
@@ -38,7 +39,7 @@ public class GameWorldTests {
     Treasure t = new Treasure("Test", "A test treasure item", "");
     assertTrue(l.addItem(0, 0, t));
   }
-  
+
   /**
    * Test location.addItem for a invalid case.
    */
@@ -48,7 +49,7 @@ public class GameWorldTests {
     Treasure t = new Treasure("Test", "A test treasure item", "");
     assertFalse(l.addItem(-1, -1, t));
   }
-  
+
   /**
    * Test location.addItem for a invalid case.
    */
@@ -58,10 +59,10 @@ public class GameWorldTests {
     Treasure t = new Treasure("Test", "A test treasure item", "");
     assertFalse(l.addItem(3, 3, t));
   }
-  
-  
-  
-  
+
+
+
+
   /**
    * Test location.containsItem for true case.
    */
@@ -72,7 +73,7 @@ public class GameWorldTests {
     l.addItem(0, 0, t);
     assertTrue(l.containsItem(t));
   }
-  
+
   /**
    * Test location.containsItem for false case.
    */
@@ -82,7 +83,7 @@ public class GameWorldTests {
     Treasure t = new Treasure("Test", "A test treasure item", "");
     assertFalse(l.containsItem(t));
   }
-  
+
   /**
    * Test location.containsItem for false case.
    */
@@ -94,9 +95,9 @@ public class GameWorldTests {
     l.addItem(0, 0, t2);
     assertFalse(l.containsItem(t1));
   }
-  
-  
-  
+
+
+
   /**
    * Test location.removeItem for valid case.
    */
@@ -108,7 +109,7 @@ public class GameWorldTests {
     assertTrue(l.removeItem(t));
     assertFalse(l.containsItem(t));
   }
-  
+
   /**
    * Test location.removeItem for invalid case.
    */
@@ -119,8 +120,8 @@ public class GameWorldTests {
     assertFalse(l.removeItem(t));
     assertFalse(l.containsItem(t));
   }
-  
-  
+
+
   /**
    * Test location.removeItem for invalid case.
    */
@@ -132,7 +133,7 @@ public class GameWorldTests {
     l.addItem(0, 0, t2);
     assertFalse(l.removeItem(t1));
   }
-  
+
   /**
    * Test location.addPassage for valid case.
    */
@@ -144,8 +145,8 @@ public class GameWorldTests {
     assertTrue(l1.addPassage(GameWorld.Direction.NORTH, p));
     assertTrue(l1.getExits()[GameWorld.Direction.NORTH.ordinal()].equals(p));
   }
-  
-  
+
+
 
 
 //Item Tests
@@ -157,6 +158,20 @@ public class GameWorldTests {
     Treasure t = new Treasure("Test", "Test item", "assets/chest.png");
     assertTrue(t.getImage() != null);
   }
+
+  /**
+   * Test Treasure.toString behaves as expected.
+   */
+  @Test
+  public void testItemString() {
+    Item t = new Treasure("Test", "Test item", "assets/chest.png");
+    assertEquals(t.getName(), "Test");
+    assertEquals(t.getDescription(), "Test item");
+    assertEquals(t.toString(), "Test: Test item");
+    assertEquals(t.inspect(), "Test: Test item");
+  }
   
-  
+  //Player Tests
+
+
 }

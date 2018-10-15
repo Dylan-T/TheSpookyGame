@@ -12,39 +12,30 @@ import javax.imageio.ImageIO;
  * @author Dylan
  *
  */
-public class Decoration implements Item {
-  String name;
-  String description;
+public class Decoration extends Item {
   
   
   /**
-   * Creates a new decoration item.
-   * @param name of the item
-   * @param description of the item
+   * @param name
+   * @param description
+   * @param imagePath
    */
-  public Decoration(String name, String description) {
-    this.name = name;
-    this.description = description;
+  public Decoration(String name, String description, String imagePath) {
+    super(name, description, imagePath);
   }
-  
-  @Override
+
   public String inspect() {
     return name + ": " + description;
   }
-  
-  public String toString() {
-    return name;
+
+  @Override
+  public boolean canPickup() {
+    return false;
   }
 
   @Override
-  public Image getImage() {
-    BufferedImage img = null;
-    try {
-      img = ImageIO.read(new File("man2.jpg"));
-    } catch (IOException e) {
-      System.out.println("Image is broken");
-    }
-    return img;
+  public boolean use(Player p) {
+    return false;
   }
 
 }

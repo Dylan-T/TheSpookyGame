@@ -1,6 +1,8 @@
 package gameworld;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * This is the player and has methods for actions the player may make.
@@ -9,10 +11,9 @@ import java.util.ArrayList;
  *
  */
 public class Player {
-  ArrayList<Item> inventory;
-  int score;// Maybe
-  Location currentLoc;
-  GameWorld.Direction facing;
+  private List<Item> inventory;
+  private Location currentLoc;
+  private GameWorld.Direction facing;
   
   /**
    * Create a new player only specifying location
@@ -22,7 +23,6 @@ public class Player {
     ArrayList<Item> inventory = new ArrayList<Item>();
     currentLoc = startingLoc;
     facing = GameWorld.Direction.NORTH;
-    score = 0;
   }
 
   /**
@@ -33,9 +33,21 @@ public class Player {
    * @return true if the player successfully moved in that direction
    */
   public boolean move(GameWorld.Direction dir) {
-    switch (dir.ordinal() + facing.ordinal()) {
-      
+    int direction = dir.ordinal() + facing.ordinal();
+    if (direction >= 4) {
+      direction = direction % 4;
     }
+    Passage p = currentLoc.getExits()[direction];
+    if (p != null) {
+      Location newLoc = p.getOtherLocation(currentLoc);
+      if (newLoc != null) {
+        currentLoc = newLoc;
+        facing = GameWorld.Direction.values()[direction];
+        System.out.println("We just moved :)");
+        return true;
+      }
+    }
+    
     return false;
   }
 
@@ -45,6 +57,9 @@ public class Player {
    * @return whether the item was successfully picked up.
    */
   public boolean pickupItem(Item i) {
+    if(!i.canPickup()) {
+      return false;
+    }
     if (currentLoc.removeItem(i)) {
       inventory.add(i);
       return true;
@@ -74,11 +89,7 @@ public class Player {
    * @return whether the item was successfully used
    */
   public boolean useItem(Item i) {
-    if(i instanceof Usable) {
-      Usable u = (Usable) i;
-      
-    }
-    return false;
+    return i.use(this);
   }
   
   /**
@@ -93,7 +104,7 @@ public class Player {
       for(Item i: inventory) {
         if(i instanceof Key) {
           Key k = (Key) i;
-          if (k.unlocks.equals(p)) {
+          if (k.getUnlocks().equals(p)) {
             p.unlock();
             return true;
           }
@@ -101,6 +112,29 @@ public class Player {
       }
     }
     return false;
+  }
+
+  //Getters
+  
+  /**
+   * @return the players inventory
+   */
+  public Collection<Item> getInventory() {
+    return inventory;
+  }
+
+  /**
+   * @return the players current location.
+   */
+  public Location getCurrentLocation() {
+    return currentLoc;
+  }
+  
+  /**
+   * @return the direction the player is facing
+   */
+  public GameWorld.Direction getFacing() {
+    return facing;
   }
 
 }

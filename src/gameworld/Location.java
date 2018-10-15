@@ -31,20 +31,6 @@ public class Location {
     grid = new Item[height][width];
     exits = new Passage[4];
   }
-  
-  /**
-   * @return the 2D array containing the items
-   */
-  public Item[][] getGrid() {
-    return grid;
-  }
-  
-  /**
-   * @return the array containing the exits
-   */
-  public Passage[] getExits() {
-    return exits;
-  }
 
   /**
    * This method adds the given item to the specified x & y position.
@@ -147,5 +133,21 @@ public class Location {
       }
     }
     return true;
+  }
+  
+  //Getters
+  
+  /**
+   * @return the 2D array containing the items
+   */
+  public Item[][] getGrid() {
+    return grid;
+  }
+  
+  /**
+   * @return the array containing the exits
+   */
+  public Passage[] getExits() {
+    return exits;
   }
 }

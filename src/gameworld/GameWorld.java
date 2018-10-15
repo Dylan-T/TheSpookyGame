@@ -1,5 +1,6 @@
 package gameworld;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,9 +11,9 @@ import java.util.Set;
  *
  */
 public class GameWorld {
-  Set<Location> locations = new HashSet<Location>();
-  Player player;
-  Set<Quest> quests;
+  private Set<Location> locations = new HashSet<Location>();
+  private Player player;
+  private Set<Quest> quests;
   
   /**
    * Enum for directions.
@@ -74,13 +75,41 @@ public class GameWorld {
     return true;
   }
   
+  //Getters
+  
   /**
    * Gets the players current location.
    * @return the players current location
    */
   public Location getCurrentRoom() {
-    return player.currentLoc;
+    return player.getCurrentLocation();
   }
+  
+  /**
+   * @return a collection of the games locations
+   */
+  public Collection<Location> getLocations(){
+    return locations;
+  }
+  
+  /**
+   * @return a collection of the games quests to be completed
+   */
+  public Collection<Quest> getQuests(){
+    return quests;
+  }
+  
+  /**
+   * @return the games player object
+   */
+  public Player getPlayer() {
+    return player;
+  }
+  
+  
+  
+  
+  //~~~~ Test methods ~~~~~~~~~~~~
   
   /**
    * Creates an GameWorld with empty 4 rooms.
@@ -120,7 +149,6 @@ public class GameWorld {
     locations.add(l3);
     locations.add(l4);
     return new GameWorld(locations, l1);
-    
   }
   
   /**
@@ -129,17 +157,17 @@ public class GameWorld {
    */
   public static GameWorld testGameWorld2() {
     //Make locations & add item's
-    Location l1 = new Location(2, 2);
-    l1.addItem(0, 0, new Decoration("Grave","An ominous looking grave"));
-    l1.addItem(0, 1, new Treasure("Grave","An ominous looking grave", ""));
-    l1.addItem(1, 0, new Decoration("Grave","An ominous looking grave"));
-    l1.addItem(1, 1, new Treasure("Grave","An ominous looking grave", ""));
+    Location l1 = new Location(10, 10);
+    l1.addItem(2, 0, new Decoration("Grave","An ominous looking grave", "assets/boneNecklace.png"));
+    l1.addItem(8, 1, new Treasure("Grave","An ominous looking grave", "assets/femur.png"));
+    l1.addItem(7, 2, new Decoration("Grave","An ominous looking grave", "assets/scepter.png"));
+    l1.addItem(1, 1, new Treasure("Grave","An ominous looking grave", "assets/coffin.png"));
     Location l2 = new Location(2, 2);
-    l2.addItem(0, 1, new Decoration("Crow","A raggedy crow"));
+    l2.addItem(0, 1, new Decoration("Crow","A raggedy crow", "assets/evilOrb.png"));
     Location l3 = new Location(2, 2);
-    l3.addItem(1, 0, new Treasure("Golden Skull","Ancient golden skull embellished with gems", ""));
+    l3.addItem(1, 0, new Treasure("Golden Skull","Ancient golden skull embellished with gems", "assets/chest.png"));
     Location l4 = new Location(2, 2);
-    l4.addItem(1, 1, new Treasure("Kanye's Donda chain","A chain imbued with Chicago's energy", ""));
+    l4.addItem(1, 1, new Treasure("Kanye's Donda chain","A chain imbued with Chicago's energy", "assets/key.png"));
     
     //Make passages
     Passage p1 = new Passage(l1,l2);
