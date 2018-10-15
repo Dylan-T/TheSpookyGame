@@ -133,7 +133,8 @@ public class GUI {
     //frame.setBounds(100, 100, 900, 750); // original sizing of the window
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    frame.setUndecorated(true);
+    //frame.setUndecorated(true);
+    windowExit();
     frame.setVisible(true);
     //windowExit(); 
 
@@ -193,7 +194,7 @@ public class GUI {
     // ------------MAKING THE CANVAS A DRAWING COMPONENT----------------
     //within here i should make the popup menu
     
-    
+  
     drawing = new JComponent() {
       protected void paintComponent(Graphics g) {
         System.out.println("you are now in the drawing pane");
@@ -201,15 +202,15 @@ public class GUI {
       }
 
       private void redraw(Graphics g) {
+        System.out.println("calling dyalns redraw");
         rWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH, g);
       }
     };
     
-    
     rWindow = new Renderer(drawing.getGraphics());
     drawing.setPreferredSize(new Dimension(width, height));
     
-    
+      
     drawing.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
         System.out.println("hey you are in the drawing area");
@@ -227,15 +228,16 @@ public class GUI {
     pickup.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("this should call a pickup method");
-        //pickup();
+        drawing.repaint();
+        //this should also redraw the inventory pane
       }
     });
     
     JMenuItem inspect = new JMenuItem("Inspect");
-    pickup.addActionListener(new ActionListener() {
+    inspect.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("this should call a getDescription(); method");
-        //
+        drawing.repaint();
       }
     });
     popup.add(pickup);
@@ -244,10 +246,6 @@ public class GUI {
     
     MouseListener popupListener = new PopupListener(popup);
     drawing.addMouseListener(popupListener);
-    
-    
-    
-    
 
     // -------------CREATING THE MENU BAR--------------
     // these actions will need some mouse listeners
@@ -271,13 +269,7 @@ public class GUI {
     JButton newGameButton = new JButton("New Game");
     mnGame.add(newGameButton);
     pressNewGame(newGameButton);
-    
-    JMenu mnExit = new JMenu("EXIT");
-    menuBar.add(mnExit);
-    
-    JButton exit = new JButton("Close");
-    mnExit.add(exit);
-    exitGame(exit);
+
 
     // --------CREATING THE NAVIGATION BUTTTONS---------------
     JButton west = new JButton("\u2190");
@@ -287,6 +279,7 @@ public class GUI {
         System.out.println("Hello this should be west");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.WEST);
+          drawing.repaint();
         }
       }
     });
@@ -298,6 +291,7 @@ public class GUI {
         System.out.println("Hello this should be east");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.EAST);
+          drawing.repaint();
         }
       }
     });
@@ -309,6 +303,7 @@ public class GUI {
         System.out.println("Hello this should be north");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.NORTH);
+          drawing.repaint();
         }
 
       }
@@ -321,6 +316,7 @@ public class GUI {
         System.out.println("Hello this should be south");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.SOUTH); // This is the code to move the player
+          drawing.repaint();
         }
       }
     });
@@ -368,7 +364,8 @@ public class GUI {
     drop.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be droping item");
-       
+        drawing.repaint();
+        //this should also redraw the inventory but i'm not even sure how things are being added here
       }
     });
     
@@ -403,8 +400,6 @@ public class GUI {
     scroll.setBounds(0, 0, 828, 138);
 
     textBox.add(scroll);
-    
-    
     
 
     // -----CREATING BORDERS FOR THE COMPONENTS-------
@@ -459,17 +454,20 @@ public class GUI {
   static public void pressNewGame(JButton newGame) {
     newGame.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("You need to new Game code here"); // cleanly end the program.
+        frame.setVisible(false);
+        main(null);
       }
     });
   }
   
+
+  
   /**
-   * @param exit
+   * @param exit exits.
    */
-  static public void exitGame(JButton exit) {
-    exit.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ev) {
+  static public void windowExit() {
+    frame.addWindowListener(new WindowAdapter() { //create a new window listener
+      public void windowClosing(WindowEvent e) {
         int confirmed = JOptionPane.showConfirmDialog(null,
             "Are you sure you want to exit the program?", "Exit Program Message Box",
             JOptionPane.YES_NO_OPTION);
