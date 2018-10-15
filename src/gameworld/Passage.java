@@ -11,9 +11,9 @@ package gameworld;
  *
  */
 public class Passage {
-  Location loc1;
-  Location loc2;
-  boolean locked;
+  private Location loc1;
+  private Location loc2;
+  private boolean locked;
 
   /**
    * Create a new passage between l1 and l2.
@@ -39,16 +39,7 @@ public class Passage {
     }
     return null;
   }
-  
-  
-  /**
-   * Check whether the passage is locked.
-   * @return if the passage is locked
-   */
-  public boolean isLocked() {
-    return locked;
-  }
-  
+
   /**
    * Unlock this passage.
    * @return Whether the door successfully unlocked.
@@ -61,7 +52,6 @@ public class Passage {
     return true;
   }
   
-  
   /**
    * Lock this passage.
    * @return whether the passage successfully locked.
@@ -72,5 +62,29 @@ public class Passage {
     }
     locked = true;
     return true;
+  }
+  
+  //Getters
+  
+  /**
+   * Check whether the passage is locked.
+   * @return if the passage is locked
+   */
+  public boolean isLocked() {
+    return locked;
+  }
+  
+  /**
+   * @return one of two locations this passage connects
+   */
+  public Location getLoc1() {
+    return loc1;
+  }
+  
+  /**
+   * @return one of two locations this passage connects
+   */
+  public Location getLoc2() {
+    return loc2;
   }
 }
