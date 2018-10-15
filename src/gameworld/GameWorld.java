@@ -157,10 +157,10 @@ public class GameWorld {
    */
   public static GameWorld testGameWorld2() {
     //Make locations & add item's
-    Location l1 = new Location(2, 2);
-    l1.addItem(0, 0, new Decoration("Grave","An ominous looking grave", "assets/boneNecklace.png"));
+    Location l1 = new Location(10, 10);
+    l1.addItem(2, 0, new Decoration("Grave","An ominous looking grave", "assets/boneNecklace.png"));
     l1.addItem(0, 1, new Treasure("Grave","An ominous looking grave", "assets/femur.png"));
-    l1.addItem(1, 0, new Decoration("Grave","An ominous looking grave", "assets/scepter.png"));
+    l1.addItem(7, 2, new Decoration("Grave","An ominous looking grave", "assets/scepter.png"));
     l1.addItem(1, 1, new Treasure("Grave","An ominous looking grave", "assets/coffin.png"));
     Location l2 = new Location(2, 2);
     l2.addItem(0, 1, new Decoration("Crow","A raggedy crow", "assets/evilOrb.png"));

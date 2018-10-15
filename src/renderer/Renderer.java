@@ -55,32 +55,6 @@ public class Renderer {
    */
   public void redraw(Location room, GameWorld.Direction dir, Graphics g) {
 
-    /*List<Color> colors = new ArrayList<Color>();
-    colors.add(Color.RED);
-    colors.add(Color.BLUE);
-    colors.add(Color.GREEN);
-    colors.add(Color.CYAN);
-    colors.add(Color.YELLOW);
-    colors.add(Color.RED);
-    colors.add(Color.BLUE);
-    colors.add(Color.GREEN);
-    colors.add(Color.CYAN);
-    colors.add(Color.YELLOW);
-    colors.add(Color.RED);
-    colors.add(Color.BLUE);
-    colors.add(Color.GREEN);
-    colors.add(Color.CYAN);
-    colors.add(Color.YELLOW);
-    colors.add(Color.RED);
-    colors.add(Color.BLUE);
-    colors.add(Color.GREEN);
-    colors.add(Color.CYAN);
-    colors.add(Color.YELLOW);*/
-
-    //System.out.println(graphics);
-
-    //g.drawRect(50, 50, 50, 50);
-
 
     float scale = (float) 1; // need to figure out a proper scale to keep images from going outside of canvas
     int x = 10;
@@ -215,19 +189,24 @@ public class Renderer {
       int countI = 0;
       int countJ = 0;
 
-      while (yStart < CANVASHEIGHT) {
+      while (yStart < CANVASHEIGHT && countJ<grids.length) {
 
-        while (i < (xStart + tempWidth)) {
-          g.setColor(Color.ORANGE);
-          g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
+        while (i < (xStart + tempWidth) && countI<grids[0].length) {
+          //g.setColor(Color.ORANGE);
+          //g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
 
           // set up for images to be drawn on floor
-          //g.drawImage(grids[countI][countJ].getImage().getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i, yStart, null);
+          
+          
+          if(grids[countI][countJ] != null) {
+            g.drawImage(grids[countI][countJ].getImage().getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i, yStart, null);
+          }
           i = (int) (i + shapeW);
 
-          System.out.println(tempWidth/oldWidth);
+          //System.out.println(tempWidth/oldWidth);
           countI++;
         }
+        countI = 0;
 
         double c = Yscaler*gapy;
 
