@@ -13,9 +13,9 @@ import javax.imageio.ImageIO;
  *
  */
 public class Decoration implements Item {
-  String name;
-  String description;
-  Image image;
+  private String name;
+  private String description;
+  private Image image;
   
   /**
    * Creates a new decoration item.
@@ -44,9 +44,25 @@ public class Decoration implements Item {
     return name;
   }
 
+  //Getters
+  
   @Override
   public Image getImage() {
     return image;
+  }
+  
+  /**
+   * @return the name of this decoration
+   */
+  public String getName() {
+    return name;
+  }
+  
+  /**
+   * @return the description of this decoration
+   */
+  public String getDescription() {
+    return description;
   }
 
 }

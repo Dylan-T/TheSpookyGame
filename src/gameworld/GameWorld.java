@@ -1,5 +1,6 @@
 package gameworld;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,9 +11,9 @@ import java.util.Set;
  *
  */
 public class GameWorld {
-  Set<Location> locations = new HashSet<Location>();
-  Player player;
-  Set<Quest> quests;
+  private Set<Location> locations = new HashSet<Location>();
+  private Player player;
+  private Set<Quest> quests;
   
   /**
    * Enum for directions.
@@ -81,6 +82,34 @@ public class GameWorld {
   public Location getCurrentRoom() {
     return player.currentLoc;
   }
+  
+  //Getters
+  
+  /**
+   * @return a collection of the games locations
+   */
+  public Collection<Location> getLocations(){
+    return locations;
+  }
+  
+  /**
+   * @return a collection of the games quests to be completed
+   */
+  public Collection<Quest> getQuests(){
+    return quests;
+  }
+  
+  /**
+   * @return the games player object
+   */
+  public Player getPlayer() {
+    return player;
+  }
+  
+  
+  
+  
+  //~~~~ Test methods ~~~~~~~~~~~~
   
   /**
    * Creates an GameWorld with empty 4 rooms.
