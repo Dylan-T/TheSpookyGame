@@ -2,6 +2,7 @@ package gameworld;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +16,7 @@ public class GameWorld {
   private int playerX;
   private int playerY;
   private Player player;
-  private Set<Quest> quests;
+  private List<Quest> quests;
 
   /**
    * Enum for directions.
@@ -62,6 +63,15 @@ public class GameWorld {
     }
   }
 
+//  /**
+//   * Create a new world specifying the dimensions of the map.
+//   * @param width of the worldMap
+//   * @param height of the worldMap
+//   */
+//  public GameWorld(int width, int height) {
+//    worldMap = new Location[width][height];
+//  }
+
 
   /**
    * Moves the player in the given direction.
@@ -105,13 +115,50 @@ public class GameWorld {
 
       Location newLoc = worldMap[playerX][playerY];
       if (newLoc != null) {
-        player.move(newLoc, dir);
+        player.move(newLoc, Direction.values()[direction]);
         System.out.println("We just moved :)");
         return true;
       }
     }
 
     return false;
+  }
+
+  /**
+   * Unlock a passage in the given direction, using a key from your inventory.
+   * @param dir direction of the passage to unlock
+   * @return whether a passage was successfully unlocked
+   */
+  public boolean unlockPassage(GameWorld.Direction dir) {
+    Boolean exit = getCurrentRoom().exits[dir.ordinal()];
+    if (exit != null && exit == true) { //check the exit exists and is locked
+      //Check you have a key for the passage
+      List<Item> inv = player.getInventory();
+      for(Item i: inv) {
+        if(i instanceof Key) {
+          exit = false;
+          inv.remove(i);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @param i the item to be picked up
+   * @return if the item was successfully picked up
+   */
+  public boolean pickupItem(Item i) {
+    return player.pickupItem(i);
+  }
+
+  /**
+   * @param i the item to be picked up
+   * @return if the item was successfully picked up
+   */
+  public boolean dropItem(Item i) {
+    return player.dropItem(i);
   }
 
   /**
@@ -147,7 +194,7 @@ public class GameWorld {
   /**
    * @return a collection of the games quests to be completed
    */
-  public Collection<Quest> getQuests(){
+  public List<Quest> getQuests(){
     return quests;
   }
 
@@ -162,26 +209,6 @@ public class GameWorld {
 
 
   //~~~~ Test methods ~~~~~~~~~~~~
-
-  /**
-   * Creates an GameWorld with empty 4 rooms.
-   * @return the new GameWorld
-   */
-  public static GameWorld testGameWorld1() {
-    //Make locations
-    Location l1 = new Location(2, 2);
-    Location l2 = new Location(2, 2);
-    Location l3 = new Location(2, 2);
-    Location l4 = new Location(2, 2);
-
-    //Add locations to Collection
-    Location[][] locations = new Location[2][2];
-    locations[0][0] = l1;
-    locations[0][1] = l2;
-    locations[1][0] = l3;
-    locations[1][1] = l4;
-    return new GameWorld(locations, l1);
-  }
 
   /**
    * Creates an GameWorld with empty 4 rooms.
@@ -216,8 +243,8 @@ public class GameWorld {
     //Add locations to Collection
     Location[][] locations = new Location[2][2];
     locations[0][0] = l1;
-    locations[0][1] = l2;
-    locations[1][0] = l3;
+    locations[1][0] = l2;
+    locations[0][1] = l3;
     locations[1][1] = l4;
     return new GameWorld(locations, l1);
 

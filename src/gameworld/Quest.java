@@ -41,11 +41,6 @@ public class Quest extends Item {
   }
 
   @Override
-  public String inspect() {
-    return "";
-  }
-
-  @Override
   public boolean canPickup() {
     return false;
   }

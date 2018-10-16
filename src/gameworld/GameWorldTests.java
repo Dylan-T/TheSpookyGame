@@ -15,21 +15,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class GameWorldTests {
 
-//  /**
-//   * Creates a test location containing items.
-//   * @return a location containing items.
-//   */
-//  public static Location createTestLocation() {
-//    Location loc = new Location(2, 2);
-//    loc.addItem(0, 0, new Treasure("Test", "A test treasure item", 5));
-//    return loc;
-//  }
-//
-//  public static Item createTestItem() {
-//
-//  }
-
-
   //Location Tests
 
   /**
@@ -136,22 +121,8 @@ public class GameWorldTests {
     assertFalse(l.removeItem(t1));
   }
 
-//  /**
-//   * Test location.addPassage for valid case.
-//   */
-//  @Test
-//  public void testLocationAddPassageValid() {
-//    Location l1 = new Location(2,2);
-//    Location l2 = new Location(2,2);
-//    Passage p = new Passage(l1,l2);
-//    assertTrue(l1.addPassage(GameWorld.Direction.NORTH, p));
-//    assertTrue(l1.getExits()[GameWorld.Direction.NORTH.ordinal()].equals(p));
-//  }
 
-
-
-
-//Item Tests
+  //Item Tests
   /**
    * Test Treasure.getImage for valid case.
    */
@@ -173,25 +144,126 @@ public class GameWorldTests {
     assertEquals(t.inspect(), "Test: Test item");
   }
 
-  //Player Tests
+  //Game Tests
 
   /**
-   *
+   * Test a valid player movement
    */
   @Test
-  public void testMovePlayer() {
+  public void testMovePlayerValid() {
+    Location l1 = new Location(2, 2);
+    l1.addExit(Direction.SOUTH, false);
+    l1.addExit(Direction.EAST, false);
+
+    Location l2 = new Location(2, 2);
+    l2.addExit(Direction.WEST, false);
+    l2.addExit(Direction.SOUTH, false);
+
+    Location l3 = new Location(2, 2);
+    l3.addExit(Direction.NORTH, false);
+    l3.addExit(Direction.EAST, false);
+
+    Location l4 = new Location(2, 2);
+    l4.addExit(Direction.WEST, false);
+    l4.addExit(Direction.NORTH, false);
+
+
+    //Add locations to Collection
+    Location[][] locations = new Location[2][2];
+    locations[0][0] = l1;
+    locations[1][0] = l2;
+    locations[0][1] = l3;
+    locations[1][1] = l4;
+    GameWorld game = new GameWorld(locations,l3);
+
+    game.movePlayer(Direction.NORTH);
+    assertEquals(game.getCurrentRoom(), l1);
+    assertEquals(game.getPlayer().getFacing(), Direction.NORTH);
+
+    game.movePlayer(Direction.EAST);
+    assertEquals(game.getCurrentRoom(), l2);
+    assertEquals(game.getPlayer().getFacing(), Direction.EAST);
+
+    game.movePlayer(Direction.SOUTH);
+    assertEquals(game.getCurrentRoom(), l1);
+    assertEquals(game.getPlayer().getFacing(), Direction.WEST);
+
+    game.movePlayer(Direction.WEST);
+    assertEquals(game.getCurrentRoom(), l3);
+    assertEquals(game.getPlayer().getFacing(), Direction.SOUTH);
+
+
+
+  }
+
+  /**
+   * Test a valid player movement when exit  is locked
+   */
+  @Test
+  public void testMovePlayerInvalid_01() {
     Location l1 = new Location(2,2);
-    l1.addExit(Direction.NORTH, false);
+    l1.addExit(Direction.NORTH, true);
 
     Location l2 = new Location(2,2);
-    l2.addExit(Direction.SOUTH, false);
+    l2.addExit(Direction.SOUTH, true);
 
     Location[][] locations = new Location[1][2];
     locations[0][1] = l1;
     locations[0][0] = l2;
     GameWorld game = new GameWorld(locations, l1);
     game.movePlayer(Direction.NORTH);
-    assertEquals(game.getCurrentRoom().toString() + l2.toString(),game.getCurrentRoom(), l2);
+    assertEquals(game.getCurrentRoom(), l1);
+  }
+
+  /**
+   * Test a valid player movement there is no exit
+   */
+  @Test
+  public void testMovePlayerInvalid_02() {
+    Location l1 = new Location(2,2);
+
+    Location l2 = new Location(2,2);
+    l2.addExit(Direction.SOUTH, true);
+
+    Location[][] locations = new Location[1][2];
+    locations[0][1] = l1;
+    locations[0][0] = l2;
+    GameWorld game = new GameWorld(locations, l1);
+    game.movePlayer(Direction.NORTH);
+    assertEquals(game.getCurrentRoom(), l1);
+  }
+
+  //Player tests
+
+  /**
+   * Tests the player can pickup a valid item.
+   */
+  @Test
+  public void testPickupItemValid() {
+    Location l1  = new Location(1,1);
+    Treasure t = new Treasure("", "", "assets/coffin.png");
+    l1.addItem(t);
+    Location[][] locations = new Location[][]{{l1}};
+    GameWorld game = new GameWorld(locations, l1);
+    assertTrue(game.pickupItem(t));
+    assertTrue(game.getPlayer().getInventory().contains(t));
+    assertFalse(l1.containsItem(t));
+  }
+
+
+  /**
+   * Tests the player can pickup a valid item.
+   */
+  @Test
+  public void testDropItemValid() {
+    Location l1  = new Location(1,1);
+    Treasure t = new Treasure("", "", "assets/coffin.png");
+    Location[][] locations = new Location[][]{{l1}};
+    GameWorld game = new GameWorld(locations, l1);
+    game.getPlayer().getInventory().add(t);
+    assertTrue(game.dropItem(t));
+    assertFalse(game.getPlayer().getInventory().contains(t));
+    assertTrue(l1.containsItem(t));
   }
 
 }
