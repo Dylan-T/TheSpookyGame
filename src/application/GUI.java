@@ -47,6 +47,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
 
 import gameworld.GameWorld;
+import gameworld.Item;
 import renderer.Renderer;
 
 import javax.swing.JMenuBar;
@@ -80,7 +81,6 @@ public class GUI {
   GameWorld game;
   private Renderer rWindow;
 
-
   private static JFrame frame;
   private JTextField textField;
   private JComponent drawing;
@@ -93,7 +93,7 @@ public class GUI {
   private int newheight;
   private int newwidth;
 
-  //DRAWING WIDTH = 1604, HEIGHT = 951
+  // DRAWING WIDTH = 1604, HEIGHT = 951
 
   /**
    * Launch the application.
@@ -104,10 +104,10 @@ public class GUI {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          //GUI window = new GUI();
+          // GUI window = new GUI();
           TitleScreen title = new TitleScreen();
           title.getTitleFrame().setVisible(true);
-          //window.frame.setVisible(true);
+          // window.frame.setVisible(true);
 
         } catch (Exception e) {
           e.printStackTrace();
@@ -132,13 +132,13 @@ public class GUI {
   private void initialize() {
     frame = new JFrame();
     frame.setTitle("SwenProject");
-    //frame.setBounds(100, 100, 900, 750); // original sizing of the window
+    // frame.setBounds(100, 100, 900, 750); // original sizing of the window
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    //frame.setUndecorated(true);
+    // frame.setUndecorated(true);
     windowExit();
     frame.setVisible(true);
-    //windowExit();
+    // windowExit();
 
     width = frame.getBounds().width;
     height = frame.getBounds().height;
@@ -159,28 +159,28 @@ public class GUI {
     canvas = new JPanel();
 
     GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-    groupLayout.setHorizontalGroup(
-      groupLayout.createParallelGroup(Alignment.TRAILING)
+    groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
         .addGroup(groupLayout.createSequentialGroup()
-          .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-            .addGroup(groupLayout.createSequentialGroup()
-              .addGap(10)
-              .addComponent(displayPanel, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
-            .addGroup(groupLayout.createSequentialGroup()
-              .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-              .addPreferredGap(ComponentPlacement.RELATED)
-              .addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)))
-          .addContainerGap())
-    );
-    groupLayout.setVerticalGroup(
-      groupLayout.createParallelGroup(Alignment.LEADING)
-        .addGroup(groupLayout.createSequentialGroup()
-          .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-            .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-            .addComponent(canvas, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
-          .addPreferredGap(ComponentPlacement.RELATED)
-          .addComponent(displayPanel, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-    );
+            .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+                .addGroup(groupLayout.createSequentialGroup().addGap(10).addComponent(displayPanel,
+                    GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+                .addGroup(groupLayout.createSequentialGroup()
+                    .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addPreferredGap(ComponentPlacement.RELATED).addComponent(buttonPanel,
+                        GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap()));
+    groupLayout
+        .setVerticalGroup(
+            groupLayout.createParallelGroup(Alignment.LEADING)
+                .addGroup(
+                    groupLayout.createSequentialGroup()
+                        .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+                            .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 135,
+                                Short.MAX_VALUE)
+                            .addComponent(canvas, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 135,
+                                Short.MAX_VALUE))
+                        .addPreferredGap(ComponentPlacement.RELATED).addComponent(displayPanel,
+                            GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)));
 
     displayPanel.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
@@ -194,8 +194,7 @@ public class GUI {
     frame.getContentPane().setLayout(groupLayout);
 
     // ------------MAKING THE CANVAS A DRAWING COMPONENT----------------
-    //within here i should make the popup menu
-
+    // within here i should make the popup menu
 
     drawing = new JComponent() {
       protected void paintComponent(Graphics g) {
@@ -212,7 +211,6 @@ public class GUI {
     rWindow = new Renderer(drawing.getGraphics());
     drawing.setPreferredSize(new Dimension(width, height));
 
-
     drawing.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
         System.out.println("hey you are in the drawing area");
@@ -222,21 +220,35 @@ public class GUI {
     canvas.setLayout(new GridLayout(0, 1, 0, 0));
     canvas.add(drawing);
 
-  //------CREATING A DROP DOWN MENU WHEN CLICKING-------
-    //in order to differenciate on whether something is a item or not
-    //i guess we can up x y values compare them to x y values of the item.
+    // ------CREATING A DROP DOWN MENU WHEN CLICKING-------
+    // in order to differentiate on whether something is a item or not
+    // i guess we can up x y values compare them to x y values of the item.
     JPopupMenu popup = new JPopupMenu();
     JMenuItem pickup = new JMenuItem("Pick Up");
     pickup.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("this should call a pickup method");
-        //get the item
+        // get the item
         int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y;
-        rWindow.isWithin(mouseX, mouseY);
+        boolean found = false;
+
+        Item[][] i = rWindow.getGrid();
+        for(int a = 0; a < i.length; a++) {
+          for(int b = 0; b < i[0].length; b++) {
+            if(rWindow.isWithin(mouseX, mouseY) == i[b][a]) {
+              found = true;
+              game.getPlayer().pickupItem(i[b][a]);
+            }
+          }
+        }
+
+        if(found == false) {
+          JOptionPane.showMessageDialog(frame, "nothing to pick up");
+        }
 
         drawing.repaint();
-        //this should also redraw the inventory pane
+        // this should also redraw the inventory pane
       }
     });
 
@@ -249,7 +261,6 @@ public class GUI {
     });
     popup.add(pickup);
     popup.add(inspect);
-
 
     MouseListener popupListener = new PopupListener(popup);
     drawing.addMouseListener(popupListener);
@@ -276,7 +287,6 @@ public class GUI {
     JButton newGameButton = new JButton("New Game");
     mnGame.add(newGameButton);
     pressNewGame(newGameButton);
-
 
     // --------CREATING THE NAVIGATION BUTTTONS---------------
     JButton west = new JButton("\u2190");
@@ -359,12 +369,12 @@ public class GUI {
     displayPanel.add(navigation);
     displayPanel.add(Box.createRigidArea(new Dimension(7, 0)));
 
-    //creating a button panel
+    // creating a button panel
     JPanel extraButtons = new JPanel();
     extraButtons.setMaximumSize(new Dimension(820, 148));
     extraButtons.setLayout(null);
-    //add any extra buttons here
-    //extraButtons.setBackground(Color.BLUE);
+    // add any extra buttons here
+    // extraButtons.setBackground(Color.BLUE);
 
     JButton drop = new JButton("Drop");
     drop.setPreferredSize(new Dimension(50, 50));
@@ -372,7 +382,8 @@ public class GUI {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("Hello this should be droping item");
         drawing.repaint();
-        //this should also redraw the inventory but i'm not even sure how things are being added here
+        // this should also redraw the inventory but i'm not even sure how things are
+        // being added here
       }
     });
 
@@ -381,23 +392,21 @@ public class GUI {
     extraButtons.add(drop);
     displayPanel.add(extraButtons);
 
-    //creating the text area that the text area will go in
+    // creating the text area that the text area will go in
 
     displayPanel.add(Box.createRigidArea(new Dimension(2, 0)));
 
     textBox = new JPanel();
     textBox.setMaximumSize(new Dimension(830, 150));
-    textBox.setLayout(null); //position the text area using setBounds
-    //textBox.setBackground(Color.GREEN);
+    textBox.setLayout(null); // position the text area using setBounds
+    // textBox.setBackground(Color.GREEN);
 
-    //adding a text area to text box
-
+    // adding a text area to text box
 
     displayPanel.add(textBox);
 
-
     JTextArea textWindow = new JTextArea();
-    //textWindow.setBounds(0, 0, 828, 138);
+    // textWindow.setBounds(0, 0, 828, 138);
 
     textWindow.setLineWrap(true);
     textWindow.setWrapStyleWord(true); // making the line up nice
@@ -407,7 +416,6 @@ public class GUI {
     scroll.setBounds(0, 0, 828, 138);
 
     textBox.add(scroll);
-
 
     // -----CREATING BORDERS FOR THE COMPONENTS-------
     Border redline = BorderFactory.createLineBorder(Color.RED);
@@ -424,8 +432,6 @@ public class GUI {
     extraButtons.setBorder(t);
 
   }
-
-
 
   /**
    * Helper method that does the actions of the saveButton.
@@ -467,13 +473,12 @@ public class GUI {
     });
   }
 
-
-
   /**
-   * @param exit exits.
+   * @param exit
+   *          exits.
    */
   static public void windowExit() {
-    frame.addWindowListener(new WindowAdapter() { //create a new window listener
+    frame.addWindowListener(new WindowAdapter() { // create a new window listener
       public void windowClosing(WindowEvent e) {
         int confirmed = JOptionPane.showConfirmDialog(null,
             "Are you sure you want to exit the program?", "Exit Program Message Box",
@@ -494,4 +499,3 @@ public class GUI {
     return this.frame;
   }
 }
-
