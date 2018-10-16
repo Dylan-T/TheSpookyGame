@@ -58,9 +58,11 @@ public class GameWorld {
     player = new Player(start);
     for (int x = 0; x < worldMap.length; x++) {
       for (int y = 0; y < worldMap[0].length; y++) {
-        if (worldMap[x][y].equals(start)) {
-          playerX = x;
-          playerY = y;
+        if (worldMap[x][y] != null) {
+          if (worldMap[x][y].equals(start)) {
+            playerX = x;
+            playerY = y;
+          }
         }
       }
     }
@@ -286,6 +288,7 @@ public class GameWorld {
     Treasure t1 = new Treasure("Scepter",
         "An evil scepter with a skull carved in it", "assets/scepter.png");
     l2.addItem(6, 6, t1);
+    l2.addItem(5, 3, new Treasure("Bat", "Spooky Bat", "assets/smallbat.png"));
     l2.addExit(Direction.SOUTH, false);
 
     Location l3 = new Location(12,12);
@@ -293,7 +296,8 @@ public class GameWorld {
         "A slightly ajar coffin", "assets/coffin.png");
     Treasure t2 = new Treasure("Femur", "A femur glowing with evil", "assets/femur.png");
     c1.addItem(t2);
-    l3.addItem(6, 12, c1);
+    l3.addItem(6, 11, c1);
+    l3.addItem(5, 5, new Treasure("Bat", "Spooky Bat", "assets/smallbat.png"));
     l3.addExit(Direction.EAST, false);
 
     Location l4 = new Location(12,12);
@@ -301,16 +305,19 @@ public class GameWorld {
     l4.addExit(Direction.EAST, false);
     l4.addExit(Direction.SOUTH, false);
     l4.addExit(Direction.WEST, false);
+    l4.addItem(5, 5, new Treasure("D u r r y", "Big durry energy", "assets/testIMG.png"));
 
     Location l5 = new Location(12,12);
     Key k1 = new Key();
     l5.addItem(10, 10, k1);
+    l5.addItem(7, 9, new Treasure("Bat", "Spooky Bat", "assets/smallbat.png"));
     l5.addExit(Direction.WEST, false);
 
     Location l6 = new Location(12,12);
     Treasure t3 = new Treasure("Tooth Necklace",
         "A necklace made from human teeth.","assets/boneNecklace.png");
     l6.addItem(8, 11, t3);
+    l6.addItem(10, 7, new Treasure("Bat", "Spooky Bat", "assets/smallbat.png"));
     l6.addExit(Direction.NORTH, false);
 
     List<Treasure> required = new ArrayList<Treasure>();
@@ -319,7 +326,7 @@ public class GameWorld {
     required.add(t3);
     Quest q1 = new Quest("Evil Orb", "An evil orb of souls that can "
         + "only be destroyed by collecting treasures", "", required);
-    l1.addItem(12, 6, q1);
+    l1.addItem(11, 6, q1);
 
     Location[][] locations = new Location[3][4];
     locations[1][0] = l1;
