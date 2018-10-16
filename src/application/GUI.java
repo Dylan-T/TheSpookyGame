@@ -70,18 +70,8 @@ import java.awt.FlowLayout;
  *
  */
 public class GUI {
-  /*
-   * public enum Move { NORTH, SOUTH, EAST, WEST, ZOOM_IN, ZOOM_OUT };
-   */
 
-  /**
-   * I THINK THAT IT WOULD BE A GGOOD IDEA TO MAKE THIS CLASS AN ABSTRACK CLASS
-   * THIS WOULD MEAN THAT DYLANS PACKAGE WOULD HAVE TO EXTEND IT AND IMPLEMENT A
-   * MOVE METHOD.
-   */
-
-   // GameWorld game = GameWorld.testGameWorld2();
-  static GameWorld game;
+  private static GameWorld game;
   private Renderer rWindow;
 
   private static JFrame frame;
@@ -101,8 +91,7 @@ public class GUI {
 
   /**
    * Launch the application.
-   *
-   * @param args
+   * @param args some command line stuff
    */
   public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
@@ -112,8 +101,6 @@ public class GUI {
           TitleScreen title = new TitleScreen();
           title.getTitleFrame().setVisible(true);
 
-          // window.frame.setVisible(true);
-
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -122,7 +109,7 @@ public class GUI {
   }
 
   /**
-   * Create the application.
+   * Create the application and the game world to run.
    */
   public GUI() {
     game = GameWorld.testGameWorld2();
@@ -130,7 +117,9 @@ public class GUI {
   }
 
   /**
-   * Initialize the contents of the frame. this is mainly used to draw everything.
+   * Initialize the contents of the frame. This draws the main componets
+   * lays them out on the JFrame. This is responsible for creating the main
+   * GUI.
    */
 
   @SuppressWarnings("serial")
@@ -240,16 +229,11 @@ public class GUI {
                 drawing.repaint();
               }else {
                 System.out.println("nothing was picked up");
+                //this should print to the text field
               }
             }
           }
         }
-
-       /* if(found == false) {
-          JOptionPane.showMessageDialog(frame, "nothing to pick up");
-        }*/
-
-        //drawing.repaint();
         // this should also redraw the inventory pane
       }
     });
@@ -387,11 +371,10 @@ public class GUI {
     // -----CREATING BORDERS FOR THE COMPONENTS AND MENUBAR-------
     createBoarders();
     createMenu();
-    //yo
   }
 
   /**
-   *
+   *Creates the MenuBar for the Frame with additional functionality for the user.
    */
   public static void createMenu() {
     JMenuBar menuBar = new JMenuBar();
@@ -418,8 +401,8 @@ public class GUI {
 
   /**
    * Helper method that does the actions of the saveButton.
-   *
-   * @param save
+   * called when the user clicks the save buttons from the menu bar.
+   * @param save passed from the menu bar.
    */
   static public void pressSave(JButton save) {
     save.addActionListener(new ActionListener() {
@@ -440,8 +423,9 @@ public class GUI {
 
   /**
    * Helper method that does the actions of the loadButton.
+   * called when the user calls the load from the menu bar.
    *
-   * @param load
+   * @param load passed from the menu bar.
    */
   static public void pressLoad(JButton load) {
     load.addActionListener(new ActionListener() {
@@ -456,8 +440,8 @@ public class GUI {
 
   /**
    * Helper method that does the actions of the newGameButton.
-   *
-   * @param newGame
+   * called when the user calls the new game from the menu bar.
+   * @param newGame passed from the menu bar.
    */
   static public void pressNewGame(JButton newGame) {
     newGame.addActionListener(new ActionListener() {
@@ -469,8 +453,9 @@ public class GUI {
   }
 
   /**
-   * @param exit
-   *          exits.
+   * this is called when the user clicks the exit button on the GUI
+   * makes sure that the user is sure they want to exit by having a
+   * popup conformation box.
    */
   static public void windowExit() {
     frame.addWindowListener(new WindowAdapter() { // create a new window listener
@@ -488,7 +473,9 @@ public class GUI {
   }
 
   /**
-   *
+   *Helper method that is used to create borders around the main compents
+   *of the GUI. This is just to make the componenets of the GUI clearer
+   *and nicer.
    */
   public static void createBoarders() {
     Border redline = BorderFactory.createLineBorder(Color.RED);
@@ -507,6 +494,8 @@ public class GUI {
   }
 
   /**
+   * this is used as a getter from the title screen method
+   * so that the title screen can make a new GUI.
    * @return the frame.
    */
   public JFrame getFrame() {
