@@ -387,6 +387,7 @@ public class GUI {
     // -----CREATING BORDERS FOR THE COMPONENTS AND MENUBAR-------
     createBoarders();
     createMenu();
+    //yo
   }
 
   /**
