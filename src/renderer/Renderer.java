@@ -76,13 +76,19 @@ public class Renderer {
      */
 
     BufferedImage cube = null;
-    BufferedImage femur = null;
+    BufferedImage scaryBack = null;
+    BufferedImage bat = null;
     try {
       cube = ImageIO.read(new File("Portal.png"));
     } catch (IOException e) {
     }
     try {
-      femur = ImageIO.read(new File("assets/femur.png"));
+      scaryBack = ImageIO.read(new File("assets/scaryFace.png"));
+    } catch (IOException e) {
+    }
+
+    try {
+      bat = ImageIO.read(new File("assets/Scarybat.png"));
     } catch (IOException e) {
     }
     //System.out.println(cube);
@@ -98,8 +104,8 @@ public class Renderer {
       int yMiddle = CANVASHEIGHT/2;
       int xMiddle = CANVASWIDTH/2;
 
-      int Xdimension = 100;
-      int Ydimension = 50;
+      int Xdimension = 150;
+      int Ydimension = (int) (Xdimension/1.89);
 
       g.setColor(Color.LIGHT_GRAY);
       Polygon right = new Polygon();
@@ -138,7 +144,7 @@ public class Renderer {
 
 
       //the background picture
-      g.drawImage(femur.getScaledInstance(Math.round(2*Xdimension), Math.round(2*Ydimension), Image.SCALE_DEFAULT), xMiddle-Xdimension, yMiddle-Ydimension, null);
+      g.drawImage(scaryBack.getScaledInstance(Math.round(2*Xdimension), Math.round(2*Ydimension), Image.SCALE_DEFAULT), xMiddle-Xdimension, yMiddle-Ydimension, null);
       g.drawRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
       g.drawLine(xMiddle - Xdimension, yMiddle - Ydimension, 0, 0);
@@ -187,13 +193,40 @@ public class Renderer {
         g.drawLine(i, yMiddle - Ydimension, tempX, 0);
       }
 
+      g.setColor(Color.BLACK);
+      Polygon rightDoor = new Polygon();
+      rightDoor.addPoint((xMiddle+Xdimension) +((CANVASWIDTH-(xMiddle+Xdimension))/2), yMiddle - Ydimension);
+      rightDoor.addPoint(CANVASWIDTH, 250);
+      rightDoor.addPoint(CANVASWIDTH, CANVASHEIGHT);
+      rightDoor.addPoint((xMiddle+Xdimension) +((CANVASWIDTH-(xMiddle+Xdimension))/2), CANVASHEIGHT - ((yMiddle+Ydimension)/2) + 50);
+      g.fillPolygon(rightDoor);
+
+      g.setColor(Color.ORANGE);
+      g.fillOval(CANVASWIDTH- 40, 550, 20, 40);
+
+
+      g.setColor(Color.BLACK);
+      Polygon leftDoor = new Polygon();
+      leftDoor.addPoint((xMiddle-Xdimension) -(((xMiddle-Xdimension))/2), yMiddle - Ydimension);
+      leftDoor.addPoint(0, 250);
+      leftDoor.addPoint(0, CANVASHEIGHT);
+      leftDoor.addPoint((xMiddle-Xdimension) -(((xMiddle-Xdimension))/2), CANVASHEIGHT - ((yMiddle+Ydimension)/2) + 70);
+      g.fillPolygon(leftDoor);
+
+      g.setColor(Color.ORANGE);
+      g.fillOval(40, 550, 20, 40);
+
      /* g.drawRect(xMiddle + 90, yMiddle + 40, 10, 10);
       g.drawRect(CANVASWIDTH - 10*widthScale, CANVASHEIGHT - 10*heightScale, 10*widthScale, 10*heightScale);*/
       this.fillCube(new Cube(xMiddle + (Xdimension-10), yMiddle + (Ydimension-10), 10, CANVASWIDTH - 10*widthScale, CANVASHEIGHT - 10*heightScale, 10*widthScale), g);
       this.fillCube(new Cube(xMiddle - Xdimension, yMiddle + (Ydimension-10), 10, 0 + 10*widthScale, CANVASHEIGHT - 10*heightScale, 10*widthScale), g);
 
 
-      g.drawImage(cube.getScaledInstance(40, 45, Image.SCALE_DEFAULT), xMiddle-19, yMiddle-10, null); // the portal
+
+
+
+
+      //g.drawImage(cube.getScaledInstance(40, 45, Image.SCALE_DEFAULT), xMiddle-19, yMiddle-10, null); // the portal
 
 
 
@@ -258,6 +291,80 @@ public class Renderer {
         yIncrement += 30;
         countJ++;
       }
+
+
+
+
+       a = 0;
+       oldWidth = 200;
+       tempWidth = 200;
+       gapy = 30;
+       yIncrement = 50;
+       xStart = xMiddle - Xdimension + 20;
+       yStart = yMiddle - Ydimension -30;
+       width2 = 10;
+       height2 = 40;
+       Xscaler = CANVASWIDTH/200;
+       Yscaler = Math.sqrt((xStart*xStart) + Math.abs(((yStart - CANVASHEIGHT)^2)))/(CANVASHEIGHT-(yStart));
+
+        i = xStart;
+        shapeW = 10;
+        shapeH = 40;
+
+        countI = 0;
+        countJ = 0;
+
+
+      while (yStart > 0 && countJ<grid.length) {
+
+        while (i < (xStart + tempWidth) && countI<grid[0].length) {
+          //g.setColor(Color.ORANGE);
+          //g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
+
+          // set up for images to be drawn on floor
+
+
+
+            g.drawImage(bat.getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i, yStart, null);
+
+          i = (int) (i + shapeW);
+
+          //System.out.println(tempWidth/oldWidth);
+          countI++;
+        }
+        countI = 0;
+
+        double c = Yscaler*gapy;
+
+        int b = gapy;
+
+        a = Math.sqrt(c*c - b*b);
+        oldWidth = tempWidth;
+        //System.out.println(oldWidth);
+        tempWidth = (int) (tempWidth + (2*a));
+        shapeW += width2*(tempWidth/oldWidth);
+        shapeH += height2*(yIncrement/gapy);
+        //System.out.println(tempWidth);
+        xStart = (int) (xStart - a);
+        //System.out.println(xStart);
+        i = xStart;
+        yStart -= gapy;
+        yIncrement -= 30;
+        countJ++;
+      }
+      g.setColor(Color.BLACK);
+      Polygon rightTriangle = new Polygon();
+      rightTriangle.addPoint(xMiddle+ Xdimension, yMiddle - Ydimension);
+      rightTriangle.addPoint(CANVASWIDTH, 0);
+      rightTriangle.addPoint(CANVASWIDTH -400, 0);
+
+      Polygon leftTriangle = new Polygon();
+      leftTriangle.addPoint(xMiddle- Xdimension, yMiddle - Ydimension);
+      leftTriangle.addPoint(0, 0);
+      leftTriangle.addPoint(400, 0);
+
+      //g.fillPolygon(rightTriangle);
+      //g.fillPolygon(leftTriangle);
 
       //g.drawRect(xMiddle-10, yMiddle+10, 20, 40);
       /*for(int i = 0; i< 20; i++) {
@@ -346,13 +453,17 @@ private
     int count = 0;
     for(int i = 0; i< grid.length; i++) {
       for(int j = 0; j< grid[0].length; j++) {
-        if(grid[j][i].getImage() != null) {
-          for(int yPos = coords.get(count).getY(); yPos < yPos + coords.get(count).getHeight(); yPos++) {
-            for(int xPos = coords.get(count).getX(); xPos < xPos + coords.get(count).getWidth(); xPos++) {
-              if(x == xPos && y == yPos) {
-                return grid[j][i];
-              }
-            }
+        if(grid[j][i] != null) {
+//          for(int yPos = coords.get(count).getY(); yPos < coords.get(count).getY() + coords.get(count).getHeight(); yPos++) {
+//            for(int xPos = coords.get(count).getX(); xPos < coords.get(count).getX() + coords.get(count).getWidth(); xPos++) {
+//              if(x == xPos && y == yPos) {
+//                return grid[j][i];
+//              }
+//            }
+//          }
+          if ((coords.get(count).getX() < x && x < coords.get(count).getX() + coords.get(count).getWidth()) && (coords.get(count).getY() < y && y < coords.get(count).getY() + coords.get(count).getHeight())) {
+            System.out.println(grid[j][i].toString());
+            return grid[j][i];
           }
           count++;
         }
