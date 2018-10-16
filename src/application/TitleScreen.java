@@ -25,11 +25,11 @@ import java.awt.*;
  *
  */
 public class TitleScreen {
-  
+
   private static JFrame titleFrame;
-  private static final int width = 1280;
-  private static final int height = 800;
-  
+  private static final int width = 1221;
+  private static final int height = 682;
+
   /**
    * @param args
    */
@@ -45,42 +45,42 @@ public class TitleScreen {
       }
     });
   }*/
-  
-  
+
+
   /**
-   * 
+   *
    */
   public TitleScreen() {
     initialize();
   }
-  
+
   /**
-   * 
+   *
    */
   public void initialize() {
-    
-    
+
+
     titleFrame = new JFrame();
-    titleFrame.setTitle("Start Up Screen");
+    titleFrame.setTitle("The Spooky Game");
     titleFrame.setBounds(100, 100,width, height);
-    titleFrame.setVisible(true); 
+    titleFrame.setVisible(true);
     titleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     titleFrame.getContentPane().setLayout(null);
-    
+
     JPanel game = new JPanel();
-    game.setBounds(0, 0, width , height);    
+    game.setBounds(0, 0, width , height);
     titleFrame.getContentPane().add(game);
-   
+
     game.setLayout(null);
-  
-    
+
+
     JPanel buttons = new JPanel();
     buttons.setMaximumSize(new Dimension(250, 350));
-    buttons.setBounds(width/2-125, height/2-125, 250, 250); 
+    buttons.setBounds(width/2-125, height/2-125, 250, 250);
     buttons.setOpaque(false);
     game.add(buttons);
     buttons.setLayout(new GridLayout(3, 1));
-    
+
     JButton start = new JButton("Start");
     start.setForeground(new Color(255, 0, 0));
     start.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 55));
@@ -93,9 +93,11 @@ public class TitleScreen {
         titleFrame.setVisible(false);
         GUI gui = new GUI();
         gui.getFrame().setVisible(true);
+        /*System.out.print(GUI.drawing.getHeight() + " this is h \n");
+        System.out.print(GUI.drawing.getWidth() + " this is w \n");*/
       }});
     buttons.add(start);
-    
+
     JButton load = new JButton("Load");
     load.setForeground(new Color(255, 0, 0));
     load.setFont(new Font("Chiller", Font.BOLD, 55));
@@ -108,7 +110,7 @@ public class TitleScreen {
         System.out.println("call the load method from here");
       }});
     buttons.add(load);
-    
+
     JButton quit = new JButton("Quit");
     quit.setForeground(new Color(255, 0, 0));
     quit.setFont(new Font("Chiller", Font.BOLD, 55));
@@ -121,16 +123,16 @@ public class TitleScreen {
         System.exit(0);
       }});
     buttons.add(quit);
-    
-    
-    BackgroundImage bg = new BackgroundImage(new ImageIcon("notlegal.png").getImage());
+
+
+    BackgroundImage bg = new BackgroundImage(new ImageIcon("background.png").getImage());
     game.add(bg);
-    
-    
-    
-  }  
-  
-  
+
+
+
+  }
+
+
   /**
    * @return the JFrame allowing access from GUI class.
    */

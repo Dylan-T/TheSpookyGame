@@ -303,7 +303,6 @@ public class XmlSaver {
    */
   public static Element makeKey(gameworld.Key key, Document doc) {
     Element keyElem = doc.createElement("key");
-    Element unlocks = makePassage(key.getUnlocks(), doc);
     Attr name = doc.createAttribute("name");
     Attr description = doc.createAttribute("description");
     Attr image = doc.createAttribute("imagePath");
@@ -313,7 +312,6 @@ public class XmlSaver {
     keyElem.setAttributeNode(name);
     keyElem.setAttributeNode(description);
     keyElem.setAttributeNode(image);
-    keyElem.appendChild(unlocks);
     return keyElem;
   }
 
@@ -351,12 +349,18 @@ public class XmlSaver {
       Attr description = doc.createAttribute("description");
       Attr image = doc.createAttribute("imagePath");
       Attr type = doc.createAttribute("type");
+      if(i instanceof Treasure) {
+        type.setValue("treasure");
+      }else if(i instanceof Key){
+        type.setValue("key");
+      }
       name.setValue(i.getName());
       description.setValue(i.getDescription());
       image.setValue(i.getImage().toString());
       item.setAttributeNode(name);
       item.setAttributeNode(description);
       item.setAttributeNode(image);
+      item.setAttributeNode(type);
       Inventory.appendChild(item);
     }
     }
@@ -376,9 +380,12 @@ public class XmlSaver {
       Attr name = doc.createAttribute("name");
       Attr description = doc.createAttribute("description");
       Attr image = doc.createAttribute("imagePath");
+      Attr type = doc.createAttribute("type");
+      type.setValue("treasure");
       name.setValue(i.getName());
       description.setValue(i.getDescription());
       image.setValue(i.getImage().toString());
+      item.setAttributeNode(type);
       item.setAttributeNode(name);
       item.setAttributeNode(description);
       item.setAttributeNode(image);
@@ -405,23 +412,7 @@ public class XmlSaver {
     return Player;
   }
 
-  /**
-   * @param passage
-   * @param doc
-   * @return a new passage element
-   */
-  public static Element makePassage(gameworld.Passage passage, Document doc) {
-    Element Passage = doc.createElement("passage");
-    Element loc1 = makeLocation(passage.getLoc1(), doc);
-    Element loc2 = makeLocation(passage.getLoc2(), doc);
-    Attr blocked = doc.createAttribute("blocked");
-    blocked.setValue(passage.isLocked() + "");
-    Passage.appendChild(loc1);
-    Passage.appendChild(loc2);
-    Passage.setAttributeNode(blocked);
-    return Passage;
 
-  }
 
  /**
  * @param game
@@ -449,9 +440,13 @@ public static void makeXml(GameWorld game) throws ParserConfigurationException, 
    }
 
    Element Locations = document.createElement("Locations");
-   for(Location l:game.getLocations()) {
-     Locations.appendChild(makeLocation(l,document));
+   Location[][] worldmap = game.getWorldMap();
+   for(int i =0; i<worldmap.length; i++) {
+     for(int j=0; j<worldmap[0].length; j++) {
+       Locations.appendChild(makeLocation(worldmap[i][j],document));
+     }
    }
+
 
    gamefile.appendChild(player);
    gamefile.appendChild(Quests);
@@ -472,9 +467,6 @@ public static void makeXml(GameWorld game) throws ParserConfigurationException, 
 
 
  }
-
-
-
 
   /**
    * gets the file path.

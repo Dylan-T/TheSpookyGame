@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 
 /**
  * Class that modifies and creates items on the map itself.
- * 
+ *
  * @author Nathan
  *
  */
@@ -34,7 +34,7 @@ public class MapUtilGUI {
         JOptionPane.WARNING_MESSAGE);
 
   }
-  
+
   /**
    * Error for inputting invalid arguments
    */
@@ -47,7 +47,7 @@ public class MapUtilGUI {
     JOptionPane.showMessageDialog(frame, "That is an invalid input", "Error",
         JOptionPane.WARNING_MESSAGE);
   }
-  
+
   /**
    * Error for unsaved changes.
    */
@@ -56,12 +56,13 @@ public class MapUtilGUI {
     JFrame frame = new JFrame("Unsaved Changes");
     frame.setSize(250, 250);
     frame.setLocationRelativeTo(null);
-    
-    final JOptionPane optionPane = new JOptionPane("You have unsaved changes.\n" +"Would you like to continue?",
+
+    JOptionPane optionPane = new JOptionPane("You have unsaved changes.\n" +"Would you like to continue?",
         JOptionPane.QUESTION_MESSAGE,
         JOptionPane.YES_NO_OPTION);
-    
-    
+
+
+
   }
-  
+
 }

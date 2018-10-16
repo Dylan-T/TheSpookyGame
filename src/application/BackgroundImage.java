@@ -12,22 +12,22 @@ import javax.swing.JPanel;
  *
  */
 public class BackgroundImage extends JPanel{
-  
+
   private Image img;
   private Dimension size;
-  
+
   /**
    * @param img
    */
   public BackgroundImage(String img) {
     this(new ImageIcon(img).getImage());
   }
-  
+
   /**
-   * @param img 
+   * @param img
    * @param str
    */
-  
+
   public BackgroundImage(Image img) {
     this.img = img;
     size = new Dimension(img.getWidth(null), img.getHeight(null));
@@ -37,15 +37,15 @@ public class BackgroundImage extends JPanel{
     setSize(size);
     setLayout(null);
   }
-  
+
   /**
    * @param g
    */
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.drawImage(img, 0, 0, null); //could change this 
+    g.drawImage(img, 0, 0, null); //could change this
   }
-  
+
   /**
    * @return the size of the image.
    */

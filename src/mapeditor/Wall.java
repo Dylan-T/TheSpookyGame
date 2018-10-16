@@ -7,7 +7,7 @@ import java.awt.Graphics;
  * @author Nathan
  *
  */
-public class WallPiece implements TilePiece {
+public class Wall implements TilePiece {
   //Field for its color - white
   Color color = new Color(220,220,220);
 
