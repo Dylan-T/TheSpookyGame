@@ -351,12 +351,18 @@ public class XmlSaver {
       Attr description = doc.createAttribute("description");
       Attr image = doc.createAttribute("imagePath");
       Attr type = doc.createAttribute("type");
+      if(i instanceof Treasure) {
+        type.setValue("treasure");
+      }else if(i instanceof Key){
+        type.setValue("key");
+      }
       name.setValue(i.getName());
       description.setValue(i.getDescription());
       image.setValue(i.getImage().toString());
       item.setAttributeNode(name);
       item.setAttributeNode(description);
       item.setAttributeNode(image);
+      item.setAttributeNode(type);
       Inventory.appendChild(item);
     }
     }
@@ -376,9 +382,12 @@ public class XmlSaver {
       Attr name = doc.createAttribute("name");
       Attr description = doc.createAttribute("description");
       Attr image = doc.createAttribute("imagePath");
+      Attr type = doc.createAttribute("type");
+      type.setValue("treasure");
       name.setValue(i.getName());
       description.setValue(i.getDescription());
       image.setValue(i.getImage().toString());
+      item.setAttributeNode(type);
       item.setAttributeNode(name);
       item.setAttributeNode(description);
       item.setAttributeNode(image);
