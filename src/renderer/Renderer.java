@@ -362,25 +362,25 @@ public class Renderer {
       // g.drawRect(xMiddle-10, yMiddle+10, 20, 40);
       /*
        * for(int i = 0; i< 20; i++) {
-       * 
+       *
        * g.setColor(colors.get(colorNumber)); colorNumber++;
-       * 
+       *
        * for(int j = 0; j< 20; j++) { //Image current = grid[i][j].getImage();
        * //cube.getScaledInstance(Math.round(cube.getWidth(null)*scale),
        * Math.round(cube.getHeight(null)*scale), Image.SCALE_DEFAULT);
        * //g.drawImage(cube, x, y, null); Cube temp = new Cube(x, y,
        * Math.round(width*scale), Math.round(scale), Math.round(scale), scale);
        * fillCube(temp, g);
-       * 
+       *
        * //g.setColor(Color.BLUE); //g.fillRect(x, y, Math.round(width*scale),
        * Math.round(height*scale)); //g.fill3DRect(x, y, Math.round(width*scale),
        * Math.round(height*scale), true);
-       * 
+       *
        * //x += 50*scale; private x = x + temp.Xgap; y = y + temp.Ygap;
-       * 
-       * 
+       *
+       *
        * } scale += 0.2; //x = 10; //y += 50;
-       * 
+       *
        * }
        */
 
@@ -451,7 +451,7 @@ public class Renderer {
           // }
           if ((coords.get(count).getX() < x
               && x < (coords.get(count).getX() + coords.get(count).getWidth()))) {
-            
+
             if (coords.get(count).getY()+60 < y
                 && y < (coords.get(count).getY() + 60 + coords.get(count).getHeight())) {
               System.out.println("here");
@@ -467,7 +467,7 @@ public class Renderer {
 
   /**
    * draws the cube onto the canvas by connecting vertices
-   * 
+   *
    * @param c
    * @param g
    */
