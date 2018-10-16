@@ -230,30 +230,31 @@ public class GameWorld {
    */
   public static GameWorld testGameWorld2() {
     // Make locations & add item's
-    Location l1 = new Location(2, 2);
+    Location l1 = new Location(12, 12);
     l1.addExit(Direction.SOUTH, false);
     l1.addExit(Direction.EAST, false);
-    l1.addItem(0, 0,
+    l1.addItem(4, 0,
         new Decoration("Grave", "An ominous looking grave", "assets/boneNecklace.png"));
-    l1.addItem(0, 1, new Treasure("Grave", "An ominous looking grave", "assets/femur.png"));
-    l1.addItem(1, 0, new Decoration("Grave", "An ominous looking grave", "assets/scepter.png"));
-    l1.addItem(1, 1, new Treasure("Grave", "An ominous looking grave", "assets/coffin.png"));
+    l1.addItem(8, 1, new Treasure("Grave", "An ominous looking grave", "assets/femur.png"));
+    l1.addItem(15, 3, new Decoration("Grave", "An ominous looking grave", "assets/scepter.png"));
+    l1.addItem(11, 3, new Treasure("Grave", "An ominous looking grave", "assets/femur.png"));
+    l1.addItem(1, 1, new Treasure("Grave", "An ominous looking grave", "assets/boneNecklace.png"));
 
-    Location l2 = new Location(2, 2);
+    Location l2 = new Location(12, 12);
     l2.addExit(Direction.WEST, false);
     l2.addExit(Direction.SOUTH, false);
-    l2.addItem(0, 1, new Decoration("Crow", "A raggedy crow", "assets/evilOrb.png"));
+    l2.addItem(10, 1, new Decoration("Crow", "A raggedy crow", "assets/evilOrb.png"));
 
-    Location l3 = new Location(2, 2);
+    Location l3 = new Location(12, 12);
     l3.addExit(Direction.NORTH, false);
     l3.addExit(Direction.EAST, false);
-    l3.addItem(1, 0, new Treasure("Golden Skull", "Ancient golden skull embellished with gems",
+    l3.addItem(10, 3, new Treasure("Golden Skull", "Ancient golden skull embellished with gems",
         "assets/chest.png"));
 
-    Location l4 = new Location(2, 2);
+    Location l4 = new Location(12, 12);
     l4.addExit(Direction.WEST, false);
     l4.addExit(Direction.NORTH, false);
-    l4.addItem(1, 1, new Treasure("Kanye's Donda chain", "A chain imbued with Chicago's energy",
+    l4.addItem(8, 2, new Treasure("Kanye's Donda chain", "A chain imbued with Chicago's energy",
         "assets/key.png"));
 
     // Add locations to Collection
