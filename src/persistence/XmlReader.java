@@ -44,7 +44,7 @@ public class XmlReader {
    * @throws IOException Exception for invalid input or outputs
    * @throws SAXException XMl parser exception.
    */
-  public GameWorld loadXml(String filepath)
+  public static GameWorld loadXml(String filepath)
       throws ParserConfigurationException, SAXException, IOException {
     // String filePath = "/home/hoongkevi/Desktop/game";
     File xml = new File(filepath);
