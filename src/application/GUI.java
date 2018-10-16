@@ -45,9 +45,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import gameworld.GameWorld;
 import gameworld.Item;
+import persistence.XmlSaver;
 import renderer.Renderer;
 
 import javax.swing.JMenuBar;
@@ -77,21 +80,22 @@ public class GUI {
    * MOVE METHOD.
    */
 
-  // GameWorld game = GameWorld.testGameWorld2();
-  GameWorld game;
+   // GameWorld game = GameWorld.testGameWorld2();
+  static GameWorld game;
   private Renderer rWindow;
 
   private static JFrame frame;
-  private JTextField textField;
   private JComponent drawing;
-  private TitledBorder title;
+  private static TitledBorder title;
   private static JPanel canvas;
   private static JPanel displayPanel;
   private static JPanel textBox;
+  private static JPanel buttonPanel;
+  private static JPanel extraButtons;
+  private static JTextArea textWindow;
   private int height;
   private int width;
-  private int newheight;
-  private int newwidth;
+
 
   // DRAWING WIDTH = 1604, HEIGHT = 951
 
@@ -107,6 +111,7 @@ public class GUI {
           // GUI window = new GUI();
           TitleScreen title = new TitleScreen();
           title.getTitleFrame().setVisible(true);
+
           // window.frame.setVisible(true);
 
         } catch (Exception e) {
@@ -131,20 +136,17 @@ public class GUI {
   @SuppressWarnings("serial")
   private void initialize() {
     frame = new JFrame();
-    frame.setTitle("SwenProject");
-    // frame.setBounds(100, 100, 900, 750); // original sizing of the window
+    frame.setTitle("The Spooky Game");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    // frame.setUndecorated(true);
     windowExit();
     frame.setVisible(true);
-    // windowExit();
 
     width = frame.getBounds().width;
     height = frame.getBounds().height;
 
     // ------------HERE IS THE BUTTON PANEL------------------
-    JPanel buttonPanel = new JPanel();
+    buttonPanel = new JPanel();
 
     buttonPanel.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
@@ -153,7 +155,6 @@ public class GUI {
       }
     });
 
-    // --------------CREATING THE DISPLAY PANEL AND CANVAS--------------
     // --------------FORMATTING THE 3 MAIN PANEL COMPONENTS--------------
     displayPanel = new JPanel();
     canvas = new JPanel();
@@ -194,8 +195,6 @@ public class GUI {
     frame.getContentPane().setLayout(groupLayout);
 
     // ------------MAKING THE CANVAS A DRAWING COMPONENT----------------
-    // within here i should make the popup menu
-
     drawing = new JComponent() {
       protected void paintComponent(Graphics g) {
         System.out.println("you are now in the drawing pane");
@@ -221,33 +220,36 @@ public class GUI {
     canvas.add(drawing);
 
     // ------CREATING A DROP DOWN MENU WHEN CLICKING-------
-    // in order to differentiate on whether something is a item or not
-    // i guess we can up x y values compare them to x y values of the item.
     JPopupMenu popup = new JPopupMenu();
     JMenuItem pickup = new JMenuItem("Pick Up");
     pickup.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("this should call a pickup method");
-        // get the item
         int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y;
         boolean found = false;
 
         Item[][] i = rWindow.getGrid();
+
         for(int a = 0; a < i.length; a++) {
           for(int b = 0; b < i[0].length; b++) {
             if(rWindow.isWithin(mouseX, mouseY) == i[b][a]) {
               found = true;
-              game.getPlayer().pickupItem(i[b][a]);
+              if(game.getPlayer().pickupItem(i[b][a])) {
+                System.out.println("something was picked up");
+                drawing.repaint();
+              }else {
+                System.out.println("nothing was picked up");
+              }
             }
           }
         }
 
-        if(found == false) {
+       /* if(found == false) {
           JOptionPane.showMessageDialog(frame, "nothing to pick up");
-        }
+        }*/
 
-        drawing.repaint();
+        //drawing.repaint();
         // this should also redraw the inventory pane
       }
     });
@@ -262,31 +264,8 @@ public class GUI {
     popup.add(pickup);
     popup.add(inspect);
 
-    MouseListener popupListener = new PopupListener(popup);
+    MouseListener popupListener = new PopupListener(popup); //this makes the mouse right click give the popup menu
     drawing.addMouseListener(popupListener);
-
-    // -------------CREATING THE MENU BAR--------------
-    // these actions will need some mouse listeners
-    JMenuBar menuBar = new JMenuBar();
-    frame.setJMenuBar(menuBar);
-
-    JMenu mnFile = new JMenu("File");
-    menuBar.add(mnFile);
-
-    JButton buttonSave = new JButton("Save");
-    mnFile.add(buttonSave);
-    pressSave(buttonSave);
-
-    JButton buttonLoad = new JButton("Load");
-    mnFile.add(buttonLoad);
-    pressLoad(buttonLoad);
-
-    JMenu mnGame = new JMenu("Game");
-    menuBar.add(mnGame);
-
-    JButton newGameButton = new JButton("New Game");
-    mnGame.add(newGameButton);
-    pressNewGame(newGameButton);
 
     // --------CREATING THE NAVIGATION BUTTTONS---------------
     JButton west = new JButton("\u2190");
@@ -347,9 +326,6 @@ public class GUI {
 
     displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.LINE_AXIS));
 
-    // Border edge = BorderFactory.createEmptyBorder(2, 2, 2, 2);
-    // displayPanel.setBorder(edge);
-
     west.setMargin(new Insets(0, 0, 0, 0));
     east.setMargin(new Insets(0, 0, 0, 0));
     north.setMargin(new Insets(0, 0, 0, 0));
@@ -370,11 +346,9 @@ public class GUI {
     displayPanel.add(Box.createRigidArea(new Dimension(7, 0)));
 
     // creating a button panel
-    JPanel extraButtons = new JPanel();
+    extraButtons = new JPanel();
     extraButtons.setMaximumSize(new Dimension(820, 148));
     extraButtons.setLayout(null);
-    // add any extra buttons here
-    // extraButtons.setBackground(Color.BLUE);
 
     JButton drop = new JButton("Drop");
     drop.setPreferredSize(new Dimension(50, 50));
@@ -388,24 +362,18 @@ public class GUI {
     });
 
     drop.setBounds(3, 9, 100, 60);
-
     extraButtons.add(drop);
     displayPanel.add(extraButtons);
 
-    // creating the text area that the text area will go in
-
+  //-------CREATING THE TEXT AREA IN THE DISPLAY PANEL FOR USER FEEDBACK---------------
     displayPanel.add(Box.createRigidArea(new Dimension(2, 0)));
 
     textBox = new JPanel();
     textBox.setMaximumSize(new Dimension(830, 150));
     textBox.setLayout(null); // position the text area using setBounds
-    // textBox.setBackground(Color.GREEN);
-
-    // adding a text area to text box
-
     displayPanel.add(textBox);
 
-    JTextArea textWindow = new JTextArea();
+    textWindow = new JTextArea();
     // textWindow.setBounds(0, 0, 828, 138);
 
     textWindow.setLineWrap(true);
@@ -414,23 +382,37 @@ public class GUI {
 
     JScrollPane scroll = new JScrollPane(textWindow);
     scroll.setBounds(0, 0, 828, 138);
-
     textBox.add(scroll);
 
-    // -----CREATING BORDERS FOR THE COMPONENTS-------
-    Border redline = BorderFactory.createLineBorder(Color.RED);
-    title = BorderFactory.createTitledBorder(redline, "Inventory");
-    title.setTitleJustification(TitledBorder.CENTER);
-    buttonPanel.setBorder(title);
+    // -----CREATING BORDERS FOR THE COMPONENTS AND MENUBAR-------
+    createBoarders();
+    createMenu();
+  }
 
-    Border lowerBevel = BorderFactory.createRaisedBevelBorder();
-    canvas.setBorder(lowerBevel);
+  /**
+   *
+   */
+  public static void createMenu() {
+    JMenuBar menuBar = new JMenuBar();
+    frame.setJMenuBar(menuBar);
 
-    Border blackline = BorderFactory.createLineBorder(Color.BLACK);
-    TitledBorder t = BorderFactory.createTitledBorder(blackline, "Control Panel");
-    t.setTitleJustification(TitledBorder.CENTER);
-    extraButtons.setBorder(t);
+    JMenu mnFile = new JMenu("File");
+    menuBar.add(mnFile);
 
+    JButton buttonSave = new JButton("Save");
+    mnFile.add(buttonSave);
+    pressSave(buttonSave);
+
+    JButton buttonLoad = new JButton("Load");
+    mnFile.add(buttonLoad);
+    pressLoad(buttonLoad);
+
+    JMenu mnGame = new JMenu("Game");
+    menuBar.add(mnGame);
+
+    JButton newGameButton = new JButton("New Game");
+    mnGame.add(newGameButton);
+    pressNewGame(newGameButton);
   }
 
   /**
@@ -442,6 +424,15 @@ public class GUI {
     save.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("You need to save code here"); // cleanly end the program.
+
+        try {
+          XmlSaver.makeXml(game);
+        } catch (ParserConfigurationException e) {
+          e.printStackTrace();
+        } catch (TransformerException e) {
+          e.printStackTrace();
+        }
+
       }
     });
   }
@@ -455,8 +446,11 @@ public class GUI {
     load.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("You need to load code here"); // cleanly end the program.
+
+
       }
     });
+
   }
 
   /**
@@ -490,6 +484,25 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       }
     });
+  }
+
+  /**
+   *
+   */
+  public static void createBoarders() {
+    Border redline = BorderFactory.createLineBorder(Color.RED);
+    title = BorderFactory.createTitledBorder(redline, "Inventory");
+    title.setTitleJustification(TitledBorder.CENTER);
+    buttonPanel.setBorder(title);
+
+    Border lowerBevel = BorderFactory.createRaisedBevelBorder();
+    canvas.setBorder(lowerBevel);
+
+    Border blackline = BorderFactory.createLineBorder(Color.BLACK);
+    TitledBorder t = BorderFactory.createTitledBorder(blackline, "Control Panel");
+    t.setTitleJustification(TitledBorder.CENTER);
+    extraButtons.setBorder(t);
+
   }
 
   /**
