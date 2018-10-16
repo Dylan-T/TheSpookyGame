@@ -65,17 +65,19 @@ import javax.swing.JSplitPane;
 import java.awt.FlowLayout;
 
 /**
- * @author Armaan this is the GUI class that creates the interface which will be
- *         used by multiple other classes.
+ * this is the GUI class that creates the interface which will be used by
+ * multiple other classes.
+ *
+ * @author Armaan Chandra
  *
  */
-public class GUI {
+public class Gui {
 
   private static GameWorld game;
   private Renderer rWindow;
 
   private static JFrame frame;
-  private JComponent drawing;
+  private static JComponent drawing;
   private static TitledBorder title;
   private static JPanel canvas;
   private static JPanel displayPanel;
@@ -86,12 +88,13 @@ public class GUI {
   private int height;
   private int width;
 
-
   // DRAWING WIDTH = 1604, HEIGHT = 951
 
   /**
    * Launch the application.
-   * @param args some command line stuff
+   *
+   * @param args
+   *          some command line stuff
    */
   public static void main(String[] args) {
     EventQueue.invokeLater(new Runnable() {
@@ -106,18 +109,18 @@ public class GUI {
     });
   }
 
+
   /**
    * Create the application and the game world to run.
    */
-  public GUI() {
+  public Gui() {
     game = GameWorld.testGameWorld2();
     initialize();
   }
 
   /**
-   * Initialize the contents of the frame. This draws the main componets
-   * lays them out on the JFrame. This is responsible for creating the main
-   * GUI.
+   * Initialize the contents of the frame. This draws the main componets lays them
+   * out on the JFrame. This is responsible for creating the main GUI.
    */
 
   @SuppressWarnings("serial")
@@ -219,21 +222,25 @@ public class GUI {
         boolean found = false;
 
         Item[][] i = rWindow.getGrid();
+        Item item = rWindow.isWithin(mouseX, mouseY);
 
-        for(int a = 0; a < i.length; a++) {
-          for(int b = 0; b < i[0].length; b++) {
-            if(rWindow.isWithin(mouseX, mouseY) == i[b][a]) {
-              found = true;
-              if(game.getPlayer().pickupItem(i[b][a])) {
+        for (int a = 0; a < i.length; a++) {
+          for (int b = 0; b < i[0].length; b++) {
+            if (item == i[b][a]) {
+              if (game.getPlayer().pickupItem(i[b][a])) {
                 System.out.println("something was picked up");
                 drawing.repaint();
-              }else {
+              } else {
                 System.out.println("nothing was picked up");
-                //this should print to the text field
+                // this should print to the text field
+                //yo
               }
             }
           }
         }
+
+
+
         // this should also redraw the inventory pane
       }
     });
@@ -248,11 +255,11 @@ public class GUI {
     popup.add(pickup);
     popup.add(inspect);
 
-    MouseListener popupListener = new PopupListener(popup); //this makes the mouse right click give the popup menu
+    MouseListener popupListener = new PopupListener(popup);
     drawing.addMouseListener(popupListener);
 
     // --------CREATING THE NAVIGATION BUTTTONS---------------
-    JButton west = new JButton("\u2190");
+    JButton west = new JButton("<");
     west.setPreferredSize(new Dimension(60, 147));
     west.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -264,7 +271,7 @@ public class GUI {
       }
     });
 
-    JButton east = new JButton("\u2192");
+    JButton east = new JButton(">");
     east.setPreferredSize(new Dimension(60, 147));
     east.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -276,7 +283,7 @@ public class GUI {
       }
     });
 
-    JButton north = new JButton("\u2191");
+    JButton north = new JButton("^");
     north.setPreferredSize(new Dimension(60, 147));
     north.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -289,7 +296,7 @@ public class GUI {
       }
     });
 
-    JButton south = new JButton("\u2193");
+    JButton south = new JButton("v");
     south.setPreferredSize(new Dimension(60, 147));
     south.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -349,7 +356,8 @@ public class GUI {
     extraButtons.add(drop);
     displayPanel.add(extraButtons);
 
-  //-------CREATING THE TEXT AREA IN THE DISPLAY PANEL FOR USER FEEDBACK---------------
+    // -------CREATING THE TEXT AREA IN THE DISPLAY PANEL FOR USER
+    // FEEDBACK---------------
     displayPanel.add(Box.createRigidArea(new Dimension(2, 0)));
 
     textBox = new JPanel();
@@ -374,7 +382,7 @@ public class GUI {
   }
 
   /**
-   *Creates the MenuBar for the Frame with additional functionality for the user.
+   * Creates the MenuBar for the Frame with additional functionality for the user.
    */
   public static void createMenu() {
     JMenuBar menuBar = new JMenuBar();
@@ -400,11 +408,13 @@ public class GUI {
   }
 
   /**
-   * Helper method that does the actions of the saveButton.
-   * called when the user clicks the save buttons from the menu bar.
-   * @param save passed from the menu bar.
+   * Helper method that does the actions of the saveButton. called when the user
+   * clicks the save buttons from the menu bar.
+   *
+   * @param save
+   *          passed from the menu bar.
    */
-  static public void pressSave(JButton save) {
+  private static void pressSave(JButton save) {
     save.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("You need to save code here"); // cleanly end the program.
@@ -422,16 +432,16 @@ public class GUI {
   }
 
   /**
-   * Helper method that does the actions of the loadButton.
-   * called when the user calls the load from the menu bar.
+   * Helper method that does the actions of the loadButton. called when the user
+   * calls the load from the menu bar.
    *
-   * @param load passed from the menu bar.
+   * @param load
+   *          passed from the menu bar.
    */
-  static public void pressLoad(JButton load) {
+  private static void pressLoad(JButton load) {
     load.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("You need to load code here"); // cleanly end the program.
-
 
       }
     });
@@ -439,11 +449,13 @@ public class GUI {
   }
 
   /**
-   * Helper method that does the actions of the newGameButton.
-   * called when the user calls the new game from the menu bar.
-   * @param newGame passed from the menu bar.
+   * Helper method that does the actions of the newGameButton. called when the
+   * user calls the new game from the menu bar.
+   *
+   * @param newGame
+   *          passed from the menu bar.
    */
-  static public void pressNewGame(JButton newGame) {
+  private static void pressNewGame(JButton newGame) {
     newGame.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         frame.setVisible(false);
@@ -453,11 +465,10 @@ public class GUI {
   }
 
   /**
-   * this is called when the user clicks the exit button on the GUI
-   * makes sure that the user is sure they want to exit by having a
-   * popup conformation box.
+   * this is called when the user clicks the exit button on the GUI makes sure
+   * that the user is sure they want to exit by having a popup conformation box.
    */
-  static public void windowExit() {
+  private static void windowExit() {
     frame.addWindowListener(new WindowAdapter() { // create a new window listener
       public void windowClosing(WindowEvent e) {
         int confirmed = JOptionPane.showConfirmDialog(null,
@@ -473,11 +484,10 @@ public class GUI {
   }
 
   /**
-   *Helper method that is used to create borders around the main compents
-   *of the GUI. This is just to make the componenets of the GUI clearer
-   *and nicer.
+   * Helper method that is used to create borders around the main compents of the
+   * GUI. This is just to make the componenets of the GUI clearer and nicer.
    */
-  public static void createBoarders() {
+  private static void createBoarders() {
     Border redline = BorderFactory.createLineBorder(Color.RED);
     title = BorderFactory.createTitledBorder(redline, "Inventory");
     title.setTitleJustification(TitledBorder.CENTER);
@@ -494,8 +504,9 @@ public class GUI {
   }
 
   /**
-   * this is used as a getter from the title screen method
-   * so that the title screen can make a new GUI.
+   * this is used as a getter from the title screen method so that the title
+   * screen can make a new GUI.
+   *
    * @return the frame.
    */
   public JFrame getFrame() {

@@ -57,7 +57,7 @@ public class Cube {
    * @param x
    * @param y 
    */
-  public Cube(Rectangle x, Rectangle y ) {
+  public Cube(Rectangle x, Rectangle y){
     this.rec1 = x;
     this.rec2 = y;
     
