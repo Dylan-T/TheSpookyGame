@@ -22,10 +22,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -78,12 +74,11 @@ public class Gui {
   private static JPanel extraButtons;
   private static JTextArea textWindow;
   private static JFileChooser fileChooser;
-  private static JTextArea textEditor;
   private int height;
   private int width;
   private static File file = null;
 
-  private static final Charset CHARSET = StandardCharsets.UTF_8;
+
 
   // DRAWING WIDTH = 1604, HEIGHT = 951
 
@@ -207,11 +202,8 @@ public class Gui {
       public void actionPerformed(ActionEvent ev) {
         int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y;
-        boolean found = false;
-
         Item[][] i = renderWindow.getGrid();
         Item item = renderWindow.isWithin(mouseX, mouseY);
-        //slkdfj
 
         for (int a = 0; a < i.length; a++) {
           for (int b = 0; b < i[0].length; b++) {
@@ -331,8 +323,32 @@ public class Gui {
       }
     });
 
+    JButton pickUp = new JButton("Pick Up");
+    pickUp.setPreferredSize(new Dimension(50, 50));
+    pickUp.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        drawing.repaint();
+        // this should also redraw the inventory but i'm not even sure how things are
+        // being added here
+      }
+    });
+
+    JButton inspect1 = new JButton("Inspect");
+    inspect1.setPreferredSize(new Dimension(50, 50));
+    inspect1.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent ev) {
+        drawing.repaint();
+        // this should also redraw the inventory but i'm not even sure how things are
+        // being added here
+      }
+    });
+
     drop.setBounds(3, 9, 100, 60);
+    pickUp.setBounds(103, 9, 100, 60);
+    inspect1.setBounds(203, 9, 100, 60);
     extraButtons.add(drop);
+    extraButtons.add(pickUp);
+    extraButtons.add(inspect1);
     displayPanel.add(extraButtons);
 
     // -------CREATING THE TEXT AREA IN THE DISPLAY PANEL FOR USER
@@ -354,6 +370,19 @@ public class Gui {
     JScrollPane scroll = new JScrollPane(textWindow);
     scroll.setBounds(0, 0, 828, 138);
     textBox.add(scroll);
+
+    Item[] items = new Item[50];
+    int count = 0;
+    for (int i = 0; i < game.getCurrentRoom().getGrid().length; i++) {
+      for (int j = 0; j < game.getCurrentRoom().getGrid()[0].length; j++) {
+        if (game.getCurrentRoom().getGrid()[i][j] != null) {
+          textWindow.append(game.getCurrentRoom().getGrid()[i][j].getDescription() + "\n");
+          items[count++] = game.getCurrentRoom().getGrid()[i][j];
+        }
+      }
+    }
+
+    // textWindow.append(items.toString());
 
     // -----CREATING BORDERS FOR THE COMPONENTS AND MENUBAR-------
     createBoarders();
@@ -512,6 +541,11 @@ public class Gui {
     TitledBorder t = BorderFactory.createTitledBorder(blackline, "Control Panel");
     t.setTitleJustification(TitledBorder.CENTER);
     extraButtons.setBorder(t);
+
+    BorderFactory.createLineBorder(Color.BLACK);
+    TitledBorder t1 = BorderFactory.createTitledBorder(blackline, "Items Avaliable");
+    t1.setTitleJustification(TitledBorder.CENTER);
+    textWindow.setBorder(t1);
 
   }
 
