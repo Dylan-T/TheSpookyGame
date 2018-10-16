@@ -46,10 +46,11 @@ public class XmlSaver {
   public static void makeXml(GameWorld game, String filepath)
       throws ParserConfigurationException, TransformerException {
     try {
+      //creates a empty document with Document Builder
       DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
       DocumentBuilder db = df.newDocumentBuilder();
       Document document = db.newDocument();
-
+      //creates the root element with width and height of the gameworld
       Element gamefile = document.createElement("Game");
       document.appendChild(gamefile);
       Attr width = document.createAttribute("width");
@@ -58,16 +59,17 @@ public class XmlSaver {
       height.setValue(game.getWorldMap()[0].length + "");
       gamefile.setAttributeNode(width);
       gamefile.setAttributeNode(height);
+      //makes the player element and appends to gameworld element
       Element player = makePlayer(game.getPlayer(), document);
       gamefile.appendChild(player);
-
+      //creates all the quests in the game world and appends to gameworld element
       Element quests = document.createElement("Quests");
       if (game.getQuests() != null) {
         for (Quest q : game.getQuests()) {
           quests.appendChild(makeQuest(q, document));
         }
       }
-
+      //creates 2d array of locations and append to gameworld element
       Element locations = document.createElement("Locations");
       Location[][] worldmap = game.getWorldMap();
       for (int i = 0; i < worldmap.length; i++) {
