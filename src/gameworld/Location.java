@@ -33,8 +33,8 @@ public class Location {
    * @param height of the location
    * @param width of the location
    */
-  public Location(int height, int width) {
-    grid = new Item[height][width];
+  public Location(int width, int height) {
+    grid = new Item[width][height];
     exits = new Boolean[4];
   }
 
@@ -47,7 +47,7 @@ public class Location {
    * @return whether the item was successfully added
    */
   public boolean addItem(int x, int y, Item item) {
-    if (x > grid[0].length || y > grid.length || x < 0 || y < 0) {
+    if (x > grid.length || y > grid[0].length || x < 0 || y < 0) {
       return false;
     } else {
       grid[x][y] = item;
@@ -61,10 +61,10 @@ public class Location {
    * @return true if the item was successfully added
    */
   public boolean addItem(Item i) {
-    for(int j = 0; j < grid.length; j++) {
-      for(int k = 0; k < grid[0].length; k++) {
-        if (grid[j][k] == null) {
-          grid[j][k] = i;
+    for(int x = 0; x < grid.length; x++) {
+      for(int y = 0; y < grid[0].length; y++) {
+        if (grid[x][y] == null) {
+          grid[x][y] = i;
           return true;
         }
       }
@@ -94,11 +94,11 @@ public class Location {
    * @return true if the item was found and removed.
    */
   public boolean removeItem(Item i) {
-    for (int row = 0; row < grid.length; row++) {
-      for (int col = 0; col < grid[0].length; col++) {
-        if(grid[row][col] != null) {
-          if (grid[row][col].equals(i)) {
-            grid[row][col] = null;
+    for (int x = 0; x < grid.length; x++) {
+      for (int y = 0; y < grid[0].length; y++) {
+        if(grid[x][y] != null) {
+          if (grid[x][y].equals(i)) {
+            grid[x][y] = null;
             return true;
           }
         }
@@ -113,10 +113,10 @@ public class Location {
    * @return whether it contains the item
    */
   public boolean containsItem(Item item) {
-    for (int row = 0; row < grid.length; row++) {
-      for (int col = 0; col < grid[0].length; col++) {
-        if(grid[row][col] != null) {
-          if (grid[row][col].equals(item)) {
+    for (int x = 0; x < grid.length; x++) {
+      for (int y = 0; y < grid[0].length; y++) {
+        if(grid[x][y] != null) {
+          if (grid[x][y].equals(item)) {
             return true;
           }
         }
@@ -131,9 +131,9 @@ public class Location {
    * @return if the locations grid is full
    */
   public boolean isFull() {
-    for(int i = 0; i < grid.length; i++) {
-      for(int j = 0; j < grid[0].length; j++) {
-        if (grid[i][j] == null) {
+    for(int x = 0; x < grid.length; x++) {
+      for(int y = 0; y < grid[0].length; y++) {
+        if (grid[x][y] == null) {
           return false;
         }
       }

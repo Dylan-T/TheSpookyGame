@@ -52,11 +52,11 @@ public class GameWorld {
   public GameWorld(Location[][] locations, Location start) {
     worldMap = locations;
     player = new Player(start);
-    for(int i = 0; i < worldMap.length; i++) {
-      for(int j = 0; j < worldMap[0].length; j++) {
-        if(worldMap[i][j].equals(start)) {
-          playerX = j;
-          playerY = i;
+    for(int x = 0; x < worldMap.length; x++) {
+      for(int y = 0; y < worldMap[0].length; y++) {
+        if(worldMap[x][y].equals(start)) {
+          playerX = x;
+          playerY = y;
         }
       }
     }
@@ -84,13 +84,13 @@ public class GameWorld {
           playerY--;
           break;
         case 1:
-          if(playerX == worldMap[0].length-1) {
+          if(playerX == worldMap.length-1) {
             return false;
           }
           playerX++;
           break;
         case 2:
-          if(playerY == worldMap.length-1) {
+          if(playerY == worldMap[0].length-1) {
             return false;
           }
           playerY++;
@@ -103,7 +103,7 @@ public class GameWorld {
           break;
       }
 
-      Location newLoc = worldMap[playerY][playerX];
+      Location newLoc = worldMap[playerX][playerY];
       if (newLoc != null) {
         player.move(newLoc, dir);
         System.out.println("We just moved :)");
@@ -134,7 +134,7 @@ public class GameWorld {
    * @return the players current location
    */
   public Location getCurrentRoom() {
-    return worldMap[playerY][playerX];
+    return worldMap[playerX][playerY];
   }
 
   /**
