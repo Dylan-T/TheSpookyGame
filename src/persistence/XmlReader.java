@@ -61,6 +61,7 @@ public class XmlReader {
       for (int i = 0; i < nodelist.getLength(); i++) {
         elemList.add(getGameWorld(nodelist.item(i), doc));
       }
+      return elemList.get(0);
     } catch (ParserConfigurationException e) {
       System.out.println("ParserConfigurationException error");
     } catch (SAXException e) {
