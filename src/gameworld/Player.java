@@ -1,9 +1,10 @@
 package gameworld;
 
+import gameworld.GameWorld.Direction;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import gameworld.GameWorld.Direction;
 
 /**
  * This is the player and has methods for actions the player may make.
@@ -17,8 +18,8 @@ public class Player {
   private GameWorld.Direction facing;
 
   /**
-   * Create a new player only specifying location
-   * 
+   * Create a new player only specifying location.
+   *
    * @param startingLoc
    *          location the player starts from
    */
@@ -30,7 +31,7 @@ public class Player {
 
   /**
    * Moves the player in the given direction.
-   * 
+   *
    * @param newLocation
    *          players new location
    * @param dir
@@ -47,7 +48,7 @@ public class Player {
   /**
    * The player add's item i to their inventory and it is removed from the current
    * location.
-   * 
+   *
    * @param i
    *          Item that is to be picked up.
    * @return whether the item was successfully picked up.
@@ -65,8 +66,8 @@ public class Player {
   }
 
   /**
-   * Player drops an item from their inventory into the current room
-   * 
+   * Player drops an item from their inventory into the current room.
+   *
    * @param i
    *          The item that is to be dropped.
    * @return if the item was successfully dropped
@@ -95,6 +96,7 @@ public class Player {
   // Getters
 
   /**
+   * Gets the players inventory.
    * @return the players inventory
    */
   public List<Item> getInventory() {
@@ -102,6 +104,7 @@ public class Player {
   }
 
   /**
+   * Gets the players current location.
    * @return the players current location.
    */
   public Location getCurrentLocation() {
@@ -109,6 +112,7 @@ public class Player {
   }
 
   /**
+   * Gets the direction the player is facing.
    * @return the direction the player is facing
    */
   public GameWorld.Direction getFacing() {

@@ -19,9 +19,10 @@ public abstract class Item {
   protected Image image;
 
   /**
+   * Creates an Item and initializes its fields.
    * @param name --- the name of the item
    * @param description --- A short description of this item
-   * @param imagePath
+   * @param imagePath --- The file path to an image to represent this item
    */
   public Item(String name, String description, String imagePath) {
     this.name = name;

@@ -14,17 +14,18 @@ public class Location {
    */
   Boolean[] exits;
 
-   /**
+  /**
    * Creates a new room specifying the contents of each tile and the passages.
-   * @param exits
+   * @param exits an array of the rooms exits.
+   *     True if its locked, false if it's unlocked, null if there's no exit.
    * @param tiles The contents of each tile, null if the tiles empty (This also
    specifies the room size)
    *
    */
-   public Location(Boolean[] exits , Item[][] tiles) {
-   this.exits = exits;
-   grid = tiles;
-   }
+  public Location(Boolean[] exits, Item[][] tiles) {
+    this.exits = exits;
+    grid = tiles;
+  }
 
   /**
    * Creates a new location specifying only the height and width.
@@ -80,8 +81,8 @@ public class Location {
   }
 
   /**
-   * @param dir
-   *          , the wall to add the passage to.
+   * Adds an exit to the location specifying it's direction and if it's locked.
+   * @param dir Direction of the wall to add the exit to.
    * @param locked
    *          true if the exit is locked
    * @return true if the passage was successfully added
@@ -156,6 +157,7 @@ public class Location {
   // Getters
 
   /**
+   * Gets the locations floor grid of Items.
    * @return the 2D array containing the items
    */
   public Item[][] getGrid() {
@@ -163,6 +165,7 @@ public class Location {
   }
 
   /**
+   * Gets the array of the rooms Exits.
    * @return the array containing the exits
    */
   public Boolean[] getExits() {
