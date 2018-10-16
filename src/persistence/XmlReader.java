@@ -163,7 +163,6 @@ public class XmlReader {
       String description = questList.item(i).getAttributes().getNamedItem("description")
           .getNodeValue();
       String imagepath = questList.item(i).getAttributes().getNamedItem("imagepath").getNodeValue();
-      String complete = questList.item(i).getAttributes().getNamedItem("complete").getNodeValue();
       requirements = getQuestReqs(node, doc);
       quests.add(new Quest(name, description, imagepath, requirements));
     }
@@ -204,14 +203,15 @@ public class XmlReader {
     Node game = doc.getElementsByTagName("Game").item(0);
     Location[][] locations;
     if (game.getNodeType() == Node.ELEMENT_NODE) {
-      Element element = (Element) game;
-      int x = Integer.parseInt(doc.getElementsByTagName("Game").item(0).getAttributes().getNamedItem("width").getNodeValue());
-      int y = Integer.parseInt(doc.getElementsByTagName("Game").item(0).getAttributes().getNamedItem("height").getNodeValue());
+      int x = Integer.parseInt(doc.getElementsByTagName("Game")
+          .item(0).getAttributes().getNamedItem("width").getNodeValue());
+      int y = Integer.parseInt(doc.getElementsByTagName("Game")
+          .item(0).getAttributes().getNamedItem("height").getNodeValue());
       locations = new Location[x][y];
       for (int i = 0; i < locations.length; i++) {
         for (int j = 0; j < locations[0].length; j++) {
           for (int k = 0; k < nodelist.getLength(); k++) {
-            locations[i][j] = makeLocation(nodelist.item(k), doc);
+            locations[i][j] = makeLocation(nodelist.item(k), doc,k);
           }
         }
       }
@@ -225,15 +225,14 @@ public class XmlReader {
    * creates a new location by taking in a location node.
    * @param node the location node
    * @param doc document we are reading from
+   * @param k the item to get from a nodelist
    * @return location
    */
-  public static Location makeLocation(Node node, Document doc) {
+  public static Location makeLocation(Node node, Document doc, int k) {
     if (node.getNodeType() == Node.ELEMENT_NODE) {
-      Node gridNode = doc.getDocumentElement().getElementsByTagName("grid").item(0);
-      Element element = (Element) gridNode;
-      Item[][] grid = makegrid(element, doc);
-      Node exitNode = doc.getDocumentElement().getElementsByTagName("exits").item(0);
-      element = (Element) exitNode;
+      Node gridNode = doc.getDocumentElement().getElementsByTagName("grid").item(k);
+      Item[][] grid = makegrid(gridNode, doc);
+      Node exitNode = doc.getDocumentElement().getElementsByTagName("exits").item(k);
       Boolean[] exits = makeExits(exitNode, doc);
       Location location = new Location(exits, grid);
       return location;
@@ -252,8 +251,8 @@ public class XmlReader {
       Boolean[] exits = new Boolean[4];
       NodeList exitNodes = doc.getDocumentElement().getElementsByTagName("exit");
       for (int i = 0; i < exitNodes.getLength(); i++) {
-        if(exitNodes.item(i).getNodeValue() != null) {
-        exits[Integer.parseInt(exitNodes.item(i).getNodeValue())] = true;
+        if (exitNodes.item(i).getNodeValue() != null) {
+          exits[Integer.parseInt(exitNodes.item(i).getNodeValue())] = true;
         }
       }
       return exits;
@@ -268,46 +267,42 @@ public class XmlReader {
    * @return returns item grid for the location given
    */
   public static Item[][] makegrid(Node node, Document doc) {
-    NodeList nodelist = doc.getElementsByTagName("GridItem");
-    if (node.getNodeType() == Node.ELEMENT_NODE) {
-      int width = Integer.parseInt(doc.getElementsByTagName("GridItem").item(0).getAttributes().getNamedItem("x").getNodeValue());
-      int height = Integer.parseInt(doc.getElementsByTagName("GridItem").item(0).getAttributes().getNamedItem("y").getNodeValue());
-      Item[][] grid = new Item[width][height];
-      for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-          for (int k = 0; k < nodelist.getLength(); k++) {
-            if (Integer.parseInt(
-                nodelist.item(k).getAttributes().getNamedItem("x").getNodeValue()) == width) {
-              if (Integer.parseInt(
-                  nodelist.item(k).getAttributes().getNamedItem("y").getNodeValue()) == height) {
-                grid[width][height] = makeGridItem(nodelist.item(k), doc);
-              }
-            }
-          }
-        }
+    NodeList nodelist = doc.getDocumentElement().getElementsByTagName("GridItem");
+    Item[][] grid = new Item[2][2];
+    int count = 0;
+    for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 2; j++) {
+        grid[i][j] = makeGridItem(nodelist.item(count), doc, count);
+        count++;
       }
-      return grid;
     }
-    return null;
+    return grid;
   }
 
   /**
    * creates a grid item to be put into a grid.
    * @param node the grid node
    * @param doc the file we are reading from
+   * @param k the place in the nodelist to get item
    * @return gridItem
    */
-  public static Item makeGridItem(Node node, Document doc) {
+  public static Item makeGridItem(Node node, Document doc, int k) {
     if (node.getNodeType() == Node.ELEMENT_NODE) {
       Element element = (Element) node;
-      String name = getTagValue("name", element);
-      String description = getTagValue("description", element);
-      String imagepath = getTagValue("imagepath", element);
-      String type = getTagValue("type", element);
+      String name = doc.getDocumentElement().getElementsByTagName("GridItem").item(k)
+          .getAttributes().getNamedItem("name").getNodeValue();
+      String description = doc.getDocumentElement().getElementsByTagName("GridItem").item(k)
+          .getAttributes().getNamedItem("description").getNodeValue();
+      String imagepath = doc.getDocumentElement().getElementsByTagName("GridItem").item(k)
+          .getAttributes().getNamedItem("filepath").getNodeValue();
+      String type = doc.getDocumentElement().getElementsByTagName("GridItem").item(k)
+          .getAttributes().getNamedItem("type").getNodeValue();
       if (type.equals("treasure")) {
         return new Treasure(name, description, imagepath);
       } else if (type.equals("key")) {
         return new Key();
+      } else if (type.equals("decoration")) {
+        return new Decoration(name,description,imagepath);
       }
     }
     return null;
@@ -332,7 +327,8 @@ public class XmlReader {
       String description = gridItemList.item(i).getAttributes().getNamedItem("description")
           .getNodeValue();
       String type = gridItemList.item(i).getAttributes().getNamedItem("type").getNodeValue();
-      String filepath = gridItemList.item(i).getAttributes().getNamedItem("filepath").getNodeValue();
+      String filepath = gridItemList.item(i).getAttributes()
+          .getNamedItem("filepath").getNodeValue();
       int gridItemX = Integer
           .parseInt(gridItemList.item(i).getAttributes().getNamedItem("x").getNodeValue());
       int gridItemY = Integer
@@ -341,14 +337,14 @@ public class XmlReader {
         grid[gridItemX][gridItemY] = new Treasure(name, description, filepath);
       } else if (type.equals("Key")) {
         grid[gridItemX][gridItemY] = new Key();
-      } else if(type.equals("decoration")) {
+      } else if (type.equals("decoration")) {
         grid[gridItemX][gridItemY] = new Decoration(name,description,filepath);
       }
 
     }
     NodeList exitList = doc.getDocumentElement().getElementsByTagName("exits");
-    Boolean[] exits = new Boolean[exitList.getLength()];
-    for (int i = 0; i < exitList.getLength(); i++) {
+    Boolean[] exits = new Boolean[4];
+    for (int i = 0; i < 2; i++) {
       int exit = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("exit").item(i)
           .getAttributes().getNamedItem("exitdirection").getNodeValue());
       exits[exit] = true;
@@ -371,11 +367,5 @@ public class XmlReader {
     return player;
   }
 
-  private static String getTagValue(String tag, Element element) {
-    NodeList nodelist = element.getElementsByTagName(tag).item(0).getChildNodes();
-    Node node = (Node) nodelist.item(0);
-    return node.getNodeValue();
-
-  }
 
 }

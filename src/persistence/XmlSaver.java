@@ -182,7 +182,7 @@ public class XmlSaver {
     name.setValue(quest.getName());
     description.setValue(quest.getDescription());
     Attr imagepath = doc.createAttribute("imagepath");
-    imagepath.setValue(quest.getImage().toString());
+    imagepath.setValue(quest.getImagePath());
     Element questelem = doc.createElement("quest");
     questelem.setAttributeNode(name);
     questelem.setAttributeNode(description);
@@ -206,19 +206,21 @@ public class XmlSaver {
         if (location.getGrid()[i][j] instanceof Item) {
           Attr type = doc.createAttribute("type");
           Attr x = doc.createAttribute("x");
-          Attr y = doc.createAttribute("y");
           Attr filepath = doc.createAttribute("filepath");
           filepath.setValue(location.getGrid()[i][j].getImagePath());
           if (location.getGrid()[i][j] instanceof Treasure) {
             type.setValue("treasure");
           } else if (location.getGrid()[i][j] instanceof gameworld.Key) {
             type.setValue("key");
-          }else if(location.getGrid()[i][j] instanceof Quest) {
+          } else if (location.getGrid()[i][j] instanceof Quest) {
             type.setValue("quest");
-          }else if(location.getGrid()[i][j] instanceof Decoration){
+          } else if (location.getGrid()[i][j] instanceof Decoration){
             type.setValue("decoration");
-          }else {type.setValue("item");}
+          } else {
+            type.setValue("item");
+          }
           x.setValue(i + "");
+          Attr y = doc.createAttribute("y");
           y.setValue(j + "");
           Attr name = doc.createAttribute("name");
           name.setValue(location.getGrid()[i][j].getName());
@@ -279,9 +281,7 @@ public class XmlSaver {
     for (int i = 0; i < location.getGrid().length; i++) {
       for (int j = 0; j < location.getGrid()[0].length; j++) {
         if (location.getGrid()[i][j] instanceof Item) {
-          Attr name = doc.createAttribute("name");
           Attr x = doc.createAttribute("x");
-          Attr y = doc.createAttribute("y");
           Attr type = doc.createAttribute("type");
           Attr filepath = doc.createAttribute("filepath");
           filepath.setValue(location.getGrid()[i][j].getImagePath());
@@ -289,13 +289,17 @@ public class XmlSaver {
             type.setValue("treasure");
           } else if (location.getGrid()[i][j] instanceof gameworld.Key) {
             type.setValue("key");
-          }else if(location.getGrid()[i][j] instanceof Quest) {
+          } else if (location.getGrid()[i][j] instanceof Quest) {
             type.setValue("quest");
-          }else if(location.getGrid()[i][j] instanceof Decoration){
+          } else if (location.getGrid()[i][j] instanceof Decoration){
             type.setValue("decoration");
-          }else {type.setValue("item");}
+          } else {
+            type.setValue("item");
+          }
           x.setValue(i + "");
+          Attr y = doc.createAttribute("y");
           y.setValue(j + "");
+          Attr name = doc.createAttribute("name");
           name.setValue(location.getGrid()[i][j].getName());
           Attr description = doc.createAttribute("description");
           description.setValue(location.getGrid()[i][j].getDescription());
@@ -375,7 +379,7 @@ public class XmlSaver {
         name.setValue(i.getName());
         description.setValue(i.getDescription());
         Attr image = doc.createAttribute("imagePath");
-        image.setValue(i.getImage().toString());
+        image.setValue(i.getImagePath());
         Element item = doc.createElement("Item");
         item.setAttributeNode(name);
         item.setAttributeNode(description);
@@ -404,7 +408,7 @@ public class XmlSaver {
       name.setValue(i.getName());
       description.setValue(i.getDescription());
       Attr image = doc.createAttribute("imagePath");
-      image.setValue(i.getImage().toString());
+      image.setValue(i.getImagePath());
       Element item = doc.createElement("QuestItem");
       item.setAttributeNode(type);
       item.setAttributeNode(name);
