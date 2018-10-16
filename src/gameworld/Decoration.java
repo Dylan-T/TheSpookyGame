@@ -1,24 +1,19 @@
 package gameworld;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 /**
- * Decorative item that has no use except cosmetically
+ * Decorative item that is purely cosmetic.
+ *
  * @author Dylan
  *
  */
 public class Decoration extends Item {
 
-
   /**
-   * @param name
-   * @param description
-   * @param imagePath
+   * Creates a new decoration item.
+   *
+   * @param name of the decoration item
+   * @param description of the decoration item
+   * @param imagePath to the image the decoration will be drawn as
    */
   public Decoration(String name, String description, String imagePath) {
     super(name, description, imagePath);
