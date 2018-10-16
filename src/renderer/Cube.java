@@ -56,18 +56,6 @@ public class Cube {
 
   }
 
-  /**
-   * .
-   * @param x
-   * .
-   * @param y
-   * .
-   */
-  public Cube(Rectangle x, Rectangle y) {
-    this.rec1 = x;
-    this.rec2 = y;
-
-  }
 
   /**
    * gets the points that make up the first square.

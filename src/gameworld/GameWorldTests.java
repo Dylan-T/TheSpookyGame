@@ -8,6 +8,8 @@ import gameworld.GameWorld.Direction;
 
 import org.junit.Test;
 
+import application.Gui;
+
 
 
 /**
@@ -258,4 +260,12 @@ public class GameWorldTests {
     assertTrue(l1.containsItem(t));
   }
 
+  /**
+   * Tests the renderer
+   */
+  @Test
+  public void testRenderer() {
+    Gui g = new Gui();
+    assertTrue(g != null);
+  }
 }
