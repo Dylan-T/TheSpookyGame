@@ -8,24 +8,30 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
- * @author user1
+ * @author Armaan Chandra.
+ * This class creates an backgorund image object that is to be used
+ * by the title screen. This takes in a string or an image and is
+ * used to put this background image on a panel so it can be shown on a JFrame
  *
  */
+@SuppressWarnings("serial")
 public class BackgroundImage extends JPanel{
 
   private Image img;
   private Dimension size;
 
   /**
-   * @param img
+   * this is a constuctor for when a background image is trying to be made with just a string
+   * @param img the image name string
    */
   public BackgroundImage(String img) {
     this(new ImageIcon(img).getImage());
   }
 
   /**
+   * this is the constructor for when an image is made with an image.
    * @param img
-   * @param str
+   *
    */
 
   public BackgroundImage(Image img) {
@@ -39,17 +45,11 @@ public class BackgroundImage extends JPanel{
   }
 
   /**
-   * @param g
+   * method to actually paint the image onto a JPanel.
+   * @param g graphics of the Jpanel
    */
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     g.drawImage(img, 0, 0, null); //could change this
-  }
-
-  /**
-   * @return the size of the image.
-   */
-  public Dimension getDimension() {
-    return size;
   }
 }

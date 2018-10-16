@@ -212,13 +212,21 @@ public class XmlSaver {
           Element GridItem = doc.createElement("GridItem");
           Attr name = doc.createAttribute("name");
           Attr description = doc.createAttribute("description");
+          Attr type = doc.createAttribute("type");
           Attr x = doc.createAttribute("x");
           Attr y = doc.createAttribute("y");
+          if(location.getGrid()[i][j] instanceof Treasure) {
+            type.setValue("treasure");
+          }else if(location.getGrid()[i][j] instanceof Key) {
+            type.setValue("key");
+          }
+
           x.setValue(i + "");
           y.setValue(j + "");
           name.setValue(location.getGrid()[i][j].getName());
           description.setValue(location.getGrid()[i][j].getDescription());
           GridItem.setAttributeNode(name);
+          GridItem.setAttributeNode(type);
           GridItem.setAttributeNode(description);
           GridItem.setAttributeNode(x);
           GridItem.setAttributeNode(y);
@@ -226,6 +234,12 @@ public class XmlSaver {
         }
       }
     }
+    Attr gridwidth = doc.createAttribute("gridwidth");
+    Attr gridheight = doc.createAttribute("gridheight");
+    gridwidth.setValue(location.getGrid().length+ "");
+    gridheight.setValue(location.getGrid()[0].length+ "");
+    grid.setAttributeNode(gridwidth);
+    grid.setAttributeNode(gridheight);
     Element exits = doc.createElement("exits");
     for(int i=0; i<location.getExits().length; i++) {
       if(location.getExits()[i] != null) {
@@ -427,7 +441,12 @@ public static void makeXml(GameWorld game) throws ParserConfigurationException, 
 
    Element gamefile = document.createElement("Game");
    document.appendChild(gamefile);
-
+   Attr width = document.createAttribute("width");
+   Attr height = document.createAttribute("height");
+   width.setValue(game.getWorldMap().length + "");
+   height.setValue(game.getWorldMap()[0].length+ "");
+   gamefile.setAttributeNode(width);
+   gamefile.setAttributeNode(height);
    Element player = makePlayer(game.getPlayer(),document);
    gamefile.appendChild(player);
 
