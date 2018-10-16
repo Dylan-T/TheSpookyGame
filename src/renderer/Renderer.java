@@ -326,7 +326,7 @@ public class Renderer {
           countI++;
         }
         countI = 0;
-
+        //int count
         double c = Yscaler * gapy;
 
         int b = gapy;
