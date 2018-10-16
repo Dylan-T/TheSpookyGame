@@ -29,13 +29,11 @@ public class persistenceTests {
    */
   @Test
   public void testsave() throws ParserConfigurationException, TransformerException{
-    Player p = new Player(new Location(2, 2));
     //Make locations
     Location l1 = new Location(2, 2);
     Location l2 = new Location(2, 2);
     Location l3 = new Location(2, 2);
     Location l4 = new Location(2, 2);
-
 
 
 
