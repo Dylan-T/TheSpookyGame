@@ -16,7 +16,7 @@ public class Location {
 
   /**
    * Creates a new room specifying the contents of each tile and the passages.
-   * 
+   *
    * @param exits
    *          an array of the rooms exits. True if its locked, false if it's
    *          unlocked, null if there's no exit.
@@ -85,7 +85,7 @@ public class Location {
 
   /**
    * Adds an exit to the location specifying it's direction and if it's locked.
-   * 
+   *
    * @param dir
    *          Direction of the wall to add the exit to.
    * @param locked
@@ -163,7 +163,7 @@ public class Location {
 
   /**
    * Gets the locations floor grid of Items.
-   * 
+   *
    * @return the 2D array containing the items
    */
   public Item[][] getGrid() {
@@ -172,7 +172,7 @@ public class Location {
 
   /**
    * Gets the array of the rooms Exits.
-   * 
+   *
    * @return the array containing the exits
    */
   public Boolean[] getExits() {

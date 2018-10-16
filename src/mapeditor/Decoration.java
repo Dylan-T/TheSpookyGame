@@ -4,58 +4,54 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
+ * Decoration items in the room.
+ *
  * @author dunninnath
  *
  */
-public class Decoration extends Object {
+public class Decoration extends Item {
 
   /**
-   * @param color
+   * Constructor to construct the decoration object.
+   *
    * @param isPickupable
+   *          - true if the item is able to be picked up
    */
   public Decoration(boolean isPickupable) {
     super(isPickupable);
-    // TODO Auto-generated constructor stub
   }
 
   @Override
   public void draw(Graphics g, int x, int y, int height, int width) {
-    for(int i=0; i<3; i++) {
-      for(int j=0; j<3; j++) {
-        if(i == 0) {
-          if(j == 0) {
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        if (i == 0) {
+          if (j == 0) {
             g.setColor(Color.RED);
-          }
-          else if(j==1) {
+          } else if (j == 1) {
             g.setColor(Color.GREEN);
-          }
-          else {
+          } else {
             g.setColor(Color.BLUE);
           }
-        }
-        else if(i==1) {
-          if(j == 0) {
+        } else if (i == 1) {
+          if (j == 0) {
             g.setColor(Color.GREEN);
-          }
-          else if(j==1) {
+          } else if (j == 1) {
             g.setColor(Color.BLUE);
-          }
-          else {
+          } else {
             g.setColor(Color.RED);
           }
-        }
-        else {
-          if(j == 0) {
+        } else {
+          if (j == 0) {
             g.setColor(Color.BLUE);
-          }
-          else if(j==1) {
+          } else if (j == 1) {
             g.setColor(Color.RED);
-          }
-          else {
+          } else {
             g.setColor(Color.GREEN);
           }
         }
-        g.fillOval(x + width/3 + (j * width/4), y + height/3 + (i * height/4), width/6, height/6);
+        g.fillOval(x + width / 6 + (j * width / 4), y + height / 6 + (i * height / 4), width / 6,
+            height / 6);
       }
     }
 
@@ -63,8 +59,7 @@ public class Decoration extends Object {
 
   @Override
   public String toString() {
-    // TODO Auto-generated method stub
-    return null;
+    return "decoration";
   }
 
 }

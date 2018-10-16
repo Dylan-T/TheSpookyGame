@@ -2,10 +2,9 @@ package mapeditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 /**
- * Floor Piece in the room
+ * Floor Piece in the room.
  *
  * @author Nathan
  *
@@ -13,10 +12,10 @@ import java.util.ArrayList;
 public class Floor implements TilePiece {
   // Field for its color - white
   private Color color;
-  private Object object;
+  private Item object;
 
   /**
-   * Constructor for the floor object
+   * Constructor for the floor object.
    */
   public Floor() {
     color = new Color(255, 255, 255);
@@ -34,18 +33,21 @@ public class Floor implements TilePiece {
       g.fillRect(x, y, width, height);
       g.setColor(Color.BLACK);
       g.drawRect(x, y, width, height);
-    }
-    else {
+    } else {
+      g.setColor(color);
+      g.fillRect(x, y, width, height);
+      g.setColor(Color.BLACK);
+      g.drawRect(x, y, width, height);
       object.draw(g, x, y, height, width);
     }
   }
 
   /**
-   * Ssets the tile to have an object
+   * Sets the tile to have an object.
    *
-   * @param object
+   * @param object - Object to set the current tile to
    */
-  public void setObject(Object object) {
+  public void setObject(Item object) {
     this.object = object;
   }
 
