@@ -29,6 +29,9 @@ import javafx.scene.shape.Line;
  */
 public class Renderer {
 
+  Item[][] grid;
+  List<Coord> coords = new ArrayList<Coord>();
+
   /**
    * width of the canvas
    */
@@ -63,7 +66,7 @@ public class Renderer {
     int height = 20;
     int colorNumber = 0;
 
-    Item[][] grid = room.getGrid();
+    grid = room.getGrid();
     System.out.println("length " + grid.length);
 
 
@@ -73,8 +76,13 @@ public class Renderer {
      */
 
     BufferedImage cube = null;
+    BufferedImage femur = null;
     try {
-        cube = ImageIO.read(new File("Portal.png"));
+      cube = ImageIO.read(new File("Portal.png"));
+    } catch (IOException e) {
+    }
+    try {
+      femur = ImageIO.read(new File("assets/femur.png"));
     } catch (IOException e) {
     }
     //System.out.println(cube);
@@ -82,8 +90,7 @@ public class Renderer {
 
     if(dir == Direction.NORTH) {
       //x = 50* (1-scale);
-      GameWorld game = GameWorld.testGameWorld2();
-      Item[][] grids = game.getCurrentRoom().getGrid();
+
 
       int xgap = 2;
       int ygap = 2;
@@ -93,45 +100,45 @@ public class Renderer {
 
       int Xdimension = 100;
       int Ydimension = 50;
-      
+
       g.setColor(Color.LIGHT_GRAY);
       Polygon right = new Polygon();
       right.addPoint(xMiddle + Xdimension, yMiddle - Ydimension);
       right.addPoint(CANVASWIDTH, 0);
       right.addPoint(CANVASWIDTH, CANVASHEIGHT);
       right.addPoint(xMiddle + Xdimension, yMiddle + Ydimension);
-      
+
       Polygon top = new Polygon();
       top.addPoint(xMiddle - Xdimension, yMiddle - Ydimension);
       top.addPoint(0, 0);
       top.addPoint(CANVASWIDTH, 0);
       top.addPoint(xMiddle + Xdimension, yMiddle - Ydimension);
-      
+
       Polygon left = new Polygon();
       left.addPoint(xMiddle - Xdimension, yMiddle + Ydimension);
       left.addPoint(0, CANVASHEIGHT);
       left.addPoint(0, 0);
       left.addPoint(xMiddle - Xdimension, yMiddle - Ydimension);
-      
+
       Polygon bottom = new Polygon();
       bottom.addPoint(xMiddle - Xdimension, yMiddle + Ydimension);
       bottom.addPoint(0, CANVASHEIGHT);
       bottom.addPoint(CANVASWIDTH, CANVASHEIGHT);
       bottom.addPoint(xMiddle + Xdimension, yMiddle + Ydimension);
-      
+
       g.fillPolygon(right);
       g.fillPolygon(top);
       g.fillPolygon(left);
       g.fillPolygon(bottom);
-      
-      
+
+
 
       g.drawRect(xMiddle - Xdimension, yMiddle - Ydimension, 2*Xdimension, 2*Ydimension);
-      
-      
+
+
 
       //the background picture
-      g.drawImage(grids[8][1].getImage().getScaledInstance(Math.round(2*Xdimension), Math.round(2*Ydimension), Image.SCALE_DEFAULT), xMiddle-100, yMiddle-50, null);
+      g.drawImage(femur.getScaledInstance(Math.round(2*Xdimension), Math.round(2*Ydimension), Image.SCALE_DEFAULT), xMiddle-Xdimension, yMiddle-Ydimension, null);
       g.drawRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
       g.drawLine(xMiddle - Xdimension, yMiddle - Ydimension, 0, 0);
@@ -153,8 +160,8 @@ public class Renderer {
       int tempY = 0;
       int tempX = 0;
       int incrementer = 1;
-      
-      
+
+
 
       for(int i = yMiddle-Ydimension; i<yMiddle + Ydimension; i+=incrementer) {
         tempY += incrementer*heightScale;
@@ -190,23 +197,7 @@ public class Renderer {
 
 
 
-      for(int i = 0; i < grids.length; i++) {
-        for(int j = 0; j < grids[0].length; j++) {
-          if(grids[i][j] != null) {
 
-
-          Image current = grids[i][j].getImage();
-          //g.drawImage(current.getScaledInstance(Math.round(20*scale), Math.round(20*scale), Image.SCALE_DEFAULT), x, y, null);
-          x += 50*scale;
-          scale += 0.1;
-          }
-        }
-        x = 10;
-        y += 50;
-      }
-
-      // the meme
-      //g.drawImage(grids[0][0].getImage().getScaledInstance(Math.round(133*scale), Math.round(75*scale), Image.SCALE_DEFAULT), xMiddle+804, yMiddle, null);
 
       double a = 0;
       int oldWidth = 200;
@@ -227,17 +218,20 @@ public class Renderer {
       int countI = 0;
       int countJ = 0;
 
-      while (yStart < CANVASHEIGHT && countJ<grids.length) {
+      while (yStart < CANVASHEIGHT && countJ<grid.length) {
 
-        while (i < (xStart + tempWidth) && countI<grids[0].length) {
+        while (i < (xStart + tempWidth) && countI<grid[0].length) {
           //g.setColor(Color.ORANGE);
           //g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
 
           // set up for images to be drawn on floor
-          
-          
-          if(grids[countI][countJ] != null) {
-            g.drawImage(grids[countI][countJ].getImage().getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i, yStart, null);
+
+
+          if(grid[countI][countJ] != null) {
+            System.out.println(grid[countI][countJ].getDescription());
+            Coord tempCoord = new Coord(i, yStart, (int) shapeW, (int) shapeH);
+            coords.add(tempCoord);
+            g.drawImage(grid[countI][countJ].getImage().getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i, yStart, null);
           }
           i = (int) (i + shapeW);
 
@@ -283,7 +277,7 @@ public class Renderer {
           //g.fill3DRect(x, y, Math.round(width*scale), Math.round(height*scale), true);
 
           //x += 50*scale;
-
+private
           x = x + temp.Xgap;
           y = y + temp.Ygap;
 
@@ -339,6 +333,31 @@ public class Renderer {
     }
 
 
+  }
+
+
+  /**
+   * @param x
+   * @param y
+   * @return if it is within
+   *
+   */
+  public boolean isWithin(int x, int y) {
+    int count = 0;
+    for(int i = 0; i< grid.length; i++) {
+      for(int j = 0; j< grid[0].length; j++) {
+        if(grid[j][i].getImage() != null) {
+          for(int yPos = coords.get(count).getY(); yPos < yPos + coords.get(count).getHeight(); yPos++) {
+            for(int xPos = coords.get(count).getX(); xPos < xPos + coords.get(count).getWidth(); yPos++) {
+              if(x == xPos && y == yPos) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
   /**
