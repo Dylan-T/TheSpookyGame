@@ -197,8 +197,6 @@ public class Room implements MouseListener {
     });
     mn.add(done);
 
-
-
     JMenuItem m4 = new JMenuItem("Floor");
     m4.addActionListener(new ActionListener() {
       @Override
@@ -368,7 +366,7 @@ public class Room implements MouseListener {
             } else {
               MapUtilGui.invalidLocationError();
             }
-            // TODO:Need to fix logic
+            //Broken logic
           } else if (((i == 0 || i == roomHeight + 1) && (j >= 0 && j <= roomWidth + 1))
               || ((j == 0 || j == roomWidth + 1) && (i >= 0 && i <= roomHeight + 1))) {
             if (currentObject.equals("wall")) {
@@ -415,7 +413,8 @@ public class Room implements MouseListener {
   /**
    * Redraw Method.
    *
-   * @param g - Graphics object
+   * @param g
+   *          - Graphics object
    */
   public void redraw(Graphics g) {
     screenWidth = (int) screenSize.getWidth();

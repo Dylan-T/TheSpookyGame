@@ -17,7 +17,7 @@ public class MapEditorTests {
    */
   @Test
   public void testRunnable() {
-    MapEditor m = new MapEditor();
+    new MapEditor();
   }
 
   /**
@@ -25,24 +25,24 @@ public class MapEditorTests {
    */
   @Test
   public void testItemsToString() {
-    Door d = new Door();
-    Floor j = new Floor();
     Key k = new Key(true);
     assertTrue(k.checkPickupable());
-    Location loc = new Location(5, 5, new TilePiece[5][5]);
+    new Location(5, 5, new TilePiece[5][5]);
     Quest q = new Quest(false);
     assertFalse(q.checkPickupable());
     Treasure t = new Treasure(true);
     assertTrue(t.checkPickupable());
-    Wall w = new Wall();
     Decoration dec = new Decoration(false);
-    assertFalse(dec.checkPickupable());
-    assertTrue(d.toString().equals("door"));
+    Floor j = new Floor();
     assertTrue(j.toString().equals("floor"));
+    Wall w = new Wall();
+    Door d = new Door();
+    assertFalse(dec.checkPickupable());
+    assertTrue(w.toString().equals("wall"));
+    assertTrue(d.toString().equals("door"));
     assertTrue(k.toString().equals("key"));
     assertTrue(q.toString().equals("quest"));
     assertTrue(t.toString().equals("treasure"));
-    assertTrue(w.toString().equals("wall"));
     assertTrue(dec.toString().equals("decoration"));
   }
 
@@ -59,7 +59,7 @@ public class MapEditorTests {
   }
 
   /**
-   * Testing the popups work with no errors
+   * Testing the popups work with no errors.
    */
   @Test
   public void testPopups() {

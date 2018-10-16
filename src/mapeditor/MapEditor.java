@@ -61,6 +61,7 @@ public class MapEditor implements MouseListener {
    * Map Constructor Size GUI.
    */
   public void mapEditorSizeGui() {
+    // GUI shows use of composite designs
     // Main Frame
     JFrame frame = new JFrame("New Map Editor");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -260,7 +261,8 @@ public class MapEditor implements MouseListener {
    * @param room - 2D Array of TilePiece
    */
   public void setLocation(int width, int height, TilePiece[][] room) {
-    map[clickedIndexX][clickedIndexY] = new Location(width, height, room);
+    map[clickedIndexY][clickedIndexX] = new Location(width, height, room);
+    drawingPane.repaint();
   }
 
   /**
