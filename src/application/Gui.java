@@ -49,6 +49,9 @@ import javax.swing.border.TitledBorder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.xml.sax.SAXException;
+
+import persistence.XmlReader;
 import persistence.XmlSaver;
 
 import renderer.Renderer;
@@ -418,9 +421,9 @@ public class Gui {
         // run the file chooser and check the user didn't hit cancel
         if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
           file = fileChooser.getSelectedFile();
-          //textEditor.setText(readFile(file));
+          // textEditor.setText(readFile(file));
         }
-        if(file != null) {
+        if (file != null) {
           try {
             XmlSaver.makeXml(game, file.getAbsolutePath());
           } catch (ParserConfigurationException e) {
@@ -432,7 +435,6 @@ public class Gui {
       }
     });
   }
-//dfjg
 
   /**
    * Helper method that does the actions of the loadButton. called when the user
@@ -444,8 +446,29 @@ public class Gui {
   private static void pressLoad(JButton load) {
     load.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("You need to load code here"); // cleanly end the program.
 
+        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setDialogTitle("Select input file.");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        // run the file chooser and check the user didn't hit cancel
+        if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+          file = fileChooser.getSelectedFile();
+          // textEditor.setText(readFile(file));
+        }
+        if (file != null) {
+          try {
+            // GameWorld newGame;
+            game = XmlReader.loadXml(file.getAbsolutePath());
+
+          } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+          } catch (SAXException e) {
+            e.printStackTrace();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
       }
     });
 
