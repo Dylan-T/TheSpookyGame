@@ -348,7 +348,7 @@ private
       for(int j = 0; j< grid[0].length; j++) {
         if(grid[j][i].getImage() != null) {
           for(int yPos = coords.get(count).getY(); yPos < yPos + coords.get(count).getHeight(); yPos++) {
-            for(int xPos = coords.get(count).getX(); xPos < xPos + coords.get(count).getWidth(); yPos++) {
+            for(int xPos = coords.get(count).getX(); xPos < xPos + coords.get(count).getWidth(); xPos++) {
               if(x == xPos && y == yPos) {
                 return grid[j][i];
               }
@@ -459,6 +459,13 @@ private
 
 
 
+  }
+
+  /**
+   * @return grid
+   */
+  public Item[][] getGrid(){
+    return grid;
   }
 
   /**
