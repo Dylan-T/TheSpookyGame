@@ -5,19 +5,19 @@ import java.awt.Graphics;
 
 /**
  * Door piece on the tile.
+ *
  * @author Nathan
  *
  */
 public class Door implements TilePiece {
-  //Field for its color - white
-  Color color = new Color(20,20,20);
+  // Field for its color - white
+  Color color = new Color(220, 220, 220);
   boolean isHighlighted = false;
-  
+
   @Override
   public String toString() {
     return "door";
   }
-
 
   @Override
   public void draw(Graphics g, int x, int y, int height, int width) {

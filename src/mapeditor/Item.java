@@ -1,30 +1,30 @@
 package mapeditor;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- *
+ *  Abstract Item class for objects in the room.
  * @author dunninnath
  *
  */
-public abstract class Object implements TilePiece {
+public abstract class Item implements TilePiece {
   private boolean isPickupable;
 
   /**
-   * @param color
+   * Constructor for any item.
    * @param isPickupable
    *
    */
-  public Object(boolean isPickupable) {
+  public Item(boolean isPickupable) {
     this.isPickupable = isPickupable;
   }
 
   /**
    * Checker to see if item can be picked up.
+   *
    * @return true if item is pickupable
    */
-  public boolean CheckPickupable() {
+  public boolean checkPickupable() {
     return isPickupable;
   }
 
