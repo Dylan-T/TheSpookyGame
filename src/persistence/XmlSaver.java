@@ -23,12 +23,11 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
-
 /**
- * XmlSaver is the saver class for the persistence package,
- * the main method takes in a GameWorld parameter and copies all the
- * information in the game world using XML.
+ * XmlSaver is the saver class for the persistence package, the main method
+ * takes in a GameWorld parameter and copies all the information in the game
+ * world using XML.
+ *
  * @author hoongkevi
  *
  */
@@ -36,21 +35,26 @@ public class XmlSaver {
   private static final String filePath = "/home/hoongkevi/test.xml";
 
   /**
-   * This is the main method of MakeXml which takes in a game and a filepath and then reads all
-   * the game data to an Xml file and saves it into filepath.
-   * @param game the gameworld data we are saving.
-   * @param filepath the filepath where we should save to.
-   * @throws ParserConfigurationException indicates a configuration error.
-   * @throws TransformerException indicates a Transformer error.
+   * This is the main method of MakeXml which takes in a game and a filepath and
+   * then reads all the game data to an Xml file and saves it into filepath.
+   *
+   * @param game
+   *          the gameworld data we are saving.
+   * @param filepath
+   *          the filepath where we should save to.
+   * @throws ParserConfigurationException
+   *           indicates a configuration error.
+   * @throws TransformerException
+   *           indicates a Transformer error.
    */
   public static void makeXml(GameWorld game, String filepath)
       throws ParserConfigurationException, TransformerException {
     try {
-      //creates a empty document with Document Builder
+      // creates a empty document with Document Builder
       DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
       DocumentBuilder db = df.newDocumentBuilder();
       Document document = db.newDocument();
-      //creates the root element with width and height of the gameworld
+      // creates the root element with width and height of the gameworld
       Element gamefile = document.createElement("Game");
       document.appendChild(gamefile);
       Attr width = document.createAttribute("width");
@@ -59,17 +63,17 @@ public class XmlSaver {
       height.setValue(game.getWorldMap()[0].length + "");
       gamefile.setAttributeNode(width);
       gamefile.setAttributeNode(height);
-      //makes the player element and appends to gameworld element
+      // makes the player element and appends to gameworld element
       Element player = makePlayer(game.getPlayer(), document);
       gamefile.appendChild(player);
-      //creates all the quests in the game world and appends to gameworld element
+      // creates all the quests in the game world and appends to gameworld element
       Element quests = document.createElement("Quests");
       if (game.getQuests() != null) {
         for (Quest q : game.getQuests()) {
           quests.appendChild(makeQuest(q, document));
         }
       }
-      //creates 2d array of locations and append to gameworld element
+      // creates 2d array of locations and append to gameworld element
       Element locations = document.createElement("Locations");
       Location[][] worldmap = game.getWorldMap();
       for (int i = 0; i < worldmap.length; i++) {
@@ -134,8 +138,11 @@ public class XmlSaver {
 
   /**
    * creates a new element which stores data from the item passed as a parameter.
-   * @param item Treasure that we are converting to Xml
-   * @param doc the xml Document we are writing to
+   *
+   * @param item
+   *          Treasure that we are converting to Xml
+   * @param doc
+   *          the xml Document we are writing to
    * @return new treasure element
    */
   public static Element makeTreasure(gameworld.Treasure item, Document doc) {
@@ -151,8 +158,11 @@ public class XmlSaver {
 
   /**
    * Creates a XML Element to store StationaryContainers.
-   * @param container the container we are converting to xml
-   * @param doc the document we are writing to
+   *
+   * @param container
+   *          the container we are converting to xml
+   * @param doc
+   *          the document we are writing to
    * @return new container element
    */
   public static Element makeStationaryContainer(gameworld.StationaryContainer container,
@@ -172,8 +182,11 @@ public class XmlSaver {
 
   /**
    * creates and returns an XML element which stores Quest data.
-   * @param quest the Quest item which we are converting to Xml Element
-   * @param doc the document we are writing to.
+   *
+   * @param quest
+   *          the Quest item which we are converting to Xml Element
+   * @param doc
+   *          the document we are writing to.
    * @return new quest element
    */
   public static Element makeQuest(gameworld.Quest quest, Document doc) {
@@ -196,9 +209,13 @@ public class XmlSaver {
   }
 
   /**
-   * Takes in a gameworld location and creates xml elements for the location, Grid and exits.
-   * @param location the gameworld location
-   * @param doc document we are writing to
+   * Takes in a gameworld location and creates xml elements for the location, Grid
+   * and exits.
+   *
+   * @param location
+   *          the gameworld location
+   * @param doc
+   *          document we are writing to
    * @return location element
    */
   public static Element makeLocation(gameworld.Location location, Document doc) {
@@ -216,7 +233,7 @@ public class XmlSaver {
             type.setValue("key");
           } else if (location.getGrid()[i][j] instanceof Quest) {
             type.setValue("quest");
-          } else if (location.getGrid()[i][j] instanceof Decoration){
+          } else if (location.getGrid()[i][j] instanceof Decoration) {
             type.setValue("decoration");
           } else {
             type.setValue("item");
@@ -273,9 +290,13 @@ public class XmlSaver {
   }
 
   /**
-   * takes in the players currentLocation and returns the element to be saved under player location.
-   * @param location players current location
-   * @param doc the document we are writing to
+   * takes in the players currentLocation and returns the element to be saved
+   * under player location.
+   *
+   * @param location
+   *          players current location
+   * @param doc
+   *          the document we are writing to
    * @return location of player
    */
   public static Element makePlayerLocation(gameworld.Location location, Document doc) {
@@ -293,7 +314,7 @@ public class XmlSaver {
             type.setValue("key");
           } else if (location.getGrid()[i][j] instanceof Quest) {
             type.setValue("quest");
-          } else if (location.getGrid()[i][j] instanceof Decoration){
+          } else if (location.getGrid()[i][j] instanceof Decoration) {
             type.setValue("decoration");
           } else {
             type.setValue("item");
@@ -338,12 +359,13 @@ public class XmlSaver {
     return locationElem;
   }
 
-
-
   /**
    * Creates new Element and copies decorations data to Xml format.
-   * @param decoration the decoration we are saving
-   * @param doc the document we are writing to
+   *
+   * @param decoration
+   *          the decoration we are saving
+   * @param doc
+   *          the document we are writing to
    * @return new decoration element
    */
   public static Element makeDecoration(gameworld.Decoration decoration, Document doc) {
@@ -361,9 +383,13 @@ public class XmlSaver {
   }
 
   /**
-   * Takes in a collection of Items and adds them all as an element inside of Inventory.
-   * @param collection the collection of items
-   * @param doc document we are writing to
+   * Takes in a collection of Items and adds them all as an element inside of
+   * Inventory.
+   *
+   * @param collection
+   *          the collection of items
+   * @param doc
+   *          document we are writing to
    * @return Element of players inventory
    */
   public static Element makeInventory(Collection<Item> collection, Document doc) {
@@ -395,9 +421,13 @@ public class XmlSaver {
   }
 
   /**
-   * Takes in a collection of treasure objects from a Quest and converts it to an xml Element.
-   * @param collection the collection of Treasure requirements
-   * @param doc the document we are writing to
+   * Takes in a collection of treasure objects from a Quest and converts it to an
+   * xml Element.
+   *
+   * @param collection
+   *          the collection of Treasure requirements
+   * @param doc
+   *          the document we are writing to
    * @return quest requirements element
    */
   public static Element makeQuestRequirements(Collection<Treasure> collection, Document doc) {
@@ -424,8 +454,11 @@ public class XmlSaver {
 
   /**
    * Creates an XML element from a game world player object.
-   * @param player the player in the game.
-   * @param doc the document we are wriing to
+   *
+   * @param player
+   *          the player in the game.
+   * @param doc
+   *          the document we are wriing to
    * @return new player ELement.
    */
   public static Element makePlayer(gameworld.Player player, Document doc) {

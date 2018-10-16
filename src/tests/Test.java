@@ -1,8 +1,7 @@
 package tests;
 
-import application.Gui;
-
 /**
+ * Test class for the project.
  * @author chandrarma
  *
  */

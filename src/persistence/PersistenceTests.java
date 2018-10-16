@@ -11,9 +11,9 @@ import javax.xml.transform.TransformerException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-
 /**
  * Tests for save and load in persistence package.
+ *
  * @author hoongkevi
  *
  */
@@ -22,8 +22,10 @@ public class PersistenceTests {
   /**
    * tests that the savefile works.
    *
-   * @throws TransformerException exception if transformer fails to create xml doc
-   * @throws ParserConfigurationException configuration error
+   * @throws TransformerException
+   *           exception if transformer fails to create xml doc
+   * @throws ParserConfigurationException
+   *           configuration error
    */
   @Test
   public void testsave1() throws ParserConfigurationException, TransformerException {
@@ -41,16 +43,18 @@ public class PersistenceTests {
     GameWorld game = new GameWorld(locations, l1);
     XmlSaver.makeXml(game, "game.xml");
   }
-  
+
   /**
-   * tests that the save works for a fully implemented game
-   * @throws ParserConfigurationException
-   * @throws TransformerException
-   * @throws IOException 
-   * @throws SAXException 
+   * Tests that the save works for a fully implemented game.
+   *
+   * @throws ParserConfigurationException - ParserConfigurationException
+   * @throws TransformerException - TransformerException
+   * @throws IOException - IOException
+   * @throws SAXException - SAXException
    */
   @Test
-  public void testsave2() throws ParserConfigurationException, TransformerException, SAXException, IOException {
+  public void testsave2()
+      throws ParserConfigurationException, TransformerException, SAXException, IOException {
     GameWorld game = XmlReader.loadXml("game.xml");
     XmlSaver.makeXml(game, "game.xml");
   }

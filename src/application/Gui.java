@@ -556,6 +556,6 @@ public class Gui {
    * @return the frame.
    */
   public JFrame getFrame() {
-    return this.frame;
+    return Gui.frame;
   }
 }

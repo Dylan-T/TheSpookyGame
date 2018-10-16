@@ -457,54 +457,6 @@ public class Renderer {
   }
 
   /**
-   * draws the cube onto the canvas by connecting vertices.
-   *.
-   * @param c
-   * .
-   * @param g
-   * .
-   */
-  public void drawCube(Cube c, Graphics g) {
-
-    ArrayList<Point> square1 = c.square1Points;
-    ArrayList<Point> square2 = c.square2Points;
-
-    // draws the first square
-
-    g.drawLine(square1.get(0).getX(), square1.get(0).getY(), square1.get(1).getX(),
-        square1.get(1).getY());
-    g.drawLine(square1.get(0).getX(), square1.get(0).getY(), square1.get(3).getX(),
-        square1.get(3).getY());
-    g.drawLine(square1.get(2).getX(), square1.get(2).getY(), square1.get(1).getX(),
-        square1.get(1).getY());
-    g.drawLine(square1.get(2).getX(), square1.get(2).getY(), square1.get(3).getX(),
-        square1.get(3).getY());
-
-    // draws the second square
-
-    g.drawLine(square2.get(0).getX(), square2.get(0).getY(), square2.get(1).getX(),
-        square2.get(1).getY());
-    g.drawLine(square2.get(0).getX(), square2.get(0).getY(), square2.get(3).getX(),
-        square2.get(3).getY());
-    g.drawLine(square2.get(2).getX(), square2.get(2).getY(), square2.get(1).getX(),
-        square2.get(1).getY());
-    g.drawLine(square2.get(2).getX(), square2.get(2).getY(), square2.get(3).getX(),
-        square2.get(3).getY());
-
-    // connect the two squares to form a cube
-
-    g.drawLine(square1.get(0).getX(), square1.get(0).getY(), square2.get(0).getX(),
-        square2.get(0).getY());
-    g.drawLine(square1.get(1).getX(), square1.get(1).getY(), square2.get(1).getX(),
-        square2.get(1).getY());
-    g.drawLine(square1.get(2).getX(), square1.get(2).getY(), square2.get(2).getX(),
-        square2.get(2).getY());
-    g.drawLine(square1.get(3).getX(), square1.get(3).getY(), square2.get(3).getX(),
-        square2.get(3).getY());
-
-  }
-
-  /**
    * fills the cube.
    * @param c
    * .
@@ -568,9 +520,4 @@ public class Renderer {
     return grid;
   }
 
-
-
-  public String toString() {
-    return null;
-  }
 }

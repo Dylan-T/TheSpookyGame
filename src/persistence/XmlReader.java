@@ -81,7 +81,7 @@ public class XmlReader {
   public static GameWorld getGameWorld(Node node, Document doc) {
     Player player = new Player(getPlayerLocation(node, doc));
     Location[][] locations = getLocations(node, doc);
-    Set<Quest> quests = getQuest(node, doc);
+    getQuest(node, doc);
     GameWorld game = new GameWorld(locations, player.getCurrentLocation());
     return game;
   }
@@ -288,7 +288,6 @@ public class XmlReader {
    */
   public static Item makeGridItem(Node node, Document doc, int k) {
     if (node.getNodeType() == Node.ELEMENT_NODE) {
-      Element element = (Element) node;
       String name = doc.getDocumentElement().getElementsByTagName("GridItem").item(k)
           .getAttributes().getNamedItem("name").getNodeValue();
       String description = doc.getDocumentElement().getElementsByTagName("GridItem").item(k)
@@ -342,7 +341,7 @@ public class XmlReader {
       }
 
     }
-    NodeList exitList = doc.getDocumentElement().getElementsByTagName("exits");
+    doc.getDocumentElement().getElementsByTagName("exits");
     Boolean[] exits = new Boolean[4];
     for (int i = 0; i < 2; i++) {
       int exit = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("exit").item(i)
