@@ -283,12 +283,14 @@ public class GameWorld {
     l1.addExit(Direction.SOUTH, false);
 
     Location l2 = new Location(12,12);
-    Treasure t1 = new Treasure("Scepter", "An evil scepter with a skull carved in it", "assets/scepter.png");
+    Treasure t1 = new Treasure("Scepter",
+        "An evil scepter with a skull carved in it", "assets/scepter.png");
     l2.addItem(6, 6, t1);
     l2.addExit(Direction.SOUTH, false);
 
     Location l3 = new Location(12,12);
-    StationaryContainer c1 = new StationaryContainer("Coffin", "A slightly ajar coffin", "assets/coffin.png");
+    StationaryContainer c1 = new StationaryContainer("Coffin",
+        "A slightly ajar coffin", "assets/coffin.png");
     Treasure t2 = new Treasure("Femur", "A femur glowing with evil", "assets/femur.png");
     c1.addItem(t2);
     l3.addItem(6, 12, c1);
@@ -306,7 +308,8 @@ public class GameWorld {
     l5.addExit(Direction.WEST, false);
 
     Location l6 = new Location(12,12);
-    Treasure t3 = new Treasure("Tooth Necklace", "A necklace made from human teeth.","assets/boneNecklace.png");
+    Treasure t3 = new Treasure("Tooth Necklace",
+        "A necklace made from human teeth.","assets/boneNecklace.png");
     l6.addItem(8, 11, t3);
     l6.addExit(Direction.NORTH, false);
 
@@ -314,7 +317,8 @@ public class GameWorld {
     required.add(t1);
     required.add(t2);
     required.add(t3);
-    Quest q1 = new Quest("Evil Orb", "An evil orb of souls that can only be destroyed by collecting treasures", "", required);
+    Quest q1 = new Quest("Evil Orb", "An evil orb of souls that can "
+        + "only be destroyed by collecting treasures", "", required);
     l1.addItem(12, 6, q1);
 
     Location[][] locations = new Location[3][4];

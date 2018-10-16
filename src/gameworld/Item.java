@@ -81,6 +81,7 @@ public abstract class Item {
   public String getDescription() {
     return description;
   }
+
   /**
    * gets the file path to the items image.
    * @return the file path to the image.
