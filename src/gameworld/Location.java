@@ -16,16 +16,16 @@ public class Location {
    */
   Boolean[] exits;
 
-  /**
-   * Creates a new room specifying the contents of each tile and the passages.
-   * @param exits
-   * @param tiles The contents of each tile, null if the tiles empty (This also specifies the room size)
-   *
-   */
-  public Location(Boolean[] exits , Item[][] tiles) {
-    this.exits = exits;
-    grid = tiles;
-  }
+//  /**
+//   * Creates a new room specifying the contents of each tile and the passages.
+//   * @param exits
+//   * @param tiles The contents of each tile, null if the tiles empty (This also specifies the room size)
+//   *
+//   */
+//  public Location(Boolean[] exits , Item[][] tiles) {
+//    this.exits = exits;
+//    grid = tiles;
+//  }
 
 
   /**

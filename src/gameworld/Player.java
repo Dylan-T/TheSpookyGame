@@ -22,7 +22,7 @@ public class Player {
    * @param startingLoc location the player starts from
    */
   public Player(Location startingLoc) {
-    ArrayList<Item> inventory = new ArrayList<Item>();
+    inventory = new ArrayList<Item>();
     currentLoc = startingLoc;
     facing = GameWorld.Direction.NORTH;
   }
@@ -50,6 +50,7 @@ public class Player {
     if(!i.canPickup()) {
       return false;
     }
+
     if (currentLoc.removeItem(i)) {
       inventory.add(i);
       return true;
@@ -66,6 +67,7 @@ public class Player {
     if (inventory.contains(i) && !currentLoc.isFull()) {
       inventory.remove(i);
       currentLoc.addItem(i);
+      return true;
     }
     return false;
   }
@@ -82,32 +84,14 @@ public class Player {
     return i.use(this);
   }
 
-  /**
-   * Unlock a passage in the given direction, using a key from your inventory.
-   * @param dir direction of the passage to unlock
-   * @return whether a passage was successfully unlocked
-   */
-  public boolean unlockPassage(GameWorld.Direction dir) {
-    Boolean exit = currentLoc.exits[dir.ordinal()];
-    if (exit != null && exit == true) { //check the exit exists and is locked
-      //Check you have a key for the passage
-      for(Item i: inventory) {
-        if(i instanceof Key) {
-          exit = false;
-          inventory.remove(i);
-          return true;
-        }
-      }
-    }
-    return false;
-  }
+
 
   //Getters
 
   /**
    * @return the players inventory
    */
-  public Collection<Item> getInventory() {
+  public List<Item> getInventory() {
     return inventory;
   }
 

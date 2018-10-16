@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
  *
  */
 public class Decoration extends Item {
-  
-  
+
+
   /**
    * @param name
    * @param description
@@ -22,10 +22,6 @@ public class Decoration extends Item {
    */
   public Decoration(String name, String description, String imagePath) {
     super(name, description, imagePath);
-  }
-
-  public String inspect() {
-    return name + ": " + description;
   }
 
   @Override

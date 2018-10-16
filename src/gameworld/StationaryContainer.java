@@ -34,11 +34,6 @@ public class StationaryContainer extends Item{
     contents.add(i);
     return true;
   }
-  
-  @Override
-  public String inspect() {
-    return "";
-  }
 
   @Override
   public boolean canPickup() {
