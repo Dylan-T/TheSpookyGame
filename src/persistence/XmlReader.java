@@ -76,8 +76,8 @@ public class XmlReader {
    */
   public static GameWorld getGameWorld(Node node,Document doc) {
     Player player = new Player(getPlayerLocation(node, doc));
-    Location[][] locations = new Location[0][0];
-    Set<Quest> quests = new HashSet<Quest>();
+    Location[][] locations = getLocations(node,doc);
+    Set<Quest> quests = getQuest(node,doc);
     GameWorld game = new GameWorld(locations,player.getCurrentLocation());
     return game;
   }
@@ -143,9 +143,9 @@ public class XmlReader {
    * @param doc
    * @return new quest
    */
-  public static List<Quest> getQuest(Node node,Document doc) {
+  public static Set<Quest> getQuest(Node node,Document doc) {
     NodeList questList = doc.getDocumentElement().getElementsByTagName("quest");
-    List<Quest> quests = new ArrayList<Quest>();
+    Set<Quest> quests = new HashSet<Quest>();
     List<Treasure> requirements = new ArrayList<Treasure>();
     for(int i =0; i<questList.getLength();i++) {
       String name = questList.item(i).getAttributes().getNamedItem("name").getNodeValue();
@@ -182,31 +182,116 @@ public class XmlReader {
    * @param doc
    * @return new Location
    */
-  public static Location getLocation(Node node,Document doc) {
-    int x = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("Location").item(0).getAttributes().getNamedItem("height").getNodeValue());
-    int y = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("Location").item(1).getAttributes().getNamedItem("height").getNodeValue());
-    Item[][] grid = new Item[x][y];
-    NodeList gridItemList = doc.getDocumentElement().getElementsByTagName("GridItem");
-    for(int i = 0; i<gridItemList.getLength(); i++) {
-      String name = gridItemList.item(i).getAttributes().getNamedItem("name").getNodeValue();
-      String description = gridItemList.item(i).getAttributes().getNamedItem("description").getNodeValue();
-      String type = gridItemList.item(i).getAttributes().getNamedItem("type").getNodeValue();
-      int gridItemX = Integer.parseInt(gridItemList.item(i).getAttributes().getNamedItem("x").getNodeValue());
-      int gridItemY = Integer.parseInt(gridItemList.item(i).getAttributes().getNamedItem("y").getNodeValue());
-      if(type.equals("Treasure")) {
-      grid[gridItemX][gridItemY] = new Treasure(name,description,null);
-      }else if(type.equals("Key")) {
-        grid[gridItemX][gridItemY] = new Key(); // have to implement location and passage methods before I can create a key.
+  public static Location[][] getLocations(Node node,Document doc) {
+    NodeList nodelist = doc.getElementsByTagName("Location");
+    Node game = doc.getElementsByTagName("Game").item(0);
+    Location[][] locations;
+    if(game.getNodeType() == Node.ELEMENT_NODE) {
+      Element element = (Element) game;
+      int x = Integer.parseInt(getTagValue("width",element));
+      int y = Integer.parseInt(getTagValue("height",element));
+      locations = new Location[x][y];
+      for(int i = 0; i< locations.length; i++) {
+        for (int j = 0; j<locations[0].length;j++) {
+          for(int k = 0; k<nodelist.getLength(); k++) {
+            locations[i][j] = makeLocation(nodelist.item(k),doc);
+          }
+        }
+      }
+      return locations;
+    }
+   return null;
+
+
+
+  }
+
+  /**
+   * @param node
+   * @param doc
+   * @return location
+   */
+  public static Location makeLocation(Node node, Document doc) {
+    if(node.getNodeType() == Node.ELEMENT_NODE) {
+      Node gridNode = doc.getDocumentElement().getElementsByTagName("grid").item(0);
+      Element element = (Element) gridNode;
+      Item[][] grid = makegrid(element, doc);
+      Node exitNode = doc.getDocumentElement().getElementsByTagName("exits").item(0);
+      element = (Element) exitNode;
+      Boolean[] exits = makeExits(exitNode, doc);
+      Location location = new Location(exits,grid);
+      return location;
+    }
+    return null;
+  }
+
+  /**
+   * @param node
+   * @param doc
+   * @return An array of exits
+   */
+  public static Boolean[] makeExits(Node node, Document doc) {
+    if(node.getNodeType() == Node.ELEMENT_NODE) {
+      Element element = (Element) node;
+      int length = Integer.parseInt(getTagValue("size",element));
+      Boolean[] exits = new Boolean[length];
+      NodeList exitNodes = doc.getDocumentElement().getElementsByTagName("exit");
+      for(int i =0; i<exitNodes.getLength();i++) {
+        exits[Integer.parseInt(getTagValue("exitdirection", element))] = true;
+      }
+      return exits;
+    }
+    return null;
+  }
+
+  /**
+   * @param node
+   * @param doc
+   * @return returns item grid for the location given
+   */
+  public static Item[][] makegrid(Node node, Document doc){
+    NodeList nodelist = doc.getElementsByTagName("GridItem");
+    if(node.getNodeType() == Node.ELEMENT_NODE) {
+      Element element = (Element) node;
+      int width = Integer.parseInt(getTagValue("width",element));
+      int height = Integer.parseInt(getTagValue("height",element));
+      Item[][] grid = new Item[width][height];
+      for(int i =0; i<width; i++) {
+        for (int j = 0; j<height; j++) {
+          for (int k = 0; k<nodelist.getLength(); k++) {
+            if(Integer.parseInt(nodelist.item(k).getAttributes().getNamedItem("x").getNodeValue()) == width) {
+              if(Integer.parseInt(nodelist.item(k).getAttributes().getNamedItem("y").getNodeValue()) == height){
+                grid[width][height] = makeGridItem(nodelist.item(k), doc);
+              }
+            }
+          }
+        }
+      }
+      return grid;
+    }
+    return null;
+  }
+
+  /**
+   * @param node
+   * @param doc
+   * @return gridItem
+   */
+  public static Item makeGridItem(Node node, Document doc) {
+    if(node.getNodeType() == Node.ELEMENT_NODE) {
+      Element element = (Element) node;
+      String name = getTagValue("name",element);
+      String description = getTagValue("description",element);
+      String imagepath = getTagValue("imagepath", element);
+      String type = getTagValue("type", element);
+      if(type.equals("treasure")) {
+        return new Treasure(name,description,imagepath);
+      }else if(type.equals("key")) {
+        return new Key();
       }
     }
-    NodeList ExitList = doc.getDocumentElement().getElementsByTagName("exits");
-    Boolean[] exits = new Boolean[ExitList.getLength()];
-    for(int i =0; i<ExitList.getLength(); i++) {
-      int exit = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("exit").item(i).getAttributes().getNamedItem("exitdirection").getNodeValue());
-      exits[exit] = true;
-    }
-    Location location = new Location(exits, grid);
-    return location;
+    return null;
+
   }
 
   /**
@@ -260,17 +345,18 @@ public class XmlReader {
   private static String getTagValue(String tag, Element element){
     NodeList nodelist = element.getElementsByTagName(tag).item(0).getChildNodes();
     Node node = (Node) nodelist.item(0);
-    return tag;
+    return node.getNodeValue();
 
   }
 
   /**
    * @param game
+   * @return the loaded GameWorld
    * @throws ParserConfigurationException
    * @throws IOException
    * @throws SAXException
    */
-  public void loadXml(GameWorld game) throws ParserConfigurationException, SAXException, IOException {
+  public GameWorld loadXml() throws ParserConfigurationException, SAXException, IOException {
     String filePath = "/home/hoongkevi/Desktop/game";
     File xml = new File(filePath);
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -279,6 +365,12 @@ public class XmlReader {
        db = dbFactory.newDocumentBuilder();
        Document doc = db.parse(xml);
        doc.getDocumentElement().normalize();
+
+       NodeList nodelist = doc.getElementsByTagName("Game");
+       List<GameWorld> elemList = new ArrayList<GameWorld>();
+       for(int i = 0; i< nodelist.getLength(); i++) {
+         elemList.add(getGameWorld(nodelist.item(i),doc));
+       }
     }catch(ParserConfigurationException e) {
       System.out.println("ParserConfigurationException error");
     }catch(SAXException e) {
@@ -286,5 +378,6 @@ public class XmlReader {
     }catch(IOException e) {
       System.out.println("File input/output error");
     }
+    return null;
   }
 }

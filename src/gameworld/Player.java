@@ -1,7 +1,6 @@
 package gameworld;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import gameworld.GameWorld.Direction;
@@ -19,7 +18,9 @@ public class Player {
 
   /**
    * Create a new player only specifying location
-   * @param startingLoc location the player starts from
+   * 
+   * @param startingLoc
+   *          location the player starts from
    */
   public Player(Location startingLoc) {
     inventory = new ArrayList<Item>();
@@ -29,7 +30,9 @@ public class Player {
 
   /**
    * Moves the player in the given direction.
-   * @param newLocation players new location
+   * 
+   * @param newLocation
+   *          players new location
    * @param dir
    *
    * @return true if the player successfully moved in that direction
@@ -42,12 +45,15 @@ public class Player {
   }
 
   /**
-   * The player add's item i to their inventory and it is removed from the current location.
-   * @param i Item that is to be picked up.
+   * The player add's item i to their inventory and it is removed from the current
+   * location.
+   * 
+   * @param i
+   *          Item that is to be picked up.
    * @return whether the item was successfully picked up.
    */
   public boolean pickupItem(Item i) {
-    if(!i.canPickup()) {
+    if (!i.canPickup()) {
       return false;
     }
 
@@ -60,7 +66,9 @@ public class Player {
 
   /**
    * Player drops an item from their inventory into the current room
-   * @param i The item that is to be dropped.
+   * 
+   * @param i
+   *          The item that is to be dropped.
    * @return if the item was successfully dropped
    */
   public boolean dropItem(Item i) {
@@ -84,9 +92,7 @@ public class Player {
     return i.use(this);
   }
 
-
-
-  //Getters
+  // Getters
 
   /**
    * @return the players inventory

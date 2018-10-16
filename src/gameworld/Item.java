@@ -19,8 +19,8 @@ public abstract class Item {
   protected Image image;
 
   /**
-   * @param name
-   * @param description
+   * @param name --- the name of the item
+   * @param description --- A short description of this item
    * @param imagePath
    */
   public Item(String name, String description, String imagePath) {
@@ -40,7 +40,6 @@ public abstract class Item {
     return name + ": " + description;
   }
 
-
   /**
    * Returns String that will appear upon inspection of this item.
    *
@@ -52,6 +51,7 @@ public abstract class Item {
 
   /**
    * Get's the items image representation.
+   *
    * @return Item's sprites image.
    */
   public Image getImage() {
@@ -60,6 +60,7 @@ public abstract class Item {
 
   /**
    * Get's the items name.
+   *
    * @return Item's name.
    */
   public String getName() {
@@ -68,22 +69,25 @@ public abstract class Item {
 
   /**
    * Get's the items description.
+   *
    * @return Item's description.
    */
   public String getDescription() {
     return description;
   }
 
-  //Abstract methods
+  // Abstract methods
 
   /**
-   *
+   * Checks if this item can be picked up.
    * @return True if the item can be picked up.
    */
   public abstract boolean canPickup();
 
   /**
-   * @param p
+   * The player uses the item returning true if
+   * the item had any effect.
+   * @param p the player that is using this item
    * @return if the player successfully used the item.
    */
   public abstract boolean use(Player p);

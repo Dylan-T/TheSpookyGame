@@ -14,69 +14,52 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
-
 import gameworld.GameWorld;
+import javax.swing.JPanel;
 
 import java.awt.*;
 
 /**
- * @author user1
+ * this class is used to create a title screen for the game. this is for
+ * asthetics giving more game style functionality to the program.
  *
+ * @author Armaan Chandra.
  */
 public class TitleScreen {
 
-  private static JFrame titleFrame;
+  private JFrame titleFrame;
   private static final int width = 1221;
   private static final int height = 682;
 
   /**
-   * @param args
-   */
- /* public static void main(String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
-          TitleScreen window = new TitleScreen();
-          window.titleFrame.setVisible(true);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }*/
-
-
-  /**
-   *
+   * constrcutor that will just call the initialize to make the title screen.
    */
   public TitleScreen() {
     initialize();
   }
 
   /**
-   *
+   * this is responsible for creating the title screen. which is just 3 buttons
+   * with functionality.
    */
   public void initialize() {
 
-
     titleFrame = new JFrame();
     titleFrame.setTitle("The Spooky Game");
-    titleFrame.setBounds(100, 100,width, height);
+    titleFrame.setBounds(100, 100, width, height);
     titleFrame.setVisible(true);
     titleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     titleFrame.getContentPane().setLayout(null);
 
     JPanel game = new JPanel();
-    game.setBounds(0, 0, width , height);
+    game.setBounds(0, 0, width, height);
     titleFrame.getContentPane().add(game);
 
     game.setLayout(null);
 
-
     JPanel buttons = new JPanel();
     buttons.setMaximumSize(new Dimension(250, 350));
-    buttons.setBounds(width/2-125, height/2-125, 250, 250);
+    buttons.setBounds(width / 2 - 125, height / 2 - 125, 250, 250);
     buttons.setOpaque(false);
     game.add(buttons);
     buttons.setLayout(new GridLayout(3, 1));
@@ -91,11 +74,11 @@ public class TitleScreen {
     start.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         titleFrame.setVisible(false);
-        GUI gui = new GUI();
+        Gui gui = new Gui();
         gui.getFrame().setVisible(true);
-        /*System.out.print(GUI.drawing.getHeight() + " this is h \n");
-        System.out.print(GUI.drawing.getWidth() + " this is w \n");*/
-      }});
+
+      }
+    });
     buttons.add(start);
 
     JButton load = new JButton("Load");
@@ -108,7 +91,9 @@ public class TitleScreen {
     load.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("call the load method from here");
-      }});
+
+      }
+    });
     buttons.add(load);
 
     JButton quit = new JButton("Quit");
@@ -121,19 +106,18 @@ public class TitleScreen {
     quit.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.exit(0);
-      }});
+      }
+    });
     buttons.add(quit);
-
 
     BackgroundImage bg = new BackgroundImage(new ImageIcon("background.png").getImage());
     game.add(bg);
 
-
-
   }
 
-
   /**
+   * this is used by the GUI class to call the title screen from the main.
+   *
    * @return the JFrame allowing access from GUI class.
    */
   public JFrame getTitleFrame() {
