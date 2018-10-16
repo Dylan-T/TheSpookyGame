@@ -1,60 +1,64 @@
 package renderer;
 
 /**
+ * class that stores the coordinate of the item image.
  * @author desilvnira
- *
  */
 public class Coord {
-
-  private int x;
-  private int y;
+  private int exCoord;
+  private int eyCoord;
   private int width;
   private int height;
 
   /**
+   * x value of item.
    * @param x
-   * x value of item
+   * x value of item.
    * @param y
-   * y value of item
+   * y value of item.
    * @param width
-   * width of item
+   * width of item.
    * @param height
-   * height of item
+   * height of item.
    */
   public Coord(int x, int y, int width, int height) {
-    this.x = x;
-    this.y = y;
+    this.exCoord = x;
+    this.eyCoord = y;
     this.width = width;
     this.height = height;
   }
 
   /**
+   *.
    * @return x pos
    */
   public int getX() {
-    return x;
+    return exCoord;
   }
 
   /**
+   * gets the y position.
    * @return y pos
-   * gets the y position
+   *
    */
   public int getY() {
-    return y;
+    return eyCoord;
   }
 
   /**
+   * gets the width of the picture contained within the item.
    * @return width
-   * gets the width of the picture contained within the item
-   * 
+   *
+   *
    */
   public int getWidth() {
     return width;
   }
 
   /**
+   * gets the height.
    * @return height
-   * gets the height
+   *
    */
   public int getHeight() {
     return height;
