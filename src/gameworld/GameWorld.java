@@ -1,5 +1,6 @@
 package gameworld;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class GameWorld {
   private int playerX;
   private int playerY;
   private Player player;
-  private List<Quest> quests;
+  private List<Quest> quests = new ArrayList<Quest>();
 
   /**
    * Enum for directions.
@@ -144,8 +145,9 @@ public class GameWorld {
   }
 
   /**
-   * Makes the player pickup the given item if possible.
-   * This removes the item from the location and adds it to the players inventory.
+   * Makes the player pickup the given item if possible. This removes the item
+   * from the location and adds it to the players inventory.
+   *
    * @param i
    *          the item to be picked up
    * @return return true if the item was successfully picked up
@@ -155,9 +157,9 @@ public class GameWorld {
   }
 
   /**
-   * Makes the player drop the given item if possible.
-   * This removes the item from the players inventory and adds it to
-   * the current location if there is space.
+   * Makes the player drop the given item if possible. This removes the item from
+   * the players inventory and adds it to the current location if there is space.
+   *
    * @param i
    *          the item to be picked up
    * @return if the item was successfully picked up
@@ -167,7 +169,8 @@ public class GameWorld {
   }
 
   /**
-   * Check if the game has been completed. This is true when all quests have been completed.
+   * Check if the game has been completed. This is true when all quests have been
+   * completed.
    *
    * @return if the game has been complete
    */
@@ -193,6 +196,7 @@ public class GameWorld {
 
   /**
    * Gets the 2D array of locations that is the GameWorld map.
+   *
    * @return a collection of the games locations
    */
   public Location[][] getWorldMap() {
@@ -201,6 +205,7 @@ public class GameWorld {
 
   /**
    * Gets a List of the games current quests.
+   *
    * @return a collection of the games quests to be completed
    */
   public List<Quest> getQuests() {
@@ -209,6 +214,7 @@ public class GameWorld {
 
   /**
    * Gets the player object of this GameWorld.
+   *
    * @return the games player object
    */
   public Player getPlayer() {
