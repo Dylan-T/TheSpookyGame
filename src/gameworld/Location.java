@@ -50,7 +50,7 @@ public class Location {
     if (x > grid[0].length || y > grid.length || x < 0 || y < 0) {
       return false;
     } else {
-      grid[x][y] = item;
+      grid[y][x] = item;
       return true;
     }
   }
