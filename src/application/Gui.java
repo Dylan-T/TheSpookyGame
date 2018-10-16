@@ -233,6 +233,7 @@ public class Gui {
               } else {
                 System.out.println("nothing was picked up");
                 // this should print to the text field
+                //yo
               }
             }
           }
