@@ -42,7 +42,7 @@ public class XmlReader {
    */
 
   public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-    String filePath = "/home/hoongkevi/Desktop/game";
+    String filePath = "/home/hoongkevi/test.xml";
     File xml = new File(filePath);
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder db;
@@ -76,7 +76,7 @@ public class XmlReader {
    */
   public static GameWorld getGameWorld(Node node,Document doc) {
     Player player = new Player(getPlayerLocation(node, doc));
-    Set<Location> locations = new HashSet<Location>();
+    Location[][] locations = new Location[0][0];
     Set<Quest> quests = new HashSet<Quest>();
     GameWorld game = new GameWorld(locations,player.getCurrentLocation());
     return game;
@@ -114,19 +114,13 @@ public class XmlReader {
       return treasure;
     }
     else if(type.equals("Key")) {
-
+      Key key = new Key();
+      return key;
     }
     return null;
   }
 
-  /**
-   * @param node
-   * @param doc
-   * @return returns a new key
-   */
-  public static Key getKey(Node node, Document doc) {
-    return null;
-  }
+
 
   /**
    * @param node
@@ -134,7 +128,7 @@ public class XmlReader {
    * @return new container
    */
   public static StationaryContainer getContainer(Node node,Document doc) {
-    if(node.getNodeType() == node.ELEMENT_NODE) {
+    if(node.getNodeType() == Node.ELEMENT_NODE) {
       Element elem = (Element) node;
       String name = elem.getAttribute("name");
       String description = elem.getAttribute("description");
@@ -149,17 +143,19 @@ public class XmlReader {
    * @param doc
    * @return new quest
    */
-  public static Quest getQuest(Node node,Document doc) {
+  public static List<Quest> getQuest(Node node,Document doc) {
     NodeList questList = doc.getDocumentElement().getElementsByTagName("quest");
+    List<Quest> quests = new ArrayList<Quest>();
     List<Treasure> requirements = new ArrayList<Treasure>();
     for(int i =0; i<questList.getLength();i++) {
       String name = questList.item(i).getAttributes().getNamedItem("name").getNodeValue();
       String description = questList.item(i).getAttributes().getNamedItem("description").getNodeValue();
       String imagepath = questList.item(i).getAttributes().getNamedItem("imagepath").getNodeValue();
       String complete = questList.item(i).getAttributes().getNamedItem("complete").getNodeValue();
-      requirements.add(getQuestReqs(node,doc));
+      requirements = getQuestReqs(node,doc);
+      quests.add(new Quest(name, description, imagepath,requirements));
     }
-    return null;
+    return quests;
 
   }
 
@@ -168,9 +164,17 @@ public class XmlReader {
    * @param doc
    * @return quest requirements
    */
-  public static Treasure getQuestReqs(Node node, Document doc){
+  public static List<Treasure> getQuestReqs(Node node, Document doc){
     NodeList QuestItems = doc.getDocumentElement().getElementsByTagName("QuestItems");
-    return null;
+    List<Treasure> requirements = new ArrayList<Treasure>();
+    for(int i = 0; i<QuestItems.getLength(); i++) {
+     String name = QuestItems.item(i).getAttributes().getNamedItem("name").getNodeValue();
+     String description = QuestItems.item(i).getAttributes().getNamedItem("description").getNodeValue();
+     String imagepath = QuestItems.item(i).getAttributes().getNamedItem("imagePath").getNodeValue();
+     Treasure treasure = new Treasure(name,description,imagepath);
+     requirements.add(treasure);
+    }
+    return requirements;
   }
 
   /**
@@ -179,8 +183,8 @@ public class XmlReader {
    * @return new Location
    */
   public static Location getLocation(Node node,Document doc) {
-    int x = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("PlayerLocation").item(0).getAttributes().getNamedItem("x").getNodeValue());
-    int y = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("PlayerLocation").item(1).getAttributes().getNamedItem("y").getNodeValue());
+    int x = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("Location").item(0).getAttributes().getNamedItem("height").getNodeValue());
+    int y = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("Location").item(1).getAttributes().getNamedItem("height").getNodeValue());
     Item[][] grid = new Item[x][y];
     NodeList gridItemList = doc.getDocumentElement().getElementsByTagName("GridItem");
     for(int i = 0; i<gridItemList.getLength(); i++) {
@@ -192,17 +196,15 @@ public class XmlReader {
       if(type.equals("Treasure")) {
       grid[gridItemX][gridItemY] = new Treasure(name,description,null);
       }else if(type.equals("Key")) {
-        grid[gridItemX][gridItemY] = null; // have to implement location and passage methods before I can create a key.
+        grid[gridItemX][gridItemY] = new Key(); // have to implement location and passage methods before I can create a key.
       }
     }
     NodeList ExitList = doc.getDocumentElement().getElementsByTagName("exits");
-    Passage[] exits = new Passage[ExitList.getLength()];
-    for(int i = 0; i < ExitList.getLength(); i++) {
-      int exitDirection = Integer.parseInt(ExitList.item(i).getAttributes().getNamedItem("exitdirection").getNodeValue());
-      Passage passage = new Passage(null,null);//currently location has no exits
-      exits[i] = passage;
+    Boolean[] exits = new Boolean[ExitList.getLength()];
+    for(int i =0; i<ExitList.getLength(); i++) {
+      int exit = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("exit").item(i).getAttributes().getNamedItem("exitdirection").getNodeValue());
+      exits[exit] = true;
     }
-
     Location location = new Location(exits, grid);
     return location;
   }
@@ -213,8 +215,8 @@ public class XmlReader {
    * @return new PlayerLocation
    */
   public static Location getPlayerLocation(Node node,Document doc) {
-    int x = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("PlayerLocation").item(0).getAttributes().getNamedItem("x").getNodeValue());
-    int y = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("PlayerLocation").item(1).getAttributes().getNamedItem("y").getNodeValue());
+    int x = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("PlayerLocation").item(0).getAttributes().getNamedItem("height").getNodeValue());
+    int y = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("PlayerLocation").item(0).getAttributes().getNamedItem("width").getNodeValue());
     Item[][] grid = new Item[x][y];
     NodeList gridItemList = doc.getDocumentElement().getElementsByTagName("GridItem");
     for(int i = 0; i<gridItemList.getLength(); i++) {
@@ -230,11 +232,10 @@ public class XmlReader {
       }
     }
     NodeList ExitList = doc.getDocumentElement().getElementsByTagName("exits");
-    Passage[] exits = new Passage[ExitList.getLength()];
-    for(int i = 0; i < ExitList.getLength(); i++) {
-      int exitDirection = Integer.parseInt(ExitList.item(i).getAttributes().getNamedItem("exitdirection").getNodeValue());
-      Passage passage = new Passage(null,null);//currently location has no exits
-      exits[i] = passage;
+    Boolean[] exits = new Boolean[ExitList.getLength()];
+    for(int i =0; i<ExitList.getLength(); i++) {
+      int exit = Integer.parseInt(doc.getDocumentElement().getElementsByTagName("exit").item(i).getAttributes().getNamedItem("exitdirection").getNodeValue());
+      exits[exit] = true;
     }
 
     Location playerLocation = new Location(exits, grid);
@@ -251,22 +252,10 @@ public class XmlReader {
   public static Player getPlayer(Node node,Document doc) {
     Player player = new Player(getPlayerLocation(node,doc));
     getInventory(node,doc,player);
-    player.move(GameWorld.Direction.NORTH);
     return player;
   }
 
-  /**
-   * @param node
-   * @param doc
-   * @return Passage elements
-   */
-  public static Passage getPassage(Node node,Document doc) {
-    Passage passage = new Passage(null, null);
-    if(node.getNodeType() == node.ELEMENT_NODE) {
-      Element elem = (Element) node;
-    }
-    return null;
-  }
+
 
   private static String getTagValue(String tag, Element element){
     NodeList nodelist = element.getElementsByTagName(tag).item(0).getChildNodes();

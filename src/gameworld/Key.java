@@ -8,18 +8,16 @@ import java.awt.Image;
  *
  */
 public class Key extends Item {
-  private Passage unlocks;
-  
+
   /**
    * Creates a key that will unlock passage p.
-   * @param name 
+   * @param name
    * @param p --- The Passage that this key unlocks
    */
-  public Key(Passage p) {
+  public Key() {
     super("Key", "A key to unlock a passage.", "assets/key.png");
-    unlocks = p;
   }
-  
+
   @Override
   public String inspect() {
     return description;
@@ -34,13 +32,6 @@ public class Key extends Item {
   public boolean use(Player p) {
     //Subject to change
     return false;
-  }
-  
-  /**
-   * @return the passage this key unlocks
-   */
-  public Passage getUnlocks() {
-    return unlocks;
   }
 
 }
