@@ -1,23 +1,18 @@
 package application;
 
-import java.awt.EventQueue;
-import java.awt.Image;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
-import gameworld.GameWorld;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.awt.*;
+
 
 /**
  * this class is used to create a title screen for the game. this is for
@@ -76,6 +71,8 @@ public class TitleScreen {
         titleFrame.setVisible(false);
         Gui gui = new Gui();
         gui.getFrame().setVisible(true);
+
+        //System.out.println(gui.drawing.getSize());
 
       }
     });

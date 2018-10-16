@@ -1,68 +1,57 @@
 package application;
 
-import java.awt.EventQueue;
-import java.awt.Graphics;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JComponent;
+import gameworld.GameWorld;
+import gameworld.Item;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.MouseInfo;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelEvent;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.MouseInfo;
-
-import javax.swing.JTextArea;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.DefaultCaret;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import gameworld.GameWorld;
-import gameworld.Item;
-import persistence.XmlSaver;
-import renderer.Renderer;
-
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JMenu;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
-import java.awt.FlowLayout;
+import persistence.XmlSaver;
+
+import renderer.Renderer;
 
 /**
  * this is the GUI class that creates the interface which will be used by
@@ -74,7 +63,7 @@ import java.awt.FlowLayout;
 public class Gui {
 
   private static GameWorld game;
-  private Renderer rWindow;
+  private Renderer renderWindow;
 
   private static JFrame frame;
   private static JComponent drawing;
@@ -85,8 +74,13 @@ public class Gui {
   private static JPanel buttonPanel;
   private static JPanel extraButtons;
   private static JTextArea textWindow;
+  private static JFileChooser fileChooser;
+  private static JTextArea textEditor;
   private int height;
   private int width;
+  private static File file = null;
+
+  private static final Charset CHARSET = StandardCharsets.UTF_8;
 
   // DRAWING WIDTH = 1604, HEIGHT = 951
 
@@ -108,7 +102,6 @@ public class Gui {
       }
     });
   }
-
 
   /**
    * Create the application and the game world to run.
@@ -193,11 +186,11 @@ public class Gui {
 
       private void redraw(Graphics g) {
         System.out.println("calling dyalns redraw");
-        rWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH, g);
+        renderWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH, g);
       }
     };
 
-    rWindow = new Renderer(drawing.getGraphics());
+    renderWindow = new Renderer(drawing.getGraphics());
     drawing.setPreferredSize(new Dimension(width, height));
 
     drawing.addMouseListener(new MouseAdapter() {
@@ -221,8 +214,8 @@ public class Gui {
         System.out.println(mouseY);
         boolean found = false;
 
-        Item[][] i = rWindow.getGrid();
-        Item item = rWindow.isWithin(mouseX, mouseY);
+        Item[][] i = renderWindow.getGrid();
+        Item item = renderWindow.isWithin(mouseX, mouseY);
 
         for (int a = 0; a < i.length; a++) {
           for (int b = 0; b < i[0].length; b++) {
@@ -233,13 +226,11 @@ public class Gui {
               } else {
                 System.out.println("nothing was picked up");
                 // this should print to the text field
-                //yo
+                // yo
               }
             }
           }
         }
-
-
 
         // this should also redraw the inventory pane
       }
@@ -415,21 +406,33 @@ public class Gui {
    *          passed from the menu bar.
    */
   private static void pressSave(JButton save) {
+    fileChooser = new JFileChooser();
+
     save.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("You need to save code here"); // cleanly end the program.
 
-        try {
-          XmlSaver.makeXml(game);
-        } catch (ParserConfigurationException e) {
-          e.printStackTrace();
-        } catch (TransformerException e) {
-          e.printStackTrace();
+        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setDialogTitle("Select input file.");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        // run the file chooser and check the user didn't hit cancel
+        if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+          file = fileChooser.getSelectedFile();
+          //textEditor.setText(readFile(file));
         }
-
+        if(file != null) {
+          try {
+            XmlSaver.makeXml(game, file.getAbsolutePath());
+          } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+          } catch (TransformerException e) {
+            e.printStackTrace();
+          }
+        }
       }
     });
   }
+
 
   /**
    * Helper method that does the actions of the loadButton. called when the user
