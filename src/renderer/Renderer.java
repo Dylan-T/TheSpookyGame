@@ -342,26 +342,27 @@ private
    * @return if it is within
    *
    */
-  public boolean isWithin(int x, int y) {
+  public Item isWithin(int x, int y) {
     int count = 0;
     for(int i = 0; i< grid.length; i++) {
       for(int j = 0; j< grid[0].length; j++) {
         if(grid[j][i].getImage() != null) {
           for(int yPos = coords.get(count).getY(); yPos < yPos + coords.get(count).getHeight(); yPos++) {
-            for(int xPos = coords.get(count).getX(); xPos < xPos + coords.get(count).getWidth(); yPos++) {
+            for(int xPos = coords.get(count).getX(); xPos < xPos + coords.get(count).getWidth(); xPos++) {
               if(x == xPos && y == yPos) {
-                return true;
+                return grid[j][i];
               }
             }
           }
+          count++;
         }
       }
     }
-    return false;
+    return null;
   }
 
   /**
-   * draws the cube onto the canvas byy connecting vertices
+   * draws the cube onto the canvas by connecting vertices
    * @param c
    * @param g
    */
@@ -458,6 +459,13 @@ private
 
 
 
+  }
+
+  /**
+   * @return grid
+   */
+  public Item[][] getGrid(){
+    return grid;
   }
 
   /**
