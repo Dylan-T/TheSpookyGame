@@ -230,7 +230,7 @@ public class GUI {
         // get the item
         int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y;
-
+        Item[][] i =
         if (rWindow.isWithin(mouseX, mouseY) != null) { //got an item
           game.getPlayer().pickupItem(i);
 
