@@ -47,6 +47,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultCaret;
 
 import gameworld.GameWorld;
+import gameworld.Item;
 import renderer.Renderer;
 
 import javax.swing.JMenuBar;
@@ -230,12 +231,20 @@ public class GUI {
         // get the item
         int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y;
-        Item[][] i =
-        if (rWindow.isWithin(mouseX, mouseY) != null) { //got an item
-          game.getPlayer().pickupItem(i);
+        boolean found = false;
 
-        }else {
-          //you should could make a pop up that says there was nothing to pick up
+        Item[][] i = rWindow.getGrid();
+        for(int a = 0; a < i.length; a++) {
+          for(int b = 0; b < i[0].length; b++) {
+            if(rWindow.isWithin(mouseX, mouseY) == i[b][a]) {
+              found = true;
+              game.getPlayer().pickupItem(i[b][a]);
+            }
+          }
+        }
+
+        if(found == false) {
+          JOptionPane.showMessageDialog(frame, "nothing to pick up");
         }
 
         drawing.repaint();
