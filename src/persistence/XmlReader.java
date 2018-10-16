@@ -1,5 +1,6 @@
 package persistence;
 
+import gameworld.Decoration;
 import gameworld.GameWorld;
 import gameworld.Item;
 import gameworld.Key;
@@ -60,6 +61,7 @@ public class XmlReader {
       for (int i = 0; i < nodelist.getLength(); i++) {
         elemList.add(getGameWorld(nodelist.item(i), doc));
       }
+      return elemList.get(0);
     } catch (ParserConfigurationException e) {
       System.out.println("ParserConfigurationException error");
     } catch (SAXException e) {
@@ -203,8 +205,8 @@ public class XmlReader {
     Location[][] locations;
     if (game.getNodeType() == Node.ELEMENT_NODE) {
       Element element = (Element) game;
-      int x = Integer.parseInt(getTagValue("width", element));
-      int y = Integer.parseInt(getTagValue("height", element));
+      int x = Integer.parseInt(doc.getElementsByTagName("Game").item(0).getAttributes().getNamedItem("width").getNodeValue());
+      int y = Integer.parseInt(doc.getElementsByTagName("Game").item(0).getAttributes().getNamedItem("height").getNodeValue());
       locations = new Location[x][y];
       for (int i = 0; i < locations.length; i++) {
         for (int j = 0; j < locations[0].length; j++) {
@@ -247,12 +249,12 @@ public class XmlReader {
    */
   public static Boolean[] makeExits(Node node, Document doc) {
     if (node.getNodeType() == Node.ELEMENT_NODE) {
-      Element element = (Element) node;
-      int length = Integer.parseInt(getTagValue("size", element));
-      Boolean[] exits = new Boolean[length];
+      Boolean[] exits = new Boolean[4];
       NodeList exitNodes = doc.getDocumentElement().getElementsByTagName("exit");
       for (int i = 0; i < exitNodes.getLength(); i++) {
-        exits[Integer.parseInt(getTagValue("exitdirection", element))] = true;
+        if(exitNodes.item(i).getNodeValue() != null) {
+        exits[Integer.parseInt(exitNodes.item(i).getNodeValue())] = true;
+        }
       }
       return exits;
     }
@@ -268,9 +270,8 @@ public class XmlReader {
   public static Item[][] makegrid(Node node, Document doc) {
     NodeList nodelist = doc.getElementsByTagName("GridItem");
     if (node.getNodeType() == Node.ELEMENT_NODE) {
-      Element element = (Element) node;
-      int width = Integer.parseInt(getTagValue("width", element));
-      int height = Integer.parseInt(getTagValue("height", element));
+      int width = Integer.parseInt(doc.getElementsByTagName("GridItem").item(0).getAttributes().getNamedItem("x").getNodeValue());
+      int height = Integer.parseInt(doc.getElementsByTagName("GridItem").item(0).getAttributes().getNamedItem("y").getNodeValue());
       Item[][] grid = new Item[width][height];
       for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
@@ -331,15 +332,19 @@ public class XmlReader {
       String description = gridItemList.item(i).getAttributes().getNamedItem("description")
           .getNodeValue();
       String type = gridItemList.item(i).getAttributes().getNamedItem("type").getNodeValue();
+      String filepath = gridItemList.item(i).getAttributes().getNamedItem("filepath").getNodeValue();
       int gridItemX = Integer
           .parseInt(gridItemList.item(i).getAttributes().getNamedItem("x").getNodeValue());
       int gridItemY = Integer
           .parseInt(gridItemList.item(i).getAttributes().getNamedItem("y").getNodeValue());
       if (type.equals("Treasure")) {
-        grid[gridItemX][gridItemY] = new Treasure(name, description, null);
+        grid[gridItemX][gridItemY] = new Treasure(name, description, filepath);
       } else if (type.equals("Key")) {
-        grid[gridItemX][gridItemY] = null;
+        grid[gridItemX][gridItemY] = new Key();
+      } else if(type.equals("decoration")) {
+        grid[gridItemX][gridItemY] = new Decoration(name,description,filepath);
       }
+
     }
     NodeList exitList = doc.getDocumentElement().getElementsByTagName("exits");
     Boolean[] exits = new Boolean[exitList.getLength()];

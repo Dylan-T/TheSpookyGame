@@ -1,29 +1,23 @@
 package renderer;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
 import gameworld.GameWorld;
 import gameworld.GameWorld.Direction;
 import gameworld.Item;
 import gameworld.Location;
-import javafx.scene.shape.Line;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Polygon;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+
+
 
 /**
+ * class that renders the graphics that the user sees on canvas.
  * @author Niran
  *
  */
@@ -33,39 +27,42 @@ public class Renderer {
   ArrayList<Coord> coords = new ArrayList<Coord>();
 
   /**
-   * width of the canvas
+   * width of the canvas.
    */
   public static final int CANVASWIDTH = 1800;
   /**
-   * height of the canvas
+   * height of the canvas.
    */
   public static final int CANVASHEIGHT = 951;
 
   Graphics graphics;
 
   /**
-   * @param graphics
-   *          sets up the graphics for the items and exits to be drawn from. Not
-   *          being used at the moment
+   * sets up the graphics for the items and exits to be drawn from.
+   * @param graphics redraws graphics
    */
   public Renderer(Graphics graphics) {
     this.graphics = graphics;
   }
 
   /**
+   * .
    * @param room
+   * .
    * @param dir
+   * .
    * @param g
+   * .
    */
   public void redraw(Location room, GameWorld.Direction dir, Graphics g) {
 
-    float scale = (float) 1; // need to figure out a proper scale to keep images from going outside
-                             // of canvas
+    // need to figure out a proper scale to keep images from going outside of canvas
+    float scale = (float) 1;
+
     int x = 10;
     int y = 10;
     int width = 20;
     int height = 20;
-    int colorNumber = 0;
 
     grid = room.getGrid();
     System.out.println("length " + grid.length);
@@ -75,126 +72,125 @@ public class Renderer {
      * the scaling of the rendering
      */
 
-    BufferedImage cube = null;
+    //BufferedImage cube = null;
     BufferedImage scaryBack = null;
     BufferedImage bat = null;
-    try {
-      cube = ImageIO.read(new File("Portal.png"));
+    /*try {
+      //cube = ImageIO.read(new File("Portal.png"));
     } catch (IOException e) {
-    }
+      e.printStackTrace();
+    }*/
     try {
       scaryBack = ImageIO.read(new File("assets/scaryFace.png"));
     } catch (IOException e) {
+      e.printStackTrace();
     }
 
     try {
       bat = ImageIO.read(new File("assets/Scarybat.png"));
     } catch (IOException e) {
+      e.printStackTrace();
     }
     // System.out.println(cube);
 
     if (dir == Direction.NORTH) {
-      // x = 50* (1-scale);
 
-      int xgap = 2;
-      int ygap = 2;
+      int eyMiddle = CANVASHEIGHT / 2;
+      int exMiddle = CANVASWIDTH / 2;
 
-      int yMiddle = CANVASHEIGHT / 2;
-      int xMiddle = CANVASWIDTH / 2;
-
-      int Xdimension = 150;
-      int Ydimension = (int) (Xdimension / 1.89);
+      int exDimension = 150;
+      int eyDimension = (int) (exDimension / 1.89);
 
       g.setColor(Color.LIGHT_GRAY);
       Polygon right = new Polygon();
-      right.addPoint(xMiddle + Xdimension, yMiddle - Ydimension);
+      right.addPoint(exMiddle + exDimension, eyMiddle - eyDimension);
       right.addPoint(CANVASWIDTH, 0);
       right.addPoint(CANVASWIDTH, CANVASHEIGHT);
-      right.addPoint(xMiddle + Xdimension, yMiddle + Ydimension);
+      right.addPoint(exMiddle + exDimension, eyMiddle + eyDimension);
 
       Polygon top = new Polygon();
-      top.addPoint(xMiddle - Xdimension, yMiddle - Ydimension);
+      top.addPoint(exMiddle - exDimension, eyMiddle - eyDimension);
       top.addPoint(0, 0);
       top.addPoint(CANVASWIDTH, 0);
-      top.addPoint(xMiddle + Xdimension, yMiddle - Ydimension);
+      top.addPoint(exMiddle + exDimension, eyMiddle - eyDimension);
 
       Polygon left = new Polygon();
-      left.addPoint(xMiddle - Xdimension, yMiddle + Ydimension);
+      left.addPoint(exMiddle - exDimension, eyMiddle + eyDimension);
       left.addPoint(0, CANVASHEIGHT);
       left.addPoint(0, 0);
-      left.addPoint(xMiddle - Xdimension, yMiddle - Ydimension);
+      left.addPoint(exMiddle - exDimension, eyMiddle - eyDimension);
 
       Polygon bottom = new Polygon();
-      bottom.addPoint(xMiddle - Xdimension, yMiddle + Ydimension);
+      bottom.addPoint(exMiddle - exDimension, eyMiddle + eyDimension);
       bottom.addPoint(0, CANVASHEIGHT);
       bottom.addPoint(CANVASWIDTH, CANVASHEIGHT);
-      bottom.addPoint(xMiddle + Xdimension, yMiddle + Ydimension);
+      bottom.addPoint(exMiddle + exDimension, eyMiddle + eyDimension);
 
       g.fillPolygon(right);
       g.fillPolygon(top);
       g.fillPolygon(left);
       g.fillPolygon(bottom);
 
-      g.drawRect(xMiddle - Xdimension, yMiddle - Ydimension, 2 * Xdimension, 2 * Ydimension);
+      g.drawRect(exMiddle - exDimension, eyMiddle - eyDimension, 2 * exDimension, 2 * eyDimension);
 
       // the background picture
-      g.drawImage(scaryBack.getScaledInstance(Math.round(2 * Xdimension),
-          Math.round(2 * Ydimension), Image.SCALE_DEFAULT), xMiddle - Xdimension,
-          yMiddle - Ydimension, null);
+      g.drawImage(scaryBack.getScaledInstance(Math.round(2 * exDimension),
+          Math.round(2 * eyDimension), Image.SCALE_DEFAULT), exMiddle - exDimension,
+          eyMiddle - eyDimension, null);
       g.drawRect(0, 0, CANVASWIDTH, CANVASHEIGHT);
 
-      g.drawLine(xMiddle - Xdimension, yMiddle - Ydimension, 0, 0);
-      g.drawLine(xMiddle + Xdimension, yMiddle - Ydimension, CANVASWIDTH, 0);
-      g.drawLine(xMiddle - Xdimension, yMiddle + Ydimension, 0, CANVASHEIGHT);
-      g.drawLine(xMiddle + Xdimension, yMiddle + Ydimension, CANVASWIDTH, CANVASHEIGHT);
+      g.drawLine(exMiddle - exDimension, eyMiddle - eyDimension, 0, 0);
+      g.drawLine(exMiddle + exDimension, eyMiddle - eyDimension, CANVASWIDTH, 0);
+      g.drawLine(exMiddle - exDimension, eyMiddle + eyDimension, 0, CANVASHEIGHT);
+      g.drawLine(exMiddle + exDimension, eyMiddle + eyDimension, CANVASWIDTH, CANVASHEIGHT);
       g.setColor(Color.GRAY);
       Polygon p = new Polygon();
-      p.addPoint(xMiddle - Xdimension, yMiddle + Ydimension);
-      p.addPoint(xMiddle + Xdimension, yMiddle + Ydimension);
+      p.addPoint(exMiddle - exDimension, eyMiddle + eyDimension);
+      p.addPoint(exMiddle + exDimension, eyMiddle + eyDimension);
       p.addPoint(CANVASWIDTH, CANVASHEIGHT);
       p.addPoint(0, CANVASHEIGHT);
       g.fillPolygon(p);
       g.setColor(Color.BLACK);
 
-      int widthScale = CANVASWIDTH / (Xdimension * 2);
-      int heightScale = CANVASHEIGHT / (Ydimension * 2);
+      int widthScale = CANVASWIDTH / (exDimension * 2);
+      int heightScale = CANVASHEIGHT / (eyDimension * 2);
 
       int tempY = 0;
       int tempX = 0;
       int incrementer = 1;
 
-      for (int i = yMiddle - Ydimension; i < yMiddle + Ydimension; i += incrementer) {
+      for (int i = eyMiddle - eyDimension; i < eyMiddle + eyDimension; i += incrementer) {
         tempY += incrementer * heightScale;
-        g.drawLine(xMiddle + Xdimension, i, CANVASWIDTH, tempY);
+        g.drawLine(exMiddle + exDimension, i, CANVASWIDTH, tempY);
       }
 
       tempY = 0;
 
-      for (int i = yMiddle - Ydimension; i < yMiddle + Ydimension; i += incrementer) {
+      for (int i = eyMiddle - eyDimension; i < eyMiddle + eyDimension; i += incrementer) {
         tempY += incrementer * heightScale;
-        g.drawLine(xMiddle - Xdimension, i, 0, tempY);
+        g.drawLine(exMiddle - exDimension, i, 0, tempY);
       }
 
-      for (int i = xMiddle - Xdimension; i < xMiddle + Xdimension; i += incrementer) {
+      for (int i = exMiddle - exDimension; i < exMiddle + exDimension; i += incrementer) {
         tempX += incrementer * widthScale;
-        g.drawLine(i, yMiddle + Ydimension, tempX, CANVASHEIGHT);
+        g.drawLine(i, eyMiddle + eyDimension, tempX, CANVASHEIGHT);
       }
 
       tempX = 0;
 
-      for (int i = xMiddle - Xdimension; i < xMiddle + Xdimension; i += incrementer) {
+      for (int i = exMiddle - exDimension; i < exMiddle + exDimension; i += incrementer) {
         tempX += incrementer * widthScale;
-        g.drawLine(i, yMiddle - Ydimension, tempX, 0);
+        g.drawLine(i, eyMiddle - eyDimension, tempX, 0);
       }
 
       g.setColor(Color.BLACK);
       Polygon rightDoor = new Polygon();
-      rightDoor.addPoint((xMiddle + Xdimension) + ((CANVASWIDTH - (xMiddle + Xdimension)) / 2),
-          yMiddle - Ydimension);
+      rightDoor.addPoint((exMiddle + exDimension) + ((CANVASWIDTH - (exMiddle + exDimension)) / 2),
+          eyMiddle - eyDimension);
       rightDoor.addPoint(CANVASWIDTH, 250);
       rightDoor.addPoint(CANVASWIDTH, CANVASHEIGHT);
-      rightDoor.addPoint((xMiddle + Xdimension) + ((CANVASWIDTH - (xMiddle + Xdimension)) / 2),
-          CANVASHEIGHT - ((yMiddle + Ydimension) / 2) + 50);
+      rightDoor.addPoint((exMiddle + exDimension) + ((CANVASWIDTH - (exMiddle + exDimension)) / 2),
+          CANVASHEIGHT - ((eyMiddle + eyDimension) / 2) + 50);
       g.fillPolygon(rightDoor);
 
       g.setColor(Color.ORANGE);
@@ -202,12 +198,12 @@ public class Renderer {
 
       g.setColor(Color.BLACK);
       Polygon leftDoor = new Polygon();
-      leftDoor.addPoint((xMiddle - Xdimension) - (((xMiddle - Xdimension)) / 2),
-          yMiddle - Ydimension);
+      leftDoor.addPoint((exMiddle - exDimension) - (((exMiddle - exDimension)) / 2),
+          eyMiddle - eyDimension);
       leftDoor.addPoint(0, 250);
       leftDoor.addPoint(0, CANVASHEIGHT);
-      leftDoor.addPoint((xMiddle - Xdimension) - (((xMiddle - Xdimension)) / 2),
-          CANVASHEIGHT - ((yMiddle + Ydimension) / 2) + 70);
+      leftDoor.addPoint((exMiddle - exDimension) - (((exMiddle - exDimension)) / 2),
+          CANVASHEIGHT - ((eyMiddle + eyDimension) / 2) + 70);
       g.fillPolygon(leftDoor);
 
       g.setColor(Color.ORANGE);
@@ -217,9 +213,9 @@ public class Renderer {
        * g.drawRect(xMiddle + 90, yMiddle + 40, 10, 10); g.drawRect(CANVASWIDTH -
        * 10*widthScale, CANVASHEIGHT - 10*heightScale, 10*widthScale, 10*heightScale);
        */
-      this.fillCube(new Cube(xMiddle + (Xdimension - 10), yMiddle + (Ydimension - 10), 10,
+      this.fillCube(new Cube(exMiddle + (exDimension - 10), eyMiddle + (eyDimension - 10), 10,
           CANVASWIDTH - 10 * widthScale, CANVASHEIGHT - 10 * heightScale, 10 * widthScale), g);
-      this.fillCube(new Cube(xMiddle - Xdimension, yMiddle + (Ydimension - 10), 10,
+      this.fillCube(new Cube(exMiddle - exDimension, eyMiddle + (eyDimension - 10), 10,
           0 + 10 * widthScale, CANVASHEIGHT - 10 * heightScale, 10 * widthScale), g);
 
       // g.drawImage(cube.getScaledInstance(40, 45, Image.SCALE_DEFAULT), xMiddle-19,
@@ -229,25 +225,24 @@ public class Renderer {
       int oldWidth = 200;
       int tempWidth = 200;
       int gapy = 30;
-      int yIncrement = 30;
-      int xStart = xMiddle - Xdimension;
-      int yStart = yMiddle + Ydimension;
+      int eyIncrement = 30;
+      int exStart = exMiddle - exDimension;
+      int eyStart = eyMiddle + eyDimension;
       int width2 = 10;
       int height2 = 30;
-      int Xscaler = CANVASWIDTH / 200;
-      double Yscaler = Math.sqrt((xStart * xStart) + Math.abs(((yStart - CANVASHEIGHT) ^ 2)))
-          / (CANVASHEIGHT - (yStart));
+      double eyScaler = Math.sqrt((exStart * exStart) + Math.abs(((eyStart - CANVASHEIGHT) ^ 2)))
+          / (CANVASHEIGHT - (eyStart));
 
-      int i = xStart;
+      int i = exStart;
       double shapeW = 10;
       double shapeH = 40;
 
       int countI = 0;
       int countJ = 0;
 
-      while (yStart < CANVASHEIGHT && countJ < grid.length) {
+      while (eyStart < CANVASHEIGHT && countJ < grid.length) {
 
-        while (i < (xStart + tempWidth) && countI < grid[0].length) {
+        while (i < (exStart + tempWidth) && countI < grid[0].length) {
           // g.setColor(Color.ORANGE);
           // g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
 
@@ -258,10 +253,10 @@ public class Renderer {
 
             Image img = grid[countI][countJ].getImage().getScaledInstance((int) shapeW,
                 (int) shapeH, Image.SCALE_DEFAULT);
-            Coord tempCoord = new Coord(i, yStart, img.getWidth(null), img.getHeight(null));
+            Coord tempCoord = new Coord(i, eyStart, img.getWidth(null), img.getHeight(null));
             coords.add(tempCoord);
             //System.out.println(tempCoord);
-            g.drawImage(img, i, yStart, null);
+            g.drawImage(img, i, eyStart, null);
           }
           i = (int) (i + shapeW);
 
@@ -270,7 +265,7 @@ public class Renderer {
         }
         countI = 0;
 
-        double c = Yscaler * gapy;
+        double c = eyScaler * gapy;
 
         int b = gapy;
 
@@ -279,13 +274,13 @@ public class Renderer {
         // System.out.println(oldWidth);
         tempWidth = (int) (tempWidth + (2 * a));
         shapeW += width2 * (tempWidth / oldWidth);
-        shapeH += height2 * (yIncrement / gapy);
+        shapeH += height2 * (eyIncrement / gapy);
         // System.out.println(tempWidth);
-        xStart = (int) (xStart - a);
+        exStart = (int) (exStart - a);
         // System.out.println(xStart);
-        i = xStart;
-        yStart += gapy;
-        yIncrement += 30;
+        i = exStart;
+        eyStart += gapy;
+        eyIncrement += 30;
         countJ++;
       }
 
@@ -293,41 +288,35 @@ public class Renderer {
       oldWidth = 200;
       tempWidth = 200;
       gapy = 30;
-      yIncrement = 50;
-      xStart = xMiddle - Xdimension + 20;
-      yStart = yMiddle - Ydimension - 30;
+      eyIncrement = 50;
+      exStart = exMiddle - exDimension + 20;
+      eyStart = eyMiddle - eyDimension - 30;
       width2 = 10;
       height2 = 40;
-      Xscaler = CANVASWIDTH / 200;
-      Yscaler = Math.sqrt((xStart * xStart) + Math.abs(((yStart - CANVASHEIGHT) ^ 2)))
-          / (CANVASHEIGHT - (yStart));
+      eyScaler = Math.sqrt((exStart * exStart) + Math.abs(((eyStart - CANVASHEIGHT) ^ 2)))
+          / (CANVASHEIGHT - (eyStart));
 
-      i = xStart;
+      i = exStart;
       shapeW = 30;
       shapeH = 40;
 
       countI = 0;
       countJ = 0;
 
-      while (yStart > 0) {
+      while (eyStart > 0) {
 
-        while (i < (xStart + tempWidth)) {
-          // g.setColor(Color.ORANGE);
-          // g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
-
-          // set up for images to be drawn on floor
+        while (i < (exStart + tempWidth)) {
 
           g.drawImage(bat.getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i,
-              yStart, null);
+              eyStart, null);
 
           i = (int) (i + shapeW);
 
-          // System.out.println(tempWidth/oldWidth);
           countI++;
         }
         countI = 0;
         //int count
-        double c = Yscaler * gapy;
+        double c = eyScaler * gapy;
 
         int b = gapy;
 
@@ -336,23 +325,23 @@ public class Renderer {
         // System.out.println(oldWidth);
         tempWidth = (int) (tempWidth + (2 * a));
         shapeW += width2 * (tempWidth / oldWidth);
-        shapeH += height2 * (yIncrement / gapy);
+        shapeH += height2 * (eyIncrement / gapy);
         // System.out.println(tempWidth);
-        xStart = (int) (xStart - a);
+        exStart = (int) (exStart - a);
         // System.out.println(xStart);
-        i = xStart;
-        yStart -= gapy;
-        yIncrement -= 30;
+        i = exStart;
+        eyStart -= gapy;
+        eyIncrement -= 30;
         countJ++;
       }
       g.setColor(Color.BLACK);
       Polygon rightTriangle = new Polygon();
-      rightTriangle.addPoint(xMiddle + Xdimension, yMiddle - Ydimension);
+      rightTriangle.addPoint(exMiddle + exDimension, eyMiddle - eyDimension);
       rightTriangle.addPoint(CANVASWIDTH, 0);
       rightTriangle.addPoint(CANVASWIDTH - 400, 0);
 
       Polygon leftTriangle = new Polygon();
-      leftTriangle.addPoint(xMiddle - Xdimension, yMiddle - Ydimension);
+      leftTriangle.addPoint(exMiddle - exDimension, eyMiddle - eyDimension);
       leftTriangle.addPoint(0, 0);
       leftTriangle.addPoint(400, 0);
 
@@ -429,10 +418,12 @@ public class Renderer {
   }
 
   /**
+   * used to check if an item has been clicked on from the gui.
    * @param x
+   * .
    * @param y
+   * .
    * @return if it is within
-   *
    */
   public Item isWithin(int x, int y) {
     int count = 0;
@@ -452,7 +443,7 @@ public class Renderer {
           if ((coords.get(count).getX() < x
               && x < (coords.get(count).getX() + coords.get(count).getWidth()))) {
 
-            if (coords.get(count).getY()+60 < y
+            if (coords.get(count).getY() + 60 < y
                 && y < (coords.get(count).getY() + 60 + coords.get(count).getHeight())) {
               System.out.println("here");
               return grid[i][j];
@@ -466,10 +457,12 @@ public class Renderer {
   }
 
   /**
-   * draws the cube onto the canvas by connecting vertices
-   *
+   * draws the cube onto the canvas by connecting vertices.
+   *.
    * @param c
+   * .
    * @param g
+   * .
    */
   public void drawCube(Cube c, Graphics g) {
 
@@ -512,24 +505,23 @@ public class Renderer {
   }
 
   /**
+   * fills the cube.
    * @param c
+   * .
    * @param g
-   * @param size
-   *          fills the cube
+   * .
    */
   public void fillCube(Cube c, Graphics g) {
 
     g.setColor(Color.GRAY);
 
     ArrayList<Point> square1 = c.square1Points;
-    ArrayList<Point> square2 = c.square2Points;
 
     g.fillRect(square1.get(0).getX(), square1.get(0).getY(), c.size, c.size);
-
     Polygon rect1 = new Polygon();
-
     rect1.addPoint(square1.get(0).getX(), square1.get(0).getY());
     rect1.addPoint(square1.get(1).getX(), square1.get(1).getY());
+    ArrayList<Point> square2 = c.square2Points;
     rect1.addPoint(square2.get(1).getX(), square2.get(1).getY());
     rect1.addPoint(square2.get(0).getX(), square2.get(0).getY());
 
@@ -569,22 +561,14 @@ public class Renderer {
   }
 
   /**
+   * gets the item grid.
    * @return grid
    */
   public Item[][] getGrid() {
     return grid;
   }
 
-  /**
-   * @param c
-   * @param g
-   */
-  public void fillCubeR(Cube c, Graphics g) {
-    Rectangle rec1 = c.rec1;
-    Rectangle rec2 = c.rec2;
 
-    g.drawLine(rec1.x, rec1.y, rec2.x, rec2.y);
-  }
 
   public String toString() {
     return null;

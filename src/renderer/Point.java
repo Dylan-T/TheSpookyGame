@@ -1,38 +1,41 @@
 package renderer;
 
 /**
- * @author Niran
- * Point class used for the vertices of the Cubes 
+ * Creates a point class.
+ * @author desilvnira
+ *
  */
 public class Point {
-  
-  private int x;
-  private int y;
+
+  private int exPoint;
+  private int eyPoint;
 
   /**
+   * creates a point for the polygons to use.
    * @param x
+   * .
    * @param y
+   * .
    */
   public Point(int x, int y) {
-    
-    this.x = x;
-    this.y = y;
+    this.exPoint = x;
+    this.eyPoint = y;
   }
-  
+
   /**
-   * @return x
+   * gets the value.
+   * @return x value
    */
   public int getX() {
-    return x;
-   
+    return exPoint;
   }
-  
+
   /**
-   * @return y
+   * gets the y value.
+   * @return y value
    */
   public int getY() {
-    return y;
-   
+    return eyPoint;
   }
-  
+
 }

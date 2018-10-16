@@ -137,7 +137,6 @@ public class Gui {
     buttonPanel.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
         // here you should call a method that does a function when the mouse is clicked
-        System.out.println("You are clicking the side panel");
       }
     });
 
@@ -172,7 +171,6 @@ public class Gui {
     displayPanel.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
         // here you should call a method that does a function when the mouse is clicked
-        System.out.println("you are clicking the display pane");
       }
     });
 
@@ -183,12 +181,10 @@ public class Gui {
     // ------------MAKING THE CANVAS A DRAWING COMPONENT----------------
     drawing = new JComponent() {
       protected void paintComponent(Graphics g) {
-        System.out.println("you are now in the drawing pane");
         redraw(g);
       }
 
       private void redraw(Graphics g) {
-        System.out.println("calling dyalns redraw");
         renderWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH, g);
       }
     };
@@ -198,7 +194,6 @@ public class Gui {
 
     drawing.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
-        System.out.println("hey you are in the drawing area");
       }
     });
 
@@ -210,24 +205,20 @@ public class Gui {
     JMenuItem pickup = new JMenuItem("Pick Up");
     pickup.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("this should call a pickup method");
         int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y;
-        System.out.println(mouseX);
-        System.out.println(mouseY);
         boolean found = false;
 
         Item[][] i = renderWindow.getGrid();
         Item item = renderWindow.isWithin(mouseX, mouseY);
+        //slkdfj
 
         for (int a = 0; a < i.length; a++) {
           for (int b = 0; b < i[0].length; b++) {
             if (item == i[b][a]) {
               if (game.getPlayer().pickupItem(i[b][a])) {
-                System.out.println("something was picked up");
                 drawing.repaint();
               } else {
-                System.out.println("nothing was picked up");
                 // this should print to the text field
                 // yo
               }
@@ -242,7 +233,6 @@ public class Gui {
     JMenuItem inspect = new JMenuItem("Inspect");
     inspect.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("this should call a getDescription(); method");
         drawing.repaint();
       }
     });
@@ -257,7 +247,6 @@ public class Gui {
     west.setPreferredSize(new Dimension(60, 147));
     west.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("Hello this should be west");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.WEST);
           drawing.repaint();
@@ -269,7 +258,6 @@ public class Gui {
     east.setPreferredSize(new Dimension(60, 147));
     east.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("Hello this should be east");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.EAST);
           drawing.repaint();
@@ -281,7 +269,6 @@ public class Gui {
     north.setPreferredSize(new Dimension(60, 147));
     north.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("Hello this should be north");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.NORTH);
           drawing.repaint();
@@ -294,7 +281,6 @@ public class Gui {
     south.setPreferredSize(new Dimension(60, 147));
     south.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("Hello this should be south");
         if (game != null) {
           game.movePlayer(GameWorld.Direction.SOUTH); // This is the code to move the player
           drawing.repaint();
@@ -339,7 +325,6 @@ public class Gui {
     drop.setPreferredSize(new Dimension(50, 50));
     drop.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        System.out.println("Hello this should be droping item");
         drawing.repaint();
         // this should also redraw the inventory but i'm not even sure how things are
         // being added here
@@ -460,7 +445,7 @@ public class Gui {
           try {
             // GameWorld newGame;
             game = XmlReader.loadXml(file.getAbsolutePath());
-
+            drawing.repaint();
           } catch (ParserConfigurationException e) {
             e.printStackTrace();
           } catch (SAXException e) {
@@ -485,7 +470,8 @@ public class Gui {
     newGame.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         frame.setVisible(false);
-        main(null);
+        TitleScreen title = new TitleScreen();
+        title.getTitleFrame().setVisible(true);
       }
     });
   }

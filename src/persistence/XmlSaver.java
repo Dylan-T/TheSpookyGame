@@ -1,5 +1,6 @@
 package persistence;
 
+import gameworld.Decoration;
 import gameworld.GameWorld;
 import gameworld.Item;
 import gameworld.Location;
@@ -206,12 +207,17 @@ public class XmlSaver {
           Attr type = doc.createAttribute("type");
           Attr x = doc.createAttribute("x");
           Attr y = doc.createAttribute("y");
+          Attr filepath = doc.createAttribute("filepath");
+          filepath.setValue(location.getGrid()[i][j].getImagePath());
           if (location.getGrid()[i][j] instanceof Treasure) {
             type.setValue("treasure");
           } else if (location.getGrid()[i][j] instanceof gameworld.Key) {
             type.setValue("key");
-          }
-
+          }else if(location.getGrid()[i][j] instanceof Quest) {
+            type.setValue("quest");
+          }else if(location.getGrid()[i][j] instanceof Decoration){
+            type.setValue("decoration");
+          }else {type.setValue("item");}
           x.setValue(i + "");
           y.setValue(j + "");
           Attr name = doc.createAttribute("name");
@@ -219,6 +225,7 @@ public class XmlSaver {
           Attr description = doc.createAttribute("description");
           description.setValue(location.getGrid()[i][j].getDescription());
           Element gridItem = doc.createElement("GridItem");
+          gridItem.setAttributeNode(filepath);
           gridItem.setAttributeNode(name);
           gridItem.setAttributeNode(type);
           gridItem.setAttributeNode(description);
@@ -275,12 +282,26 @@ public class XmlSaver {
           Attr name = doc.createAttribute("name");
           Attr x = doc.createAttribute("x");
           Attr y = doc.createAttribute("y");
+          Attr type = doc.createAttribute("type");
+          Attr filepath = doc.createAttribute("filepath");
+          filepath.setValue(location.getGrid()[i][j].getImagePath());
+          if (location.getGrid()[i][j] instanceof Treasure) {
+            type.setValue("treasure");
+          } else if (location.getGrid()[i][j] instanceof gameworld.Key) {
+            type.setValue("key");
+          }else if(location.getGrid()[i][j] instanceof Quest) {
+            type.setValue("quest");
+          }else if(location.getGrid()[i][j] instanceof Decoration){
+            type.setValue("decoration");
+          }else {type.setValue("item");}
           x.setValue(i + "");
           y.setValue(j + "");
           name.setValue(location.getGrid()[i][j].getName());
           Attr description = doc.createAttribute("description");
           description.setValue(location.getGrid()[i][j].getDescription());
           Element gridItem = doc.createElement("GridItem");
+          gridItem.setAttributeNode(filepath);
+          gridItem.setAttributeNode(type);
           gridItem.setAttributeNode(name);
           gridItem.setAttributeNode(description);
           gridItem.setAttributeNode(x);
