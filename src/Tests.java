@@ -1,4 +1,4 @@
-package tests;
+
 
 /**
  * Test class for the project.
