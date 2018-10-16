@@ -17,10 +17,11 @@ public abstract class Item {
   protected String name;
   protected String description;
   protected Image image;
+  protected String imagePath;
 
   /**
    * Creates an Item and initializes its fields.
-   * 
+   *
    * @param name
    *          --- the name of the item
    * @param description
@@ -31,7 +32,7 @@ public abstract class Item {
   public Item(String name, String description, String imagePath) {
     this.name = name;
     this.description = description;
-
+    this.imagePath = imagePath;
     BufferedImage image = null;
     try {
       image = ImageIO.read(new File(imagePath));
@@ -80,19 +81,26 @@ public abstract class Item {
   public String getDescription() {
     return description;
   }
+  /**
+   * gets the file path to the items image.
+   * @return the file path to the image.
+   */
+  public String getImagePath() {
+    return imagePath;
+  }
 
   // Abstract methods
 
   /**
    * Checks if this item can be picked up.
-   * 
+   *
    * @return True if the item can be picked up.
    */
   public abstract boolean canPickup();
 
   /**
    * The player uses the item returning true if the item had any effect.
-   * 
+   *
    * @param p
    *          the player that is using this item
    * @return if the player successfully used the item.
