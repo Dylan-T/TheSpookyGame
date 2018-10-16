@@ -12,11 +12,12 @@ public class Door implements TilePiece {
   //Field for its color - white
   Color color = new Color(20,20,20);
   boolean isHighlighted = false;
-
+  
   @Override
   public String toString() {
     return "door";
   }
+
 
   @Override
   public void draw(Graphics g, int x, int y, int height, int width) {
