@@ -186,8 +186,8 @@ public class GameWorldTests {
     Location l2 = new Location(2,2);
     l2.addExit(Direction.SOUTH, false);
 
-    Location[][] locations = new Location[2][1];
-    locations[1][0] = l1;
+    Location[][] locations = new Location[1][2];
+    locations[0][1] = l1;
     locations[0][0] = l2;
     GameWorld game = new GameWorld(locations, l1);
     game.movePlayer(Direction.NORTH);
