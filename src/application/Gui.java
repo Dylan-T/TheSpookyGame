@@ -460,7 +460,7 @@ public class Gui {
           try {
             // GameWorld newGame;
             game = XmlReader.loadXml(file.getAbsolutePath());
-
+            drawing.repaint();
           } catch (ParserConfigurationException e) {
             e.printStackTrace();
           } catch (SAXException e) {
@@ -485,7 +485,8 @@ public class Gui {
     newGame.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         frame.setVisible(false);
-        main(null);
+        TitleScreen title = new TitleScreen();
+        title.getTitleFrame().setVisible(true);
       }
     });
   }
