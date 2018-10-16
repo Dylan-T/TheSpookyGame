@@ -5,6 +5,6 @@ package tests;
  * @author chandrarma
  *
  */
-public class Test {
+public class Tests {
 
 }
