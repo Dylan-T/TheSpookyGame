@@ -21,44 +21,30 @@ import gameworld.GameWorld;
 import java.awt.*;
 
 /**
- * @author user1
+ * @author Armaan Chandra.
+ * this class is used to create a title screen for the game.
+ * this is for asthetics giving more game style functionality
+ * to the program.
  *
  */
 public class TitleScreen {
 
-  private static JFrame titleFrame;
+  private JFrame titleFrame;
   private static final int width = 1221;
   private static final int height = 682;
 
   /**
-   * @param args
-   */
- /* public static void main(String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
-          TitleScreen window = new TitleScreen();
-          window.titleFrame.setVisible(true);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }*/
-
-
-  /**
-   *
+   *constrcutor that will just call the initialize to make the title screen.
    */
   public TitleScreen() {
     initialize();
   }
 
   /**
-   *
+   *this is responsible for creating the title screen. which is just 3 buttons
+   *with functionality.
    */
   public void initialize() {
-
 
     titleFrame = new JFrame();
     titleFrame.setTitle("The Spooky Game");
@@ -72,7 +58,6 @@ public class TitleScreen {
     titleFrame.getContentPane().add(game);
 
     game.setLayout(null);
-
 
     JPanel buttons = new JPanel();
     buttons.setMaximumSize(new Dimension(250, 350));
@@ -93,8 +78,6 @@ public class TitleScreen {
         titleFrame.setVisible(false);
         GUI gui = new GUI();
         gui.getFrame().setVisible(true);
-        /*System.out.print(GUI.drawing.getHeight() + " this is h \n");
-        System.out.print(GUI.drawing.getWidth() + " this is w \n");*/
       }});
     buttons.add(start);
 
@@ -128,12 +111,11 @@ public class TitleScreen {
     BackgroundImage bg = new BackgroundImage(new ImageIcon("background.png").getImage());
     game.add(bg);
 
-
-
   }
 
 
   /**
+   *this is used by the GUI class to call the title screen from the main.
    * @return the JFrame allowing access from GUI class.
    */
   public JFrame getTitleFrame() {

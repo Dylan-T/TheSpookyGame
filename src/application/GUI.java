@@ -97,10 +97,8 @@ public class GUI {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         try {
-          // GUI window = new GUI();
           TitleScreen title = new TitleScreen();
           title.getTitleFrame().setVisible(true);
-
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -216,6 +214,8 @@ public class GUI {
         System.out.println("this should call a pickup method");
         int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         int mouseY = MouseInfo.getPointerInfo().getLocation().y;
+        System.out.println(mouseX);
+        System.out.println(mouseY);
         boolean found = false;
 
         Item[][] i = rWindow.getGrid();
@@ -465,7 +465,7 @@ public class GUI {
             JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
-          frame.dispose();
+          System.exit(0);
         }
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       }
