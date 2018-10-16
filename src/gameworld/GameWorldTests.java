@@ -2,6 +2,8 @@ package gameworld;
 
 import org.junit.Test;
 
+import gameworld.GameWorld.Direction;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -134,17 +136,17 @@ public class GameWorldTests {
     assertFalse(l.removeItem(t1));
   }
 
-  /**
-   * Test location.addPassage for valid case.
-   */
-  @Test
-  public void testLocationAddPassageValid() {
-    Location l1 = new Location(2,2);
-    Location l2 = new Location(2,2);
-    Passage p = new Passage(l1,l2);
-    assertTrue(l1.addPassage(GameWorld.Direction.NORTH, p));
-    assertTrue(l1.getExits()[GameWorld.Direction.NORTH.ordinal()].equals(p));
-  }
+//  /**
+//   * Test location.addPassage for valid case.
+//   */
+//  @Test
+//  public void testLocationAddPassageValid() {
+//    Location l1 = new Location(2,2);
+//    Location l2 = new Location(2,2);
+//    Passage p = new Passage(l1,l2);
+//    assertTrue(l1.addPassage(GameWorld.Direction.NORTH, p));
+//    assertTrue(l1.getExits()[GameWorld.Direction.NORTH.ordinal()].equals(p));
+//  }
 
 
 
@@ -170,8 +172,26 @@ public class GameWorldTests {
     assertEquals(t.toString(), "Test: Test item");
     assertEquals(t.inspect(), "Test: Test item");
   }
-  
+
   //Player Tests
 
+  /**
+   *
+   */
+  @Test
+  public void testMovePlayer() {
+    Location l1 = new Location(2,2);
+    l1.addExit(Direction.NORTH, false);
+
+    Location l2 = new Location(2,2);
+    l2.addExit(Direction.SOUTH, false);
+
+    Location[][] locations = new Location[2][1];
+    locations[1][0] = l1;
+    locations[0][0] = l2;
+    GameWorld game = new GameWorld(locations, l1);
+    game.movePlayer(Direction.NORTH);
+    assertEquals(game.getCurrentRoom().toString() + l2.toString(),game.getCurrentRoom(), l2);
+  }
 
 }
