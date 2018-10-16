@@ -1,5 +1,6 @@
 package gameworld;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class GameWorld {
   private int playerX;
   private int playerY;
   private Player player;
-  private List<Quest> quests;
+  private List<Quest> quests = new ArrayList<Quest>();
 
   /**
    * Enum for directions.
