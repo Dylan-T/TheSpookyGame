@@ -183,6 +183,14 @@ public class GameWorld {
     return true;
   }
 
+  /**
+   * Adds a quest to this game.
+   * @param q the quest to be added to the game.
+   */
+  public void addQuest(Quest q) {
+    quests.add(q);
+  }
+
   // Getters
 
   /**
@@ -234,11 +242,11 @@ public class GameWorld {
     l1.addExit(Direction.SOUTH, false);
     l1.addExit(Direction.EAST, false);
     l1.addItem(4, 0,
-        new Decoration("Grave", "An ominous looking grave", "assets/boneNecklace.png"));
-    l1.addItem(8, 1, new Treasure("Grave", "An ominous looking grave", "assets/femur.png"));
-    l1.addItem(15, 3, new Decoration("Grave", "An ominous looking grave", "assets/scepter.png"));
-    l1.addItem(11, 3, new Treasure("Grave", "An ominous looking grave", "assets/femur.png"));
-    l1.addItem(1, 1, new Treasure("Grave", "An ominous looking grave", "assets/boneNecklace.png"));
+        new Decoration("Grave", "neck1", "assets/boneNecklace.png"));
+    l1.addItem(8, 1, new Treasure("Grave", "femur", "assets/femur.png"));
+    l1.addItem(15, 3, new Decoration("Grave", "scep", "assets/scepter.png"));
+    l1.addItem(11, 3, new Treasure("Grave", "femur2", "assets/femur.png"));
+    l1.addItem(1, 1, new Treasure("Grave", "neck2", "assets/boneNecklace.png"));
 
     Location l2 = new Location(12, 12);
     l2.addExit(Direction.WEST, false);
@@ -264,6 +272,62 @@ public class GameWorld {
     locations[0][1] = l3;
     locations[1][1] = l4;
     return new GameWorld(locations, l1);
+  }
 
+  /**
+   * This creates a game world that can be used to demo the game.
+   * @return the created game world.
+   */
+  public static GameWorld finalDemoWorld() {
+    Location l1 = new Location(12,12);
+    l1.addExit(Direction.SOUTH, false);
+
+    Location l2 = new Location(12,12);
+    Treasure t1 = new Treasure("Scepter", "An evil scepter with a skull carved in it", "assets/scepter.png");
+    l2.addItem(6, 6, t1);
+    l2.addExit(Direction.SOUTH, false);
+
+    Location l3 = new Location(12,12);
+    StationaryContainer c1 = new StationaryContainer("Coffin", "A slightly ajar coffin", "assets/coffin.png");
+    Treasure t2 = new Treasure("Femur", "A femur glowing with evil", "assets/femur.png");
+    c1.addItem(t2);
+    l3.addItem(6, 12, c1);
+    l3.addExit(Direction.EAST, false);
+
+    Location l4 = new Location(12,12);
+    l4.addExit(Direction.NORTH, false);
+    l4.addExit(Direction.EAST, false);
+    l4.addExit(Direction.SOUTH, false);
+    l4.addExit(Direction.WEST, false);
+
+    Location l5 = new Location(12,12);
+    Key k1 = new Key();
+    l5.addItem(10, 10, k1);
+    l5.addExit(Direction.WEST, false);
+
+    Location l6 = new Location(12,12);
+    Treasure t3 = new Treasure("Tooth Necklace", "A necklace made from human teeth.","assets/boneNecklace.png");
+    l6.addItem(8, 11, t3);
+    l6.addExit(Direction.NORTH, false);
+
+    List<Treasure> required = new ArrayList<Treasure>();
+    required.add(t1);
+    required.add(t2);
+    required.add(t3);
+    Quest q1 = new Quest("Evil Orb", "An evil orb of souls that can only be destroyed by collecting treasures", "", required);
+    l1.addItem(12, 6, q1);
+
+    Location[][] locations = new Location[3][4];
+    locations[1][0] = l1;
+    locations[1][1] = l2;
+    locations[0][2] = l3;
+    locations[1][2] = l4;
+    locations[2][2] = l5;
+    locations[1][3] = l6;
+
+    GameWorld game = new GameWorld(locations, l4);
+    game.addQuest(q1);
+    //GameWorld
+    return game;
   }
 }
