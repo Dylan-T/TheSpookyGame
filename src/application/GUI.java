@@ -31,6 +31,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.MouseInfo;
 
 import javax.swing.JTextArea;
 import javax.imageio.ImageIO;
@@ -77,25 +78,26 @@ public class GUI {
 
   // GameWorld game = GameWorld.testGameWorld2();
   GameWorld game;
+  private Renderer rWindow;
+
+
   private static JFrame frame;
   private JTextField textField;
   private JComponent drawing;
   private TitledBorder title;
-  private Renderer rWindow;
   private static JPanel canvas;
   private static JPanel displayPanel;
   private static JPanel textBox;
-
   private int height;
   private int width;
   private int newheight;
   private int newwidth;
-  
+
   //DRAWING WIDTH = 1604, HEIGHT = 951
 
   /**
    * Launch the application.
-   * 
+   *
    * @param args
    */
   public static void main(String[] args) {
@@ -106,7 +108,7 @@ public class GUI {
           TitleScreen title = new TitleScreen();
           title.getTitleFrame().setVisible(true);
           //window.frame.setVisible(true);
-          
+
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -131,12 +133,12 @@ public class GUI {
     frame = new JFrame();
     frame.setTitle("SwenProject");
     //frame.setBounds(100, 100, 900, 750); // original sizing of the window
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     //frame.setUndecorated(true);
     windowExit();
     frame.setVisible(true);
-    //windowExit(); 
+    //windowExit();
 
     width = frame.getBounds().width;
     height = frame.getBounds().height;
@@ -186,15 +188,15 @@ public class GUI {
         System.out.println("you are clicking the display pane");
       }
     });
-    
+
     displayPanel.setLayout(new BorderLayout(0, 0));
     buttonPanel.setLayout(new BorderLayout(0, 0));
     frame.getContentPane().setLayout(groupLayout);
-      
+
     // ------------MAKING THE CANVAS A DRAWING COMPONENT----------------
     //within here i should make the popup menu
-    
-  
+
+
     drawing = new JComponent() {
       protected void paintComponent(Graphics g) {
         System.out.println("you are now in the drawing pane");
@@ -206,20 +208,20 @@ public class GUI {
         rWindow.redraw(game.getCurrentRoom(), GameWorld.Direction.NORTH, g);
       }
     };
-    
+
     rWindow = new Renderer(drawing.getGraphics());
     drawing.setPreferredSize(new Dimension(width, height));
-    
-      
+
+
     drawing.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
         System.out.println("hey you are in the drawing area");
       }
     });
-    
+
     canvas.setLayout(new GridLayout(0, 1, 0, 0));
     canvas.add(drawing);
-    
+
   //------CREATING A DROP DOWN MENU WHEN CLICKING-------
     //in order to differenciate on whether something is a item or not
     //i guess we can up x y values compare them to x y values of the item.
@@ -228,11 +230,16 @@ public class GUI {
     pickup.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("this should call a pickup method");
+        //get the item
+        int mouseX = MouseInfo.getPointerInfo().getLocation().x;
+        int mouseY = MouseInfo.getPointerInfo().getLocation().y;
+        rWindow.isWithin(mouseX, mouseY);
+
         drawing.repaint();
         //this should also redraw the inventory pane
       }
     });
-    
+
     JMenuItem inspect = new JMenuItem("Inspect");
     inspect.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -242,8 +249,8 @@ public class GUI {
     });
     popup.add(pickup);
     popup.add(inspect);
-    
-    
+
+
     MouseListener popupListener = new PopupListener(popup);
     drawing.addMouseListener(popupListener);
 
@@ -265,7 +272,7 @@ public class GUI {
 
     JMenu mnGame = new JMenu("Game");
     menuBar.add(mnGame);
-    
+
     JButton newGameButton = new JButton("New Game");
     mnGame.add(newGameButton);
     pressNewGame(newGameButton);
@@ -341,7 +348,7 @@ public class GUI {
     JPanel navigation = new JPanel();
     navigation.setMaximumSize(new Dimension(226, 148));
     navigation.setLayout(new GridLayout(2, 3));
-    
+
     navigation.add(fillerL);
     navigation.add(north);
     navigation.add(fillerR);
@@ -351,14 +358,14 @@ public class GUI {
 
     displayPanel.add(navigation);
     displayPanel.add(Box.createRigidArea(new Dimension(7, 0)));
-    
+
     //creating a button panel
     JPanel extraButtons = new JPanel();
     extraButtons.setMaximumSize(new Dimension(820, 148));
     extraButtons.setLayout(null);
     //add any extra buttons here
     //extraButtons.setBackground(Color.BLUE);
-    
+
     JButton drop = new JButton("Drop");
     drop.setPreferredSize(new Dimension(50, 50));
     drop.addActionListener(new ActionListener() {
@@ -368,30 +375,30 @@ public class GUI {
         //this should also redraw the inventory but i'm not even sure how things are being added here
       }
     });
-    
+
     drop.setBounds(3, 9, 100, 60);
-    
+
     extraButtons.add(drop);
     displayPanel.add(extraButtons);
-    
+
     //creating the text area that the text area will go in
-    
+
     displayPanel.add(Box.createRigidArea(new Dimension(2, 0)));
-    
+
     textBox = new JPanel();
     textBox.setMaximumSize(new Dimension(830, 150));
     textBox.setLayout(null); //position the text area using setBounds
     //textBox.setBackground(Color.GREEN);
-    
+
     //adding a text area to text box
-    
-    
+
+
     displayPanel.add(textBox);
-    
-    
+
+
     JTextArea textWindow = new JTextArea();
     //textWindow.setBounds(0, 0, 828, 138);
-    
+
     textWindow.setLineWrap(true);
     textWindow.setWrapStyleWord(true); // making the line up nice
     textWindow.setEditable(false); // cannot be edited
@@ -400,7 +407,7 @@ public class GUI {
     scroll.setBounds(0, 0, 828, 138);
 
     textBox.add(scroll);
-    
+
 
     // -----CREATING BORDERS FOR THE COMPONENTS-------
     Border redline = BorderFactory.createLineBorder(Color.RED);
@@ -410,19 +417,19 @@ public class GUI {
 
     Border lowerBevel = BorderFactory.createRaisedBevelBorder();
     canvas.setBorder(lowerBevel);
-    
+
     Border blackline = BorderFactory.createLineBorder(Color.BLACK);
     TitledBorder t = BorderFactory.createTitledBorder(blackline, "Control Panel");
     t.setTitleJustification(TitledBorder.CENTER);
-    extraButtons.setBorder(t); 
-     
+    extraButtons.setBorder(t);
+
   }
 
 
 
   /**
    * Helper method that does the actions of the saveButton.
-   * 
+   *
    * @param save
    */
   static public void pressSave(JButton save) {
@@ -435,7 +442,7 @@ public class GUI {
 
   /**
    * Helper method that does the actions of the loadButton.
-   * 
+   *
    * @param load
    */
   static public void pressLoad(JButton load) {
@@ -448,7 +455,7 @@ public class GUI {
 
   /**
    * Helper method that does the actions of the newGameButton.
-   * 
+   *
    * @param newGame
    */
   static public void pressNewGame(JButton newGame) {
@@ -459,9 +466,9 @@ public class GUI {
       }
     });
   }
-  
 
-  
+
+
   /**
    * @param exit exits.
    */
@@ -479,7 +486,7 @@ public class GUI {
       }
     });
   }
-  
+
   /**
    * @return the frame.
    */
