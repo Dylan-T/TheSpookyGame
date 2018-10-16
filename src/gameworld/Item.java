@@ -20,9 +20,13 @@ public abstract class Item {
 
   /**
    * Creates an Item and initializes its fields.
-   * @param name --- the name of the item
-   * @param description --- A short description of this item
-   * @param imagePath --- The file path to an image to represent this item
+   * 
+   * @param name
+   *          --- the name of the item
+   * @param description
+   *          --- A short description of this item
+   * @param imagePath
+   *          --- The file path to an image to represent this item
    */
   public Item(String name, String description, String imagePath) {
     this.name = name;
@@ -81,14 +85,16 @@ public abstract class Item {
 
   /**
    * Checks if this item can be picked up.
+   * 
    * @return True if the item can be picked up.
    */
   public abstract boolean canPickup();
 
   /**
-   * The player uses the item returning true if
-   * the item had any effect.
-   * @param p the player that is using this item
+   * The player uses the item returning true if the item had any effect.
+   * 
+   * @param p
+   *          the player that is using this item
    * @return if the player successfully used the item.
    */
   public abstract boolean use(Player p);

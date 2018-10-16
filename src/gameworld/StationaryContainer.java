@@ -14,9 +14,13 @@ public class StationaryContainer extends Item {
 
   /**
    * Creates a new container initializing it with no contents.
-   * @param name name of the container
-   * @param description description of the container
-   * @param imagePath a file path to an image of the container
+   * 
+   * @param name
+   *          name of the container
+   * @param description
+   *          description of the container
+   * @param imagePath
+   *          a file path to an image of the container
    */
   public StationaryContainer(String name, String description, String imagePath) {
     super(name, description, imagePath);
@@ -25,6 +29,7 @@ public class StationaryContainer extends Item {
 
   /**
    * Adds an item to this containers contents.
+   * 
    * @param i
    *          item to be added to the container
    * @return if the item was successfully added.
@@ -49,6 +54,7 @@ public class StationaryContainer extends Item {
 
   /**
    * Gets the Item contents of this container.
+   * 
    * @return the contents of this container
    */
   public Collection<Item> getContents() {

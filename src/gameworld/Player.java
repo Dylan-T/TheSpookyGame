@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 /**
  * This is the player and has methods for actions the player may make.
  *
@@ -97,6 +98,7 @@ public class Player {
 
   /**
    * Gets the players inventory.
+   *
    * @return the players inventory
    */
   public List<Item> getInventory() {
@@ -105,6 +107,7 @@ public class Player {
 
   /**
    * Gets the players current location.
+   *
    * @return the players current location.
    */
   public Location getCurrentLocation() {
@@ -113,6 +116,7 @@ public class Player {
 
   /**
    * Gets the direction the player is facing.
+   *
    * @return the direction the player is facing
    */
   public GameWorld.Direction getFacing() {

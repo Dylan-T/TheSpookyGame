@@ -11,6 +11,7 @@ public class Treasure extends Item {
 
   /**
    * Creates a new treasure item specifying it's name, description and image.
+   *
    * @param name
    *          The name of the item
    * @param description
