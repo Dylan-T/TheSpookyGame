@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import gameworld.GameWorld.Direction;
+
 /**
  * This is the player and has methods for actions the player may make.
- * 
+ *
  * @author thomsodyla1
  *
  */
@@ -14,7 +16,7 @@ public class Player {
   private List<Item> inventory;
   private Location currentLoc;
   private GameWorld.Direction facing;
-  
+
   /**
    * Create a new player only specifying location
    * @param startingLoc location the player starts from
@@ -27,28 +29,16 @@ public class Player {
 
   /**
    * Moves the player in the given direction.
-   * 
+   * @param newLocation players new location
    * @param dir
-   *          direction the player should move.
+   *
    * @return true if the player successfully moved in that direction
    */
-  public boolean move(GameWorld.Direction dir) {
-    int direction = dir.ordinal() + facing.ordinal();
-    if (direction >= 4) {
-      direction = direction % 4;
-    }
-    Passage p = currentLoc.getExits()[direction];
-    if (p != null) {
-      Location newLoc = p.getOtherLocation(currentLoc);
-      if (newLoc != null) {
-        currentLoc = newLoc;
-        facing = GameWorld.Direction.values()[direction];
-        System.out.println("We just moved :)");
-        return true;
-      }
-    }
-    
-    return false;
+  public boolean move(Location newLocation, Direction dir) {
+    facing = dir;
+    currentLoc = newLocation;
+
+    return true;
   }
 
   /**
@@ -66,7 +56,7 @@ public class Player {
     }
     return false;
   }
-  
+
   /**
    * Player drops an item from their inventory into the current room
    * @param i The item that is to be dropped.
@@ -82,32 +72,30 @@ public class Player {
 
   /**
    * Use the given item.
-   * 
+   *
    * @param i
    *          Item that is to be used
-   *          
+   *
    * @return whether the item was successfully used
    */
   public boolean useItem(Item i) {
     return i.use(this);
   }
-  
+
   /**
    * Unlock a passage in the given direction, using a key from your inventory.
    * @param dir direction of the passage to unlock
    * @return whether a passage was successfully unlocked
    */
   public boolean unlockPassage(GameWorld.Direction dir) {
-    Passage p = currentLoc.exits[dir.ordinal()];
-    if (p != null) { //check the passage exists
+    Boolean exit = currentLoc.exits[dir.ordinal()];
+    if (exit != null && exit == true) { //check the exit exists and is locked
       //Check you have a key for the passage
       for(Item i: inventory) {
         if(i instanceof Key) {
-          Key k = (Key) i;
-          if (k.getUnlocks().equals(p)) {
-            p.unlock();
-            return true;
-          }
+          exit = false;
+          inventory.remove(i);
+          return true;
         }
       }
     }
@@ -115,7 +103,7 @@ public class Player {
   }
 
   //Getters
-  
+
   /**
    * @return the players inventory
    */
@@ -129,7 +117,7 @@ public class Player {
   public Location getCurrentLocation() {
     return currentLoc;
   }
-  
+
   /**
    * @return the direction the player is facing
    */

@@ -8,16 +8,22 @@ package gameworld;
  */
 public class Location {
   Item[][] grid; // 2D array of the positions the objects of the room are held
-  Passage[] exits; // 0 - North; 1 - East; 2 - South; 3 - West
+  /**
+   * 0 - North; 1 - East; 2 - South; 3 - West
+   * true - locked
+   * false - unlocked
+   * null - no exit
+   */
+  Boolean[] exits;
 
   /**
    * Creates a new room specifying the contents of each tile and the passages.
-   * @param p Passages leaving the location, null if there isn't one 0-North;1-East...
+   * @param exits
    * @param tiles The contents of each tile, null if the tiles empty (This also specifies the room size)
    *
    */
-  public Location(Passage[] p , Item[][] tiles) {
-    exits = p;
+  public Location(Boolean[] exits , Item[][] tiles) {
+    this.exits = exits;
     grid = tiles;
   }
 
@@ -29,7 +35,7 @@ public class Location {
    */
   public Location(int height, int width) {
     grid = new Item[height][width];
-    exits = new Passage[4];
+    exits = new Boolean[4];
   }
 
   /**
@@ -48,7 +54,7 @@ public class Location {
       return true;
     }
   }
-  
+
   /**
    * Adds the item to the first available tile in the room.
    * @param i the item to be added to the room
@@ -65,20 +71,20 @@ public class Location {
     }
     return false;
   }
-  
+
   /**
    * @param dir , the wall to add the passage to.
-   * @param p Passage to add to the location
+   * @param locked true if the exit is locked
    * @return true if the passage was successfully added
    */
-  public boolean addPassage(GameWorld.Direction dir, Passage p) {
-    if(exits[dir.ordinal()] != null || p == null) {
+  public boolean addExit(GameWorld.Direction dir, Boolean locked) {
+    if(exits[dir.ordinal()] != null || locked == null) {
       return false;
     }
-    
-    exits[dir.ordinal()] = p;
+
+    exits[dir.ordinal()] = locked;
     return true;
-    
+
   }
 
   /**
@@ -95,7 +101,7 @@ public class Location {
             grid[row][col] = null;
             return true;
           }
-        } 
+        }
       }
     }
     return false;
@@ -134,20 +140,20 @@ public class Location {
     }
     return true;
   }
-  
+
   //Getters
-  
+
   /**
    * @return the 2D array containing the items
    */
   public Item[][] getGrid() {
     return grid;
   }
-  
+
   /**
    * @return the array containing the exits
    */
-  public Passage[] getExits() {
+  public Boolean[] getExits() {
     return exits;
   }
 }

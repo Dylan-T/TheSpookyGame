@@ -93,42 +93,42 @@ public class Renderer {
 
       int Xdimension = 100;
       int Ydimension = 50;
-      
+
       g.setColor(Color.LIGHT_GRAY);
       Polygon right = new Polygon();
       right.addPoint(xMiddle + Xdimension, yMiddle - Ydimension);
       right.addPoint(CANVASWIDTH, 0);
       right.addPoint(CANVASWIDTH, CANVASHEIGHT);
       right.addPoint(xMiddle + Xdimension, yMiddle + Ydimension);
-      
+
       Polygon top = new Polygon();
       top.addPoint(xMiddle - Xdimension, yMiddle - Ydimension);
       top.addPoint(0, 0);
       top.addPoint(CANVASWIDTH, 0);
       top.addPoint(xMiddle + Xdimension, yMiddle - Ydimension);
-      
+
       Polygon left = new Polygon();
       left.addPoint(xMiddle - Xdimension, yMiddle + Ydimension);
       left.addPoint(0, CANVASHEIGHT);
       left.addPoint(0, 0);
       left.addPoint(xMiddle - Xdimension, yMiddle - Ydimension);
-      
+
       Polygon bottom = new Polygon();
       bottom.addPoint(xMiddle - Xdimension, yMiddle + Ydimension);
       bottom.addPoint(0, CANVASHEIGHT);
       bottom.addPoint(CANVASWIDTH, CANVASHEIGHT);
       bottom.addPoint(xMiddle + Xdimension, yMiddle + Ydimension);
-      
+
       g.fillPolygon(right);
       g.fillPolygon(top);
       g.fillPolygon(left);
       g.fillPolygon(bottom);
-      
-      
+
+
 
       g.drawRect(xMiddle - Xdimension, yMiddle - Ydimension, 2*Xdimension, 2*Ydimension);
-      
-      
+
+
 
       //the background picture
       g.drawImage(grids[8][1].getImage().getScaledInstance(Math.round(2*Xdimension), Math.round(2*Ydimension), Image.SCALE_DEFAULT), xMiddle-100, yMiddle-50, null);
@@ -153,8 +153,8 @@ public class Renderer {
       int tempY = 0;
       int tempX = 0;
       int incrementer = 1;
-      
-      
+
+
 
       for(int i = yMiddle-Ydimension; i<yMiddle + Ydimension; i+=incrementer) {
         tempY += incrementer*heightScale;
@@ -234,8 +234,8 @@ public class Renderer {
           //g.drawRect(i, yStart, (int) shapeW, (int) shapeH);
 
           // set up for images to be drawn on floor
-          
-          
+
+
           if(grids[countI][countJ] != null) {
             g.drawImage(grids[countI][countJ].getImage().getScaledInstance((int) shapeW, (int) shapeH, Image.SCALE_DEFAULT), i, yStart, null);
           }
