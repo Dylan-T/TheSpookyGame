@@ -55,6 +55,9 @@ public class Player {
    * @return whether the item was successfully picked up.
    */
   public boolean pickupItem(Item i) {
+    if (i == null) {
+      return false;
+    }
     if (!i.canPickup()) {
       return false;
     }
@@ -74,6 +77,9 @@ public class Player {
    * @return if the item was successfully dropped
    */
   public boolean dropItem(Item i) {
+    if (i == null) {
+      return false;
+    }
     if (inventory.contains(i) && !currentLoc.isFull()) {
       inventory.remove(i);
       currentLoc.addItem(i);
@@ -91,6 +97,9 @@ public class Player {
    * @return whether the item was successfully used
    */
   public boolean useItem(Item i) {
+    if (i == null) {
+      return false;
+    }
     return i.use(this);
   }
 

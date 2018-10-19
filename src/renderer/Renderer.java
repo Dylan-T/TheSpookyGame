@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 
 
 /**
- * class that renders the graphics that the user sees on canvas.
+ * Class that renders the graphics that the user sees on canvas.
  * @author Niran
  *
  */
@@ -38,7 +38,7 @@ public class Renderer {
   Graphics graphics;
 
   /**
-   * sets up the graphics for the items and exits to be drawn from.
+   * Sets up the graphics for the items and exits to be drawn from.
    * @param graphics redraws graphics
    */
   public Renderer(Graphics graphics) {
@@ -513,7 +513,7 @@ public class Renderer {
   }
 
   /**
-   * gets the item grid.
+   * Gets the item grid.
    * @return grid
    */
   public Item[][] getGrid() {
